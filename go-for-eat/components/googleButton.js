@@ -5,7 +5,7 @@ import { Button } from 'react-native-elements';
 const styles = {
   button: {
     justifyContent: 'center',
-    backgroundColor:'#4267b2',
+    backgroundColor:'#DA5040',
     marginLeft:0,
   }
 }

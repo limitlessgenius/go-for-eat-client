@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import FacebookButton from '../components/facebookButton.js';
+import GoogleButton from '../components/googleButton.js';
+
 // import EStyleSheet from 'react-native-extended-stylesheet';
 
 const styles = {
@@ -19,6 +21,7 @@ class Login extends Component {
       <View style={styles.container}>
         <Text>Hello from Login Helooooo</Text>
         <FacebookButton/>
+        <GoogleButton/>
       </View>
     )
   }
