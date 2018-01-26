@@ -20,6 +20,8 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "eslint-plugin-react": "^7.6.0",
+    "eslint-plugin-react-native": "^3.2.1",
     "expo": "^25.0.0",
     "react": "16.2.0",
     "react-native": "0.52.0",
