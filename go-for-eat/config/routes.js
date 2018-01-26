@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation';
-import Home from '../screens/Home'
-import Login from '../screens/Login'
+import Home from '../screens/Home/Home';
+// import Login from '../screens/Login';
 
 const HomeStack = StackNavigator({
   Home: {
@@ -12,19 +12,19 @@ const HomeStack = StackNavigator({
 });
 
 export default StackNavigator(
- {
-  Login: {
-   screen: Login
+  {
+    Home: {
+      screen: Home
+    },
+    Loading: {
+      screen: HomeStack,
+      navigationOptions: {
+        gesturesEnabled: false
+      }
+    }
   },
-  Loading: {
-   screen: HomeStack,
-   navigationOptions: {
-    gesturesEnabled: false
-   }
+  {
+    mode: 'modal',
+    headerMode: 'none'
   }
- },
- {
-  mode: 'modal',
-  headerMode: 'none'
- }
-)
+);

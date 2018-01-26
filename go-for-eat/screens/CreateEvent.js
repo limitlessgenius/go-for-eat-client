@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 class CreateEvent extends Component {
 
   render() {
-    return <Text>Hello from CreateEvent Screen </Text>
+    return <Text>Hello from CreateEvent Screen </Text>;
   }
 }
 
