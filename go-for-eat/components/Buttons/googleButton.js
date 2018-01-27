@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-elements';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import styles from './styles';
 
 class GoogleButton extends Component {
+
   render() {
     return (
       <View>
@@ -14,10 +18,18 @@ class GoogleButton extends Component {
           }}
           title='Login with Google'
           buttonStyle={styles.login_button__google}
+          onPress={this.props.loginGoogle}
         />
       </View>
     );
   }
 }
 
-export default GoogleButton;
+const mapStateToProps = (state) => ({
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  serverAuth: (data) => dispatch(loginUser(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GoogleButton);
