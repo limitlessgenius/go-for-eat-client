@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Image, Text } from 'react-native';
+import { View, Text, StatusBar } from 'react-native';
 import s from './styles';
-import { Event } from '../../components/Event';
-import _ from 'lodash';
+import { Map } from '../../components/Map';
+import { DragBar } from '../../components/DragBar';
+import { EventList } from '../../components/EventList';
+// import Drawer from 'react-native-draggable-view';
+// import Drawer from '../../drawer';
+
+
 
 
 class Home extends Component {
@@ -12,18 +17,22 @@ class Home extends Component {
   render() {
     return  (
       <View style={s.container}>
-        <View style={s.map}>
-          <Text style={s.map_text}> MAPPA </Text>
-        </View>
-        <ScrollView style={s.list}>
-          <View style={s.list_dragBar}>
-            <View style={s.list_dragBar_line}></View>
-          </View>
-          {  _.range(5).map((el) => {
-            return  <Event key={el} />;
-          })}
-        </ScrollView>
+        <Map/>
+        {/* <Drawer
+          initialDrawerSize={0.09}
+          renderContainerView={() => <Map/>}
+          renderDrawerView={() => (
+            <EventList/>)}
+          renderInitDrawerView={() => (<View style={{
+            backgroundColor: 'white',
+            height: 66,
+          }}>
+            <StatusBar hidden={true} />
+            <DragBar/>
+          </View>)}
+        /> */}
       </View>
+
     );
   }
 }
