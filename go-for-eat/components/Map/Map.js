@@ -6,10 +6,8 @@ class EventList extends Component {
 
   render() {
     return  (
-      <View style={s.container}>
-        <View style={s.map}>
-          <Text style={s.map_text}> MAPPA </Text>
-        </View>
+      <View style={s.map}>
+        <Text style={s.map_text}> MAPPA </Text>
       </View>
     );
   }

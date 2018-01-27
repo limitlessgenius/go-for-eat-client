@@ -10,8 +10,8 @@ export default StyleSheet.create({
   list_dragBar_line:{
     backgroundColor: '#2ECC71',
     borderRadius: 4,
-    width: 50,
-    height: 5,
+    width: 134,
+    height: 4.5,
     margin: 10,
     opacity: 0.9,
   },

@@ -11,7 +11,7 @@ class EventList extends Component {
   render() {
     return  (
       <ScrollView style={s.list}>
-        {  _.range(5).map((el) => {
+        {  _.range(10).map((el) => {
           return  <Event key={el} />;
         })}
         <Event/>
