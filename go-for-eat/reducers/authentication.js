@@ -6,6 +6,10 @@ const authentication = (state = {}, action) => {
       ...state,
       ...action.response
     };
+  case 'LOGIN_USER_REQUEST':
+    return {
+      loading:true,
+    };
   case 'LOGOUT_USER':
     return {};
   case 'SET_USER':
