@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-elements';
-
-const styles = {
-  button: {
-    justifyContent: 'center',
-    backgroundColor:'#DA5040',
-    marginLeft:0,
-  }
-}
+import styles from './styles';
 
 class GoogleButton extends Component {
   render() {
@@ -20,10 +13,10 @@ class GoogleButton extends Component {
             type:'font-awesome'
           }}
           title='Login with Google'
-          buttonStyle={styles.button}
+          buttonStyle={styles.login_button__google}
         />
       </View>
-    )
+    );
   }
 }
 
