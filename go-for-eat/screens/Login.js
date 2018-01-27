@@ -10,7 +10,7 @@ const styles = {
     justifyContent:'center',
     alignItems:'center',
   }
-}
+};
 
 class Login extends Component {
 
@@ -20,7 +20,7 @@ class Login extends Component {
         <Text>Hello from Login Helooooo</Text>
         <FacebookButton/>
       </View>
-    )
+    );
   }
 }
 
