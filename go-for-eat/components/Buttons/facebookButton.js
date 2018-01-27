@@ -2,27 +2,34 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-elements';
 import styles from './styles';
+import { connect } from 'react-redux';
+import { loginUser } from '../../actions';
 
 class FacebookButton extends Component {
 
   loginFacebook = async () => {
-    console.log('loginFacebook');
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('442248476177832', {
-      permissions: ['public_profile'],
+      permissions: ['public_profile', 'email', 'user_birthday'],
     });
-
     if (type === 'success') {
-      console.log("success");
-      return fetch(`https://graph.facebook.com/me?access_token=${token}&fields=name,picture,email`)
+      return fetch(`https://graph.facebook.com/me?access_token=${token}`)
       .then(res => res.json())
       .then(data => {
         data.accessToken = token;
         data.network = 'facebook';
-        this.props.serverAuth(data);
+        const allowed = ['id', 'accessToken', 'network'];
+        const filtered = Object.keys(data)
+          .filter(key => allowed.includes(key))
+          .reduce((obj, key) => {
+            obj[key] = data[key];
+            return obj;
+          }, {});
+        this.props.serverAuth(filtered);
       })
       .catch(err => console.log(err));
     }
   }
+
   render() {
     return (
       <View>
@@ -40,4 +47,11 @@ class FacebookButton extends Component {
   }
 }
 
-export default FacebookButton;
+const mapStateToProps = (state) => ({
+  });
+
+const mapDispatchToProps = (dispatch) => ({
+  serverAuth: (data) => dispatch(loginUser(data)),
+  });
+
+export default connect(mapStateToProps, mapDispatchToProps)(FacebookButton);

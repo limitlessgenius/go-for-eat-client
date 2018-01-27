@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation';
-import Home from '../screens/Home';
-import Login from '../screens/Login';
+import Home from '../screens/Home/Home';
+import Login from '../screens/Login/Login';
 
 const HomeStack = StackNavigator({
   Home: {

@@ -1,11 +1,11 @@
 // import { normalize } from 'normalizr';
-const baseUrl = '';
+import baseUrl from '../config/serverHost.js';
 
 
 const callApi = (endpoint, method='GET', body, accessToken) => {
   const fullUrl = baseUrl + endpoint;
 
-
+  console.log('CALLING API', endpoint, method, body);
   const headers = {};
   if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
   if (method === 'POST' || method === 'PUT') headers['Content-Type'] = 'application/json';
@@ -15,25 +15,26 @@ const callApi = (endpoint, method='GET', body, accessToken) => {
     headers,
     body
   })
-    .then(response => response.json())
+    .then(response => response.json());
 
-}
+};
 
 export const CALL_API = 'Call API';
 
 export default store => next => action => {
-  const callApi = action[CALL_API];
+  const callAPI = action[CALL_API];
 
+  console.log('action', action);
   if (typeof callAPI === 'undefined') return next(action);
 
-  const { endpoint, types, method, onSuccess} = callApi
+  const { endpoint, types, method, onSuccess} = callAPI;
   let data;
   if (callAPI.data) data = JSON.stringify(callAPI.data);
 
   if (typeof endpoint !== 'string') throw new Error('Specify a string endpoint URL.');
 
   if (!types.every(type=> typeof type === 'string')) {
-    throw new Error('Expected action types to be strings.')
+    throw new Error('Expected action types to be strings.');
   };
 
   // this is incase the action had more than one key
@@ -41,10 +42,11 @@ export default store => next => action => {
     const finalAction = Object.assign({}, action, data);
     delete finalAction[CALL_API];
     return finalAction;
-  }
+  };
 
   const [ requestType, successType, failureType ] = types;
-
+  console.log('TYPES:', requestType, successType, failureType);
+  console.log(actionWith({type: requestType}));
   next(actionWith({type: requestType}));
 
   let accessToken;
@@ -55,15 +57,15 @@ export default store => next => action => {
   }
 
   return callApi(endpoint, method, data, accessToken)
-    .then(reponse => {
+    .then(response => {
       store.dispatch(actionWith({
         type:successType,
         response
-      }))
+      }));
       if (typeof onSuccess === 'function') onSuccess(response);
     })
     .catch(error => store.dispatch(actionWith({
       type: failureType,
       error: error.message
-    })))
-}
+    })));
+};
