@@ -55,6 +55,7 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
+    height: 10,
     marginLeft: 10,
     bottom: 10,
     paddingLeft: 140,

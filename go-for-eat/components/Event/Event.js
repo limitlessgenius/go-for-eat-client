@@ -15,7 +15,7 @@ class Event extends Component {
 
   renderInnerEvent = () => {
     return(
-      <EventDetail/>
+      <EventDetail dataEvent={this.props.dataEvent}/>
     )};
 
   render() {
@@ -41,9 +41,9 @@ class Event extends Component {
               </View>
               <View style={s.event_spots}>
                 {_.range(4).map(i => {
-                  this.props.eventData.partecipants[i] ?
-                  <Image style={s.event_spots_full} source={require('../../assets/icons/event_spot.png')}/> :
-                  <Image style={s.event_spots_free} source={require('../../assets/icons/event_spot.png')}/>
+                  return this.props.eventData.partecipants[i] ?
+                  <Image key={i} style={s.event_spots_full} source={require('../../assets/icons/event_spot.png')}/> :
+                  <Image key={i} style={s.event_spots_free} source={require('../../assets/icons/event_spot.png')}/>
                 })}
               </View>
             </View>
