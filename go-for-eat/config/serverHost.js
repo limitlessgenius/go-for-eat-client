@@ -1,2 +1,2 @@
-const serverHost = 'http://go4eat.apiblueprint.org/api/v1';
+const serverHost = 'http://private-2b19ac-go4eat.apiary-mock.com/api/v1';
 export default serverHost;

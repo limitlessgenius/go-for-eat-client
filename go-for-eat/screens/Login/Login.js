@@ -22,8 +22,8 @@ class Login extends Component {
         if (userData) {
           let user = JSON.parse(userData).authentication;
           if (user) {
-            this.props.setUser(user)
-            this.props.navigation.navigate('Home');
+            this.props.setUser(user);
+            this.props.goHome();
           }
         }
       });
@@ -44,7 +44,6 @@ class Login extends Component {
           network: 'google'
         };
         this.props.serverAuth(data)
-        .then(()=>this.props.navigation.navigate('Home'));
       } else {
         return {cancelled: true};
       }
@@ -71,7 +70,6 @@ class Login extends Component {
             return obj;
           }, {});
         this.props.serverAuth(filtered)
-        .then(()=>this.props.navigation.navigate('Home'));
       })
       .catch(err => console.log(err));
     }
@@ -104,6 +102,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setUser: user => dispatch(setUser(user)),
   serverAuth: (data) => dispatch(loginUser(data)),
+  goHome: () => dispatch({type:'Home'})
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
