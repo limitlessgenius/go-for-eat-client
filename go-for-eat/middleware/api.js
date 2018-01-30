@@ -1,11 +1,10 @@
-// import { normalize } from 'normalizr';
+import { normalize } from 'normalizr';
 import baseUrl from '../config/serverHost.js';
 
 
-const callApi = (endpoint, method='GET', body, accessToken) => {
+const callApi = (endpoint, method='GET', body, accessToken, schema) => {
   const fullUrl = baseUrl + endpoint;
 
-  console.log('CALLING API', endpoint, method, body);
   const headers = {};
   if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
   if (method === 'POST' || method === 'PUT') headers['Content-Type'] = 'application/json';
@@ -15,7 +14,8 @@ const callApi = (endpoint, method='GET', body, accessToken) => {
     headers,
     body
   })
-    .then(response => response.json());
+    .then(response => response.json())
+    .then(data => schema ? normalize(data, schema) : data);
 
 };
 
@@ -24,10 +24,10 @@ export const CALL_API = 'Call API';
 export default store => next => action => {
   const callAPI = action[CALL_API];
 
-  console.log('action', action);
   if (typeof callAPI === 'undefined') return next(action);
 
-  const { endpoint, types, method, onSuccess} = callAPI;
+  const { endpoint, types, method, onSuccess, schema} = callAPI;
+
   let data;
   if (callAPI.data) data = JSON.stringify(callAPI.data);
 
@@ -45,8 +45,6 @@ export default store => next => action => {
   };
 
   const [ requestType, successType, failureType ] = types;
-  console.log('TYPES:', requestType, successType, failureType);
-  console.log(actionWith({type: requestType}));
   next(actionWith({type: requestType}));
 
   let accessToken;

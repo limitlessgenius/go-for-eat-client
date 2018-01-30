@@ -10,6 +10,8 @@ import { setUser } from '../../actions';
 import { loginUser } from '../../actions';
 
 class Login extends Component {
+
+
   static propTypes = {
     navigation: PropTypes.object
   };
@@ -41,12 +43,12 @@ class Login extends Component {
           idToken: result.idToken,
           network: 'google'
         };
-        this.props.serverAuth(data);
+        this.props.serverAuth(data)
+        .then(()=>this.props.navigation.navigate('Home'));
       } else {
         return {cancelled: true};
       }
     })
-    .then(() => this.props.navigation.navigate('Home'))
     .catch(err => console.log(err));
 
   }
@@ -68,10 +70,9 @@ class Login extends Component {
             obj[key] = data[key];
             return obj;
           }, {});
-        this.props.serverAuth(filtered);
-
+        this.props.serverAuth(filtered)
+        .then(()=>this.props.navigation.navigate('Home'));
       })
-      .then(()=>this.props.navigation.navigate('Home'))
       .catch(err => console.log(err));
     }
   }
@@ -81,7 +82,9 @@ class Login extends Component {
       return (<Text>Loading!</Text>)}
     return (
       <View style={styles.login_container}>
-        <View style={styles.login_logo}><Image source={logo}/></View>
+        <View style={styles.login_logo}>
+          <Image source={logo}/>
+        </View>
         <Text style={styles.login_tagline}>
         Share your lunch with someone new,{'\n'} meet new people and create new contacts
         </Text>
@@ -95,6 +98,7 @@ class Login extends Component {
 
 const mapStateToProps = (state) => ({
   loading: state.authentication.loading,
+  user:state.authentication
 });
 
 const mapDispatchToProps = (dispatch) => ({
