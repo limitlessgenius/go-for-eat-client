@@ -3,11 +3,9 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   event:{
-    width: 375,
+    width: '100%',
     height: 120,
     backgroundColor: 'white',
-    borderBottomColor: '#2ECC71',
-    borderBottomWidth: 1,
     flexDirection: 'row',
     padding: 10,
   },
@@ -57,9 +55,10 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
+    marginLeft: 10,
     bottom: 10,
-    paddingLeft: 150,
-    paddingRight: 150,
+    paddingLeft: 140,
+    paddingRight: 140,
   },
   event_spots_full:{
     transform: [

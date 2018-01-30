@@ -3,27 +3,12 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   list:{
-    borderTopColor: '#2ECC71',
-    borderTopWidth: 3,
-    flex: 10,
+    height: 100,
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: '#2ECC71',
     shadowColor: '#444',
     shadowOffset: { width: 0, height: -1 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.5,
     shadowRadius: 5,
-  },
-  list_dragBar:{
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  list_dragBar_line:{
-    backgroundColor: '#2ECC71',
-    borderRadius: 4,
-    width: 50,
-    height: 5,
-    margin: 10,
-    opacity: 0.9,
   },
 });
