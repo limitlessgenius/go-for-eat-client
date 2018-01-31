@@ -5,6 +5,7 @@ const defaultState = {
 
 const entities = (state = defaultState, action) => {
   if (action.response) {
+    console.log(action.response.entities);
     return {
       events: {
         ...state.events,

@@ -4,21 +4,30 @@ import { connect } from 'react-redux';
 import serverHost from '../../config/serverHost.js';
 import { getNearbyEvents } from '../../actions';
 import { Event } from '../Event';
+import moment from 'moment';
 import _ from 'lodash';
 import s from './styles';
 
 class EventList extends Component {
   constructor (props) {
     super(props)
-    this.props.getNearbyEvents('')
     this.state = {
+      lat: 41.3949187,
+      lng: 2.1957668,
+      dist: 100000,
+      to: Math.floor(new Date(moment().endOf('day')).getTime()/1000),
+      from: Math.floor(new Date().getTime()/1000),
       eventsArray: [],
     }
   }
 
+  componentDidMount(){
+    this.props.getNearbyEvents(this.state)
+  }
+
   componentWillReceiveProps(nextProps){
     if (nextProps.events !== this.props.events) {
-      let eventsArray = _.values(this.props.events);
+      let eventsArray = _.values(nextProps.events);
       eventsArray.sort((a,b) =>{
         return a.distance - b.distance;
       });
@@ -27,21 +36,39 @@ class EventList extends Component {
       })
     }
   }
-
-  _keyExtractor = (item, index) => item.event_id;
+// hello leo!
+  loadMore = () => {
+    console.log('loading more');
+    // this.props.getNearbyEvents('')
+  }
 
   render() {
     return  (
       <FlatList
         style={s.list}
-        data={[...this.state.eventsArray]}
-        renderItem={({ item }) => <Event key={item.event_id} eventData={item} users={this.props.users}/>
-        }
+        data={this.state.eventsArray}
+        renderItem={({ item }) =>
+        <Event key={item.event_id}
+          eventData={item}
+          users={this.props.users}
+        />}
         ItemSeparatorComponent={this.renderSeparator}
-        keyExtractor={this._keyExtractor}
+        keyExtractor={item => item.event_id}
+        onEndReached={this.loadMore}
+        onEndThreshold={0}
+        // ListFooterComponente={this.renderFooter}
       />
     );
   }
+
+  renderFooter = () => {
+    return (
+      <View style={{paddingVertical: 20}}>
+        <ActivityIndicator animating size="large"/>
+      </View>
+    )
+  }
+
   renderSeparator = () => {
     return (
       <View

@@ -9,7 +9,7 @@ import _ from 'lodash';
 class DragBar extends Component {
   constructor (props) {
     super(props);
-    this.props.getNearbyEvents('');
+    // this.props.getNearbyEvents('');
     this.state = {
       eventsArray: [],
     };

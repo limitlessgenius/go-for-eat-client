@@ -40,7 +40,7 @@ export const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
 export const getNearbyEvents = (queryString) => ({
   [CALL_API]: {
     types: [GET_EVENTS_REQUEST, GET_EVENTS_SUCCESS, GET_EVENTS_FAILURE],
-    endpoint: '/events',
+    endpoint: `/api/v1/events?lat=${queryString.lat}&lng=${queryString.lng}&dist=${queryString.dist}&to=${queryString.to}&from=${queryString.from}`,
     schema: eventSchemaArray,
   }
 });
