@@ -17,7 +17,6 @@ import PropTypes from 'prop-types';
 
 class NavBar extends Component {
 
-
   handleNavBack = () => {
     this.props.navigateBack();
   }
@@ -30,12 +29,11 @@ class NavBar extends Component {
     this.props.navigate('CreateEvent');
   }
 
-  handleLogout = async () => {
-    new Promise((resolve,reject) => {
-      resolve(logoutStorage());
-    })
-    .then(()=>this.props.logoutState())
-    .then(()=>this.props.navigate('Login'))
+  handleLogout = () => {
+    const serializedState = JSON.stringify({});
+    Expo.SecureStore.setItemAsync('state', serializedState);
+    this.props.logoutState();
+    this.props.navigate('Login');
   }
 
   renderMyProfileButton = () => {
@@ -59,18 +57,6 @@ class NavBar extends Component {
       </TouchableOpacity>
     )
   }
-
-  // renderButton = (onPress, icon) => {
-  //   return (
-  //     <TouchableOpacity
-  //     onPress={onPress}
-  //     >
-  //       <Image
-  //         style={style.navbar_icon}
-  //         source={icon}
-  //       />
-  //     </TouchableOpacity>
-  // }
 
   renderCreateButton = () => {
     return (
@@ -113,12 +99,6 @@ class NavBar extends Component {
 
   render () {
 
-    // const buttons={}
-    // switch (this.props.screen) {
-    //   case 'Home':
-    //     buttons.left = this.renderButton()
-    //
-    // }
     const buttonMap = {
       'Home': {
         left:this.renderCreateButton(),
