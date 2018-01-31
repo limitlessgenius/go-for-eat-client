@@ -6,31 +6,25 @@ import serverHost from '../../config/serverHost.js';
 import logo from '../../assets/logo/logo2x.png';
 import styles from './styles';
 import PropTypes from 'prop-types';
-import { setUser } from '../../actions';
-import { loginUser } from '../../actions';
+import { setUser, loginUser, navigate } from '../../actions';
+
 
 class Login extends Component {
-
-
-  static propTypes = {
-    navigation: PropTypes.object
-  };
 
   componentDidMount() {
     Expo.SecureStore.getItemAsync('state')
       .then(userData => {
         if (userData) {
           let user = JSON.parse(userData).authentication;
-          if (user) {
-            this.props.setUser(user)
-            this.props.navigation.navigate('Home');
+          if (user._id) {
+            this.props.setUser(user);
+            this.props.navigate('Home');
           }
         }
       });
   }
 
   loginGoogle = async () => {
-
     Expo.Google.logInAsync({
       iosClientId: '795597563248-aph6ms1e1f53i6ela2281hpcu09itjer.apps.googleusercontent.com',
       scopes: ['profile', 'email'],
@@ -44,7 +38,6 @@ class Login extends Component {
           network: 'google'
         };
         this.props.serverAuth(data)
-        .then(()=>this.props.navigation.navigate('Home'));
       } else {
         return {cancelled: true};
       }
@@ -71,7 +64,6 @@ class Login extends Component {
             return obj;
           }, {});
         this.props.serverAuth(filtered)
-        .then(()=>this.props.navigation.navigate('Home'));
       })
       .catch(err => console.log(err));
     }
@@ -97,13 +89,13 @@ class Login extends Component {
 
 
 const mapStateToProps = (state) => ({
-  loading: state.authentication.loading,
   user:state.authentication
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setUser: user => dispatch(setUser(user)),
   serverAuth: (data) => dispatch(loginUser(data)),
+  navigate: () => dispatch(navigate('Home'))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

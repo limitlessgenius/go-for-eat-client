@@ -1,9 +1,10 @@
 import { CALL_API } from '../middleware/api';
 import { schema } from 'normalizr';
 
-
 const userSchema = new schema.Entity('users', {}, {idAttribute:'user_id'});
-const eventSchema = new schema.Entity('events', {participants:[userSchema]}, {idAttribute:'event_id'});
+const userArraySchema = [userSchema];
+const eventSchema = new schema.Entity('events', {participants:userArraySchema}, {idAttribute:'event_id'});
+const eventArraySchema = [eventSchema];
 
 export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST';
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
@@ -40,7 +41,16 @@ export const getNearbyEvents = (data) => ({
   [CALL_API]: {
     types: [GET_EVENTS_REQUEST, GET_EVENTS_SUCCESS, GET_EVENTS_FAILURE],
     endpoint: '/events',
-    schema: eventSchema,
+    schema: eventArraySchema,
     data
   }
+});
+
+export const navigate = (screen) => ({
+  type: 'NAVIGATE',
+  screen
+});
+
+export const navigateBack = (screen) => ({
+  type: 'NAVIGATE_BACK',
 });

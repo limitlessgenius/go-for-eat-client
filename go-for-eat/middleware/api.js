@@ -4,7 +4,6 @@ import baseUrl from '../config/serverHost.js';
 
 const callApi = (endpoint, method='GET', body, accessToken, schema) => {
   const fullUrl = baseUrl + endpoint;
-
   const headers = {};
   if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
   if (method === 'POST' || method === 'PUT') headers['Content-Type'] = 'application/json';
