@@ -5,8 +5,8 @@ export default StyleSheet.create({
   dragBar:{
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2ECC71',
-    height: 35,
+    backgroundColor: '#2DAA5F',
+    height: 40,
   },
   // dragBar_bubble:{
   //   height: 70,

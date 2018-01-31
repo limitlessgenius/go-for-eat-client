@@ -21,6 +21,10 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  inner_actions_btn_separator:{
+    borderRightColor:'#2DAA5F',
+    borderRightWidth:2,
+  },
   inner_actions_icon:{
     transform: [
       { scale: 0.8},
@@ -40,6 +44,8 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   inner_partecipants_picture:{
+    width: 95,
+    height: 95,
     transform: [
       { scale: 0.7},
     ],

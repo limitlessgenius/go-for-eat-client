@@ -13,13 +13,15 @@ class Home extends Component {
   render() {
     return  (
       <Drawer
-        initialDrawerSize={0.19}
-        finalDrawerHeight={100}
+        initialDrawerSize={0.29}
+        finalDrawerHeight={0}
         renderContainerView={() => <Map/>}
         renderDrawerView={() => <EventList/>}
         renderInitDrawerView={() => (<View style={{
-          backgroundColor: '#2ECC71',
-          height: 158,
+          backgroundColor: 'white',
+          height: 165,
+          borderBottomWidth: 2,
+          borderBottomColor: '#2ECC71',
           shadowColor: '#444',
           shadowOffset: { width: 0, height: 1 },
           shadowOpacity: 0.3,

@@ -54,7 +54,7 @@ export default store => next => action => {
     accessToken = callAPI.data.token;
   }
 
-  return callApi(endpoint, method, data, accessToken)
+  return callApi(endpoint, method, data, accessToken, schema)
     .then(response => {
       store.dispatch(actionWith({
         type:successType,

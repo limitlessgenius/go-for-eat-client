@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
 import s from './styles';
+import { getNearbyEvents } from '../../actions';
 import { Event } from '../Event';
-
-const event = {
-  // id: 'event_id',
-  creator_name: 'Leonardo',
-  place_name: 'MamasBurger',
-  place_address:'Carrer de Sant Martì 13, Barcellona',
-  when: '1517518800',
-  partecipants:[
-    {name:'Leonardo', img:'url'},
-    {name:'Hanna', img:'url'}
-  ],
-  distance:{lat:43.8379125, lng:10.4888985}
-};
+import _ from 'lodash';
 
 class DragBar extends Component {
+  constructor (props) {
+    super(props);
+    this.props.getNearbyEvents('');
+    this.state = {
+      eventsArray: [],
+    };
+  }
+
+  componentWillReceiveProps(nextProps){
+    if (nextProps.events !== this.props.events) {
+      let eventsArray = _.values(this.props.events);
+      eventsArray.sort((a,b) =>{
+        return a.distance - b.distance;
+      });
+      this.setState({
+        eventsArray: eventsArray,
+      });
+    }
+  }
 
   render() {
     return  (
@@ -24,13 +33,23 @@ class DragBar extends Component {
         <View style={s.dragBar}>
           <View style={s.dragBar_bubble}>
             <View style={s.dragBar_line}></View>
-            {/* <View style={s.dragBar_line}></View> */}
           </View>
         </View>
-        <Event key={event.id} eventData={event}/>
+        {this.state.eventsArray[0] ?
+          <Event key={this.state.eventsArray[0].event_id} eventData={this.state.eventsArray[0]} users={this.props.users}/>
+          : null}
       </View>
     );
   }
 }
 
-export default DragBar;
+const mapStateToProps = (state) => ({
+  users: state.entities.users,
+  events: state.entities.events
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getNearbyEvents: (queryString) => dispatch(getNearbyEvents(queryString)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DragBar);

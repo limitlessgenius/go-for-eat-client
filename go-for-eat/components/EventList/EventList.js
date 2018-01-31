@@ -1,49 +1,62 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, FlatList, ActivityIndicator } from 'react-native';
-
+import { connect } from 'react-redux';
+import serverHost from '../../config/serverHost.js';
+import { getNearbyEvents } from '../../actions';
 import { Event } from '../Event';
 import _ from 'lodash';
 import s from './styles';
 
-const event = {
-  // id: 'event_id',
-  creator_name: 'Leonardo',
-  place_name: 'MamasBurger',
-  place_address:'Carrer de Sant Martì 13, Barcellona',
-  when: '1517518800',
-  partecipants:[
-    {name:'Leonardo', img:'url'},
-    {name:'Hanna', img:'url'}
-  ],
-  distance:{lat:43.8379125, lng:10.4888985}
+class EventList extends Component {
+  constructor (props) {
+    super(props)
+    this.props.getNearbyEvents('')
+    this.state = {
+      eventsArray: [],
+    }
   }
 
-class EventList extends Component {
-  _keyExtractor = (item, index) => item.id;
-  renderSeparator = () => {
-      return (
-          <View
-              style={{
-                  height: 1,
-                  width: "100%",
-                  backgroundColor: "#2ECC71",
-              }}
-          />
-      );
-  };
+  componentWillReceiveProps(nextProps){
+    if (nextProps.events !== this.props.events) {
+      let eventsArray = _.values(this.props.events);
+      eventsArray.sort((a,b) =>{
+        return a.distance - b.distance;
+      });
+      this.setState({
+        eventsArray: eventsArray,
+      })
+    }
+  }
+
+  _keyExtractor = (item, index) => item.event_id;
+
   render() {
     return  (
       <FlatList
         style={s.list}
-        data={[{id: 1, ...event}, {id: 2, ...event},{id: 3, ...event},{id: 4, ...event},{id: 5, ...event},{id: 6, ...event}]}
-        renderItem={({ item }) =>
-          <Event key={item.id} eventData={item}/>
+        data={[...this.state.eventsArray]}
+        renderItem={({ item }) => <Event key={item.event_id} eventData={item} users={this.props.users}/>
         }
         ItemSeparatorComponent={this.renderSeparator}
         keyExtractor={this._keyExtractor}
       />
     );
   }
+  renderSeparator = () => {
+    return (
+      <View
+        style={{height: 1,width: "100%",backgroundColor: "#2ECC71",}}
+      />
+  )};
 }
 
-export default EventList;
+const mapStateToProps = (state) => ({
+  users: state.entities.users,
+  events: state.entities.events
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getNearbyEvents: (queryString) => dispatch(getNearbyEvents(queryString)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventList);

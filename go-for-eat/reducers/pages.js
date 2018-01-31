@@ -31,6 +31,16 @@ const pages = (state = defaultState, action) => {
         loading:true
       }
     };
+  case 'GET_EVENTS_SUCCESS':
+    return {
+      ...state,
+      Home: {
+        ...state.Home,
+        loading:false
+      }
+    };
+  default:
+    return state;
   }
 };
 

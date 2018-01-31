@@ -4,18 +4,22 @@ export default StyleSheet.create({
   navbar_container: {
     backgroundColor:'#2ECC71',
     paddingTop:50,
-    borderBottomWidth:0
+    borderBottomWidth:0,
+    shadowColor: '#444',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
   },
   navbar_logo: {
-    marginBottom:-25,
+    marginBottom:-30,
     transform: [{
-      scale:0.5
-    }]
+      scale:0.45
+    }],
   },
   navbar_icon: {
-    marginBottom:-10,
+    marginBottom:-13,
     transform: [
-      {scale:0.7}
-    ]
+      {scale:0.65}
+    ],
   }
 });

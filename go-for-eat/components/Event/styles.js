@@ -7,6 +7,7 @@ export default StyleSheet.create({
     height: 120,
     backgroundColor: 'white',
     flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 10,
   },
   event_detail_eventName:{
@@ -57,7 +58,7 @@ export default StyleSheet.create({
     width: '100%',
     height: 10,
     marginLeft: 10,
-    bottom: 10,
+    bottom: 20,
     paddingLeft: 140,
     paddingRight: 140,
   },
