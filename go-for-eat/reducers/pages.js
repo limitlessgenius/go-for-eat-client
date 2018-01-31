@@ -1,27 +1,34 @@
 const defaultState = {
+  currentScreen:'Login',
   Home:{},
   Login:{},
   Profile:{},
-  User:{}
+  User:{},
+  CreateScreen:{
+    edit:false,
+    event:'',
+  }
 };
 
 const pages = (state = defaultState, action) => {
   switch (action.type) {
-  case 'LOGIN_LOADING':
+  case 'NAVIGATE':
     return {
       ...state,
-      Login: {
-        ...state.Login,
-        loading:true
-      }
+      prevScreen:state.currentScreen,
+      currentScreen:action.screen
     };
-  case 'LOGIN_LOADED':
+  case 'NAVIGATE_BACK':
     return {
       ...state,
-      Login: {
-        ...state.Login,
-        loading:false
-      }
+      prevScreen:state.currentScreen,
+      currentScreen:state.prevScreen
+    };
+  case 'LOGIN_USER_SUCCESS':
+    return {
+      ...state,
+      prevScreen:'Login',
+      currentScreen:'Home'
     };
   case 'GET_EVENTS_REQUEST':
     return {

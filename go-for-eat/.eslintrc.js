@@ -3,10 +3,12 @@ module.exports = {
         "browser": true,
         "commonjs": true,
         "es6": true,
+        "amd":true,
         "react-native/react-native": true
     },
     "extends": ["plugin:react/recommended"],
     "parserOptions": {
+        "ecmaVersion":8,
         "ecmaFeatures": {
             "ecmaVersion":2017,
             "experimentalObjectRestSpread": true,

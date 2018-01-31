@@ -16,6 +16,11 @@ export default StyleSheet.create({
       scale:0.45
     }],
   },
+  navbar_title: {
+    color:'white',
+    fontFamily:'Roboto',
+    fontSize:20
+  },
   navbar_icon: {
     marginBottom:-13,
     transform: [
