@@ -19,13 +19,3 @@ export const saveState = (state) => {
     console.log(err);
   }
 };
-
-export const logoutStorage = () => {
-  try {
-    const serializedState = JSON.stringify({});
-    Expo.SecureStore.setItemAsync('state', serializedState);
-    console.log('HI IM HERE');
-  } catch (err) {
-    console.log(err);
-  }
-};
