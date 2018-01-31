@@ -17,6 +17,11 @@ import PropTypes from 'prop-types';
 
 class NavBar extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {screen: this.props.screen}
+  }
+
   handleNavBack = () => {
     this.props.navigateBack();
   }
@@ -36,98 +41,73 @@ class NavBar extends Component {
     this.props.navigate('Login');
   }
 
-  renderMyProfileButton = () => {
+  renderButton = (button) => {
     return (
       <TouchableOpacity
-        onPress={this.handleMyProfile}>
-        <Image style={style.navbar_icon} source={navProfile}/>
-      </TouchableOpacity>
-    )
-  }
-
-  renderNavBackButton = () => {
-    return (
-      <TouchableOpacity
-      onPress={this.handleNavBack}
+        onPress={button.onPress}
       >
         <Image
           style={style.navbar_icon}
-          source={navBack}
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  renderCreateButton = () => {
-    return (
-      <TouchableOpacity
-        onPress={this.handleCreate}
-      >
-        <Image
-          style={style.navbar_icon}
-          source={navNew}
+          source={button.icon}
 
         />
-      </TouchableOpacity>
-    )
-  }
-
-  renderCloseButton = () => {
-    return (
-      <TouchableOpacity
-        onPress={this.handleNavBack}
-      >
-        <Image
-          style={style.navbar_icon}
-          source={navClose}
-
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  renderLogoutButton = () => {
-    return (
-      <TouchableOpacity
-      onPress={this.handleLogout}
-      >
-        <Image style={style.navbar_icon} source={navLogout}/>
       </TouchableOpacity>
     )
   }
 
 
   render () {
-
-    const buttonMap = {
-      'Home': {
-        left:this.renderCreateButton(),
-        right:this.renderMyProfileButton()
+    const allButtons = {
+      create: {
+        onPress:this.handleCreate,
+        icon: navNew
       },
-      'Profile': {
-        left:this.renderCloseButton(),
-        right: this.renderLogoutButton(),
+      profile: {
+        onPress:this.handleMyProfile,
+        icon: navProfile
       },
-      'User': {
-        left:this.renderNavBackButton(),
-        right:null
+      back: {
+        onPress:this.handleNavBack,
+        icon: navBack
       },
-      'CreateEvent': {
-        left:this.renderCloseButton(),
-        right:null
+      close: {
+        onPress:this.handleNavBack,
+        icon:navClose
       },
-      'Login': {
-        left:null,
-        right:null
+      logout: {
+        onPress:this.handleLogout,
+        icon:navLogout
       }
-    }
+    };
 
+    const buttons = {};
+    if (this.state.screen==='Home') {buttons.center = <Image source={logo} style={style.navbar_logo}/>}
+    else {
+      buttons.center = <View><Text style={style.navbar_title}>{this.state.screen}</Text></View>
+    };
+
+    if (this.state.screen === 'Home') {
+      buttons.left = this.renderButton(allButtons.create);
+      buttons.right = this.renderButton(allButtons.profile);
+    } else if (this.state.screen === 'Profile') {
+      buttons.left = this.renderButton(allButtons.close);
+      buttons.right = this.renderButton(allButtons.logout);
+    } else if (this.state.screen === 'User') {
+      buttons.left = this.renderButton(allButtons.close);
+      buttons.right = this.renderButton(allButtons.logout);
+    } else if (this.state.screen === 'CreateEvent') {
+      buttons.left = this.renderButton(allButtons.close);
+      buttons.right = null;
+    } else {
+      buttons.left = null;
+      buttons.right = null;
+    }
     return (
       <View>
       <Header
-        leftComponent={buttonMap[this.props.screen].left}
-        centerComponent={this.props.screen==='Home'?<Image source={logo} style={style.navbar_logo}/>:<View><Text style={style.navbar_title}>{this.props.screen}</Text></View>}
-        rightComponent={buttonMap[this.props.screen].right}
+        leftComponent={buttons.left}
+        centerComponent={buttons.center}
+        rightComponent={buttons.right}
         outerContainerStyles={style.navbar_container}
       />
       </View>
