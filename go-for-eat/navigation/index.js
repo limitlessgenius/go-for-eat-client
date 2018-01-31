@@ -7,6 +7,7 @@ import { NavBar } from '../components/NavBar';
 import Home from '../screens/Home/Home';
 import Login from '../screens/Login/Login';
 import User from '../screens/User';
+import Profile from '../screens/Profile';
 import CreateEvent from '../screens/CreateEvent';
 import LoadingPage from '../screens/LoadingPage';
 
@@ -22,20 +23,6 @@ const NavigatorWithRootScreen = (name) => {
   });
 };
 
-const NavigatorWithModal = (name) => {
-  return StackNavigator({
-    [name] : {
-      screen:name,
-      navigationOptions:{
-        gesturesEnabled:false,
-      }
-    },
-  },
-  {
-    mode: 'modal',
-    headerMode: 'none'
-  });
-};
 
 const HomeStack = StackNavigator({
   Home: {
@@ -47,10 +34,8 @@ const HomeStack = StackNavigator({
     screen: NavigatorWithRootScreen(User),
     navigationOptions:{header:()=>null}
   },
-  CreateEvent: {
-    screen: NavigatorWithModal(NavigatorWithRootScreen(CreateEvent)),
-    navigationOptions:{header:()=>null}
-  }
+
+
 });
 
 export const AppNavigator = StackNavigator({
@@ -63,9 +48,18 @@ export const AppNavigator = StackNavigator({
         gesturesEnabled: false,
       }
     },
+    CreateEvent: {
+      screen:NavigatorWithRootScreen(CreateEvent),
+      navigationOptions:{header:()=>null}
+    },
     Loading:{
       screen:LoadingPage
-    }
+    },
+    Profile: {
+      screen: NavigatorWithRootScreen(Profile),
+      navigationOptions:{header:()=>null}
+    },
+
   },
   {
     mode: 'modal',

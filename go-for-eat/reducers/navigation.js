@@ -25,11 +25,19 @@ const nav = (state = initialNavState, action) => {
       state
     );
     break;
-  default:
+  case 'NAVIGATE':
     nextState = AppNavigator.router.getStateForAction(
-      NavigationActions.navigate({ routeName: action.type }),
+      NavigationActions.navigate({ routeName: action.screen }),
       state
     );
+    break;
+  case 'NAVIGATE_BACK':
+    nextState = AppNavigator.router.getStateForAction(
+      NavigationActions.back(),
+      state
+    );
+    break;
+  default:
     break;
   }
   return nextState || state;

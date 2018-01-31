@@ -16,7 +16,7 @@ const store = createStore(
 store.subscribe(() => {
   saveState({
     authentication: store.getState().authentication,
-    // entities: store.getState().entities
+    entities: store.getState().entities
   });
 });
 

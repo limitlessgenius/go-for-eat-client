@@ -45,3 +45,12 @@ export const getNearbyEvents = (data) => ({
     data
   }
 });
+
+export const navigate = (screen) => ({
+  type: 'NAVIGATE',
+  screen
+});
+
+export const navigateBack = (screen) => ({
+  type: 'NAVIGATE_BACK',
+});

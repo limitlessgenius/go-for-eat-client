@@ -12,9 +12,19 @@ export const loadState = () => {
 export const saveState = (state) => {
   try {
     const serializedState = JSON.stringify({
-      authentication: state.authentication
+      authentication: state.authentication,
     });
     Expo.SecureStore.setItemAsync('state', serializedState);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const logoutStorage = () => {
+  try {
+    const serializedState = JSON.stringify({});
+    Expo.SecureStore.setItemAsync('state', serializedState);
+    console.log('HI IM HERE');
   } catch (err) {
     console.log(err);
   }
