@@ -5,7 +5,7 @@ import baseUrl from '../config/serverHost.js';
 const callApi = (endpoint, method='GET', body, accessToken, schema) => {
   const fullUrl = baseUrl + endpoint;
   const headers = {};
-  if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
+  if (accessToken) headers.authorization = `Bearer ${accessToken}`;
   if (method === 'POST' || method === 'PUT') headers['Content-Type'] = 'application/json';
 
   return fetch(fullUrl, {
@@ -47,8 +47,9 @@ export default store => next => action => {
   next(actionWith({type: requestType}));
 
   let accessToken;
-  if (store.getState().authentication.token) {
-    accessToken = store.getState().authentication.token;
+  console.log(store.getState().authentication);
+  if (store.getState().authentication.user.accessToken) {
+    accessToken = store.getState().authentication.user.accessToken;
   } else if (callAPI.data && callAPI.data.token) {
     accessToken = callAPI.data.token;
   }
