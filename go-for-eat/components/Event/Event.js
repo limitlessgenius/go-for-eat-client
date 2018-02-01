@@ -32,7 +32,7 @@ class Event extends Component {
                 height: !this.state.openDetails ? 370 : 120,
                 openDetails: !this.state.openDetails,
               });
-              this.props.openDetails()
+              // this.props.openDetails()
           }}>
             <View style={s.event}>
               <View style={s.event_detail}>
