@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const defaultState = {
   currentScreen:'Login',
   Home:{},
@@ -30,21 +32,21 @@ const pages = (state = defaultState, action) => {
       prevScreen:'Login',
       currentScreen:'Home'
     };
-  case 'GET_EVENTS_REQUEST':
-    return {
-      ...state,
-      Home: {
-        ...state.Home,
-        loading:true
-      }
-    };
   case 'GET_EVENTS_SUCCESS':
+    let newEventsArr = _.values(action.response.entities.events);
+    newEventsArr.sort((a,b) =>{
+      return a.distance - b.distance;
+    });
+    const title = newEventsArr[0].when;
+    const data = newEventsArr.map((el, i) => {
+      return el._id;
+    });
     return {
       ...state,
-      Home: {
+      Home: [
         ...state.Home,
-        loading:false
-      }
+        { title, data }
+      ]
     };
   default:
     return state;

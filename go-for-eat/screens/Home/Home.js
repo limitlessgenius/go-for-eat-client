@@ -9,17 +9,30 @@ import Drawer from 'react-native-draggable-view';
 class Home extends Component {
   constructor(props){
     super(props);
+    console.log('HOME');
+    this.state = {
+      dSize: .29,
+      dHeight: 165,
+    };
   }
+
+  openDetails = () => {
+    // this.setState({
+    //   dSize: .59,
+    //   dHeight: 400,
+    // })
+  }
+
   render() {
     return  (
       <Drawer
-        initialDrawerSize={0.29}
+        initialDrawerSize={this.state.dSize}
         finalDrawerHeight={0}
         renderContainerView={() => <Map/>}
         renderDrawerView={() => <EventList/>}
         renderInitDrawerView={() => (<View style={{
           backgroundColor: 'white',
-          height: 165,
+          height: this.state.dHeight,
           borderBottomWidth: 2,
           borderBottomColor: '#2ECC71',
           shadowColor: '#444',
@@ -27,7 +40,7 @@ class Home extends Component {
           shadowOpacity: 0.3,
           shadowRadius: 5,
         }}>
-          <DragBar/>
+          <DragBar openDetails={this.openDetails}/>
         </View>)}
       />
     );

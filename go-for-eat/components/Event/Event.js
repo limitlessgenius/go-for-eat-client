@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, ScrollView,TouchableWithoutFeedback, Image, Text } from 'react-native';
 import s from './styles';
 import { EventDetail } from '../EventDetail'
@@ -15,14 +16,15 @@ class Event extends Component {
     };
   }
 
-  renderInnerEvent = () => {
+  renderInnerEvent = (eventData) => {
   return(
-    <EventDetail eventData={this.props.eventData}/>
+    <EventDetail key={eventData._id} eventData={eventData}/>
   )};
 
   render() {
-    return this.props.eventData !== undefined ?
-      (
+    const eventData = this.props.events[this.props.eventID]
+    if (eventData === undefined) return null;
+    return (
         <Animatable.View duration={500} transition='height' style={{height: this.state.height}}>
           <TouchableWithoutFeedback
             onPress={()=>{
@@ -30,22 +32,23 @@ class Event extends Component {
                 height: !this.state.openDetails ? 370 : 120,
                 openDetails: !this.state.openDetails,
               });
+              this.props.openDetails()
           }}>
             <View style={s.event}>
               <View style={s.event_detail}>
-                <Text style={s.event_detail_eventName}> {this.props.users[this.props.eventData.creator].name}, {this.props.eventData.place_name} </Text>
-                <Text style={s.event_detail_address}> {this.props.eventData.place_address}  </Text>
+                <Text style={s.event_detail_eventName}> {this.props.users[eventData.creator].name}, {eventData.place_name} </Text>
+                <Text numberOfLines={1} style={s.event_detail_address}> {eventData.place_address}  </Text>
                 <View style={s.event_detail_time}>
-                  <Text style={s.event_detail_time_text}> {moment(this.props.eventData.when).format('HH:mm')} </Text>
+                  <Text style={s.event_detail_time_text}> {moment(eventData.when * 1000 ).format('HH:mm')} </Text>
                 </View>
               </View>
               <View style={s.event_distance}>
-                <Text style={s.event_distance_number}> {Math.round((this.props.eventData.distance/1000) * 100) / 100}</Text>
+                <Text style={s.event_distance_number}> {Math.round((eventData.distance/1000) * 100) / 100}</Text>
                 <Text style={s.event_distance_text}> km </Text>
               </View>
               <View style={s.event_spots}>
                 {_.range(4).map(i => {
-                  return this.props.eventData.attendees[i] ?
+                  return eventData.attendees[i] ?
                   <Image key={i} style={s.event_spots_full} source={require('../../assets/icons/event_spot.png')}/> :
                   <Image key={i} style={s.event_spots_free} source={require('../../assets/icons/event_spot.png')}/>
                 })}
@@ -54,14 +57,21 @@ class Event extends Component {
           </TouchableWithoutFeedback>
           <View>
             {this.state.openDetails ?
-              this.renderInnerEvent()
+              this.renderInnerEvent(eventData)
               : null}
           </View>
         </Animatable.View>
-      ) :
-      null;
+      )
     }
 }
 
+const mapStateToProps = (state) => ({
+  events: state.entities.events,
+  users: state.entities.users,
+});
 
-export default Event;
+const mapDispatchToProps = (dispatch) => ({
+  getNearbyEvents: (queryString) => dispatch(getNearbyEvents(queryString)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Event);

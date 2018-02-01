@@ -16,7 +16,7 @@ class Login extends Component {
       .then(userData => {
         if (userData) {
           let user = JSON.parse(userData).authentication;
-          if (user._id) {
+          if (user.user._id) {
             this.props.setUser(user);
             this.props.navigate('Home');
           }
@@ -95,7 +95,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setUser: user => dispatch(setUser(user)),
   serverAuth: (data) => dispatch(loginUser(data)),
-  navigate: () => dispatch(navigate('Home'))
+  navigate: (screen) => dispatch(navigate(screen))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

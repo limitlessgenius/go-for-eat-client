@@ -9,22 +9,11 @@ import _ from 'lodash';
 class DragBar extends Component {
   constructor (props) {
     super(props);
-    // this.props.getNearbyEvents('');
-    this.state = {
-      eventsArray: [],
-    };
   }
 
-  componentWillReceiveProps(nextProps){
-    if (nextProps.events !== this.props.events) {
-      let eventsArray = _.values(this.props.events);
-      eventsArray.sort((a,b) =>{
-        return a.distance - b.distance;
-      });
-      this.setState({
-        eventsArray: eventsArray,
-      });
-    }
+  openDetails = () => {
+    console.log('here');
+    this.props.openDetails()
   }
 
   render() {
@@ -35,8 +24,8 @@ class DragBar extends Component {
             <View style={s.dragBar_line}></View>
           </View>
         </View>
-        {this.state.eventsArray[0] ?
-          <Event key={this.state.eventsArray[0].event_id} eventData={this.state.eventsArray[0]} users={this.props.users}/>
+        {this.props.events[0] ?
+          <Event openDetails={this.openDetails} key={this.props.events[0].data[0]} eventID={this.props.events[0].data[0]}/>
           : null}
       </View>
     );
@@ -44,8 +33,7 @@ class DragBar extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  users: state.entities.users,
-  events: state.entities.events
+  events: state.pages.Home,
 });
 
 const mapDispatchToProps = (dispatch) => ({

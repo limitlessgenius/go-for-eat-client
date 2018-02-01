@@ -10,6 +10,9 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
   },
+  event_detail:{
+    flex: 5,
+  },
   event_detail_eventName:{
     fontFamily: 'Roboto',
     fontSize: 21,
@@ -36,6 +39,7 @@ export default StyleSheet.create({
     color: 'white',
   },
   event_distance:{
+    flex: 2,
     width: 100,
     justifyContent: 'center',
     alignItems: 'center',

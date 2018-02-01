@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, ScrollView, Text, FlatList, SectionList, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import serverHost from '../../config/serverHost.js';
 import { getNearbyEvents } from '../../actions';
@@ -12,53 +12,45 @@ class EventList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      lat: 41.3949187,
-      lng: 2.1957668,
-      dist: 100000,
+      lat: 41.3949187, //get from google
+      lng: 2.1957668, //get from google
+      dist: 100000, //get from google
       to: Math.floor(new Date(moment().endOf('day')).getTime()/1000),
       from: Math.floor(new Date().getTime()/1000),
-      eventsArray: [],
     }
   }
 
   componentDidMount(){
+    this.state.apiCall ? null :
+    this.props.getNearbyEvents(this.state)
+    .then(()=> this.setState({apiCall: true}));
+  }
+
+  loadMore = async () => {
+    await this.setState({
+      to: Math.floor(new Date(moment((this.state.to+100)*1000).endOf('day')).getTime()/1000),
+      from: this.state.to,
+    })
     this.props.getNearbyEvents(this.state)
   }
 
-  componentWillReceiveProps(nextProps){
-    if (nextProps.events !== this.props.events) {
-      let eventsArray = _.values(nextProps.events);
-      eventsArray.sort((a,b) =>{
-        return a.distance - b.distance;
-      });
-      this.setState({
-        eventsArray: eventsArray,
-      })
-    }
-  }
-// hello leo!
-  loadMore = () => {
-    console.log('loading more');
-    // this.props.getNearbyEvents('')
-  }
-
   render() {
-    return  (
-      <FlatList
+    return  this.state.apiCall ? (
+      <SectionList
         style={s.list}
-        data={this.state.eventsArray}
-        renderItem={({ item }) =>
-        <Event key={item.event_id}
-          eventData={item}
-          users={this.props.users}
-        />}
+        renderSectionHeader={({section}) => {return (
+          <View style={s.section_header}>
+            <Text style={s.section_header_text}> {moment(section.title * 1000).format('Do MMMM')} </Text>
+          </View>)
+        }}
+        sections={this.props.events}
+        renderItem={({ item }) => <Event key={item} eventID={item}/>}
         ItemSeparatorComponent={this.renderSeparator}
-        keyExtractor={item => item.event_id}
+        keyExtractor={item => item}
         onEndReached={this.loadMore}
-        onEndThreshold={0}
-        // ListFooterComponente={this.renderFooter}
+        onEndReachedThreshold={1}
       />
-    );
+    ) : <Text>Loading</Text>
   }
 
   renderFooter = () => {
@@ -78,8 +70,7 @@ class EventList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  users: state.entities.users,
-  events: state.entities.events
+  events: state.pages.Home,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -25,17 +25,17 @@ const NavigatorWithRootScreen = (name) => {
 
 
 const HomeStack = StackNavigator({
-  Home: {
-    screen: NavigatorWithRootScreen(Home),
-    navigationOptions:{header:()=>null}
+  LoadingPage:{
+    screen: LoadingPage
   },
-
   User: {
     screen: NavigatorWithRootScreen(User),
     navigationOptions:{header:()=>null}
   },
-
-
+  Home: {
+    screen: NavigatorWithRootScreen(Home),
+    navigationOptions:{header:()=>null}
+  },
 });
 
 export const AppNavigator = StackNavigator({
