@@ -30,14 +30,6 @@ const pages = (state = defaultState, action) => {
       prevScreen:'Login',
       currentScreen:'Home'
     };
-  case 'GET_EVENTS_REQUEST':
-    return {
-      ...state,
-      Home: {
-        ...state.Home,
-        loading:true
-      }
-    };
   default:
     return state;
   }

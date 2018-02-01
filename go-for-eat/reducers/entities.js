@@ -4,6 +4,7 @@ const defaultState = {
 };
 
 const entities = (state = defaultState, action) => {
+  console.log('ACTION', action);
   if (action.entities) {
     return {
       events: {

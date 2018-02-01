@@ -53,6 +53,8 @@ export default store => next => action => {
     accessToken = callAPI.data.token;
   }
 
+  console.log(store.getState());
+
   return callApi(endpoint, method, data, accessToken)
     .then(response => {
       store.dispatch(actionWith({

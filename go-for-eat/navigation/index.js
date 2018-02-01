@@ -7,7 +7,7 @@ import { NavBar } from '../components/NavBar';
 import Home from '../screens/Home/Home';
 import Login from '../screens/Login/Login';
 import User from '../screens/User';
-import Profile from '../screens/Profile';
+import Profile from '../screens/Profile/Profile';
 import CreateEvent from '../screens/CreateEvent';
 import LoadingPage from '../screens/LoadingPage';
 

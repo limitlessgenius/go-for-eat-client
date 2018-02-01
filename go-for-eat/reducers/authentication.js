@@ -1,7 +1,6 @@
 const defaultState = {};
 
 const authentication = (state = defaultState, action) => {
-
   switch (action.type) {
   case 'LOGIN_USER_SUCCESS':
     return {
