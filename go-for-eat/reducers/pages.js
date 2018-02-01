@@ -2,10 +2,15 @@ import _ from 'lodash';
 
 const defaultState = {
   currentScreen:'Login',
-  Home:{},
+  Home:{
+    events:[],
+    suggestedOpen: false,
+  },
   Login:{},
   Profile:{},
-  User:{},
+  User:{
+    userId:null,
+  },
   CreateScreen:{
     edit:false,
     event:'',
@@ -43,10 +48,29 @@ const pages = (state = defaultState, action) => {
     });
     return {
       ...state,
-      Home: [
+      Home: {
         ...state.Home,
-        { title, data }
-      ]
+        events: [
+          ...state.Home.events,
+          { title, data }
+        ]
+      }
+    };
+  case 'TOGGLE_DETAILS':
+    return {
+      ...state,
+      Home: {
+        ...state.Home,
+        suggestedOpen: !state.Home.suggestedOpen,
+      }
+    };
+  case 'SELECT_USER':
+    return {
+      ...state,
+      User: {
+        ...state.User,
+        userId: action.userId
+      }
     };
   default:
     return state;

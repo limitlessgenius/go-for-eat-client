@@ -70,7 +70,7 @@ class EventList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  events: state.pages.Home,
+  events: state.pages.Home.events,
 });
 
 const mapDispatchToProps = (dispatch) => ({

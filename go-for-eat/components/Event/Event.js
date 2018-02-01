@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, ScrollView,TouchableWithoutFeedback, Image, Text } from 'react-native';
 import s from './styles';
+import { toggleDetails } from '../../actions';
 import { EventDetail } from '../EventDetail'
 import moment from 'moment'
 import * as Animatable from 'react-native-animatable';
@@ -32,7 +33,9 @@ class Event extends Component {
                 height: !this.state.openDetails ? 370 : 120,
                 openDetails: !this.state.openDetails,
               });
-              // this.props.openDetails()
+              if (this.props.suggested) {
+                this.props.toggleDetails()
+              }
           }}>
             <View style={s.event}>
               <View style={s.event_detail}>
@@ -71,7 +74,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getNearbyEvents: (queryString) => dispatch(getNearbyEvents(queryString)),
+  toggleDetails: () => dispatch(toggleDetails()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Event);

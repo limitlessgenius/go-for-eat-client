@@ -11,10 +11,6 @@ class DragBar extends Component {
     super(props);
   }
 
-  openDetails = () => {
-    console.log('here');
-    this.props.openDetails()
-  }
 
   render() {
     return  (
@@ -25,7 +21,9 @@ class DragBar extends Component {
           </View>
         </View>
         {this.props.events[0] ?
-          <Event openDetails={this.openDetails} key={this.props.events[0].data[0]} eventID={this.props.events[0].data[0]}/>
+          <Event suggested={true}
+            key={this.props.events[0].data[0]}
+            eventID={this.props.events[0].data[0]}/>
           : null}
       </View>
     );
@@ -33,7 +31,7 @@ class DragBar extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  events: state.pages.Home,
+  events: state.pages.Home.events,
 });
 
 const mapDispatchToProps = (dispatch) => ({

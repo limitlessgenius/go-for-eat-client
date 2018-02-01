@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   event:{
     width: '100%',
-    height: 120,
+    height: 125,
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-between',

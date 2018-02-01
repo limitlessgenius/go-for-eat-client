@@ -45,6 +45,11 @@ export const getNearbyEvents = (queryString) => ({
   }
 });
 
+export const goToUser = (userId) => ({
+  type: 'SELECT_USER',
+  userId
+});
+
 export const navigate = (screen) => ({
   type: 'NAVIGATE',
   screen
@@ -52,4 +57,8 @@ export const navigate = (screen) => ({
 
 export const navigateBack = () => ({
   type: 'NAVIGATE_BACK',
+});
+
+export const toggleDetails = () => ({
+  type: 'TOGGLE_DETAILS',
 });

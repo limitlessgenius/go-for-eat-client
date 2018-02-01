@@ -1,50 +1,67 @@
 import React, { Component } from 'react';
-import { View, Text, StatusBar } from 'react-native';
+import { View, Text, StatusBar, Dimensions } from 'react-native';
+import { connect } from 'react-redux';
+import * as Animatable from 'react-native-animatable';
 import s from './styles';
 import { Map } from '../../components/Map';
 import { DragBar } from '../../components/DragBar';
 import { EventList } from '../../components/EventList';
 import Drawer from 'react-native-draggable-view';
 
+let SCREEN_HEIGHT = Dimensions.get('window').height;
+
 class Home extends Component {
   constructor(props){
     super(props);
-    console.log('HOME');
     this.state = {
-      dSize: .29,
-      dHeight: 165,
+      open: false,
     };
   }
 
-  openDetails = () => {
-    // this.setState({
-    //   dSize: .59,
-    //   dHeight: 400,
-    // })
+  drawerDirection = (direction) => {
+    this.setState({
+      up: !this.state.up,
+    })
   }
 
   render() {
     return  (
       <Drawer
-        initialDrawerSize={this.state.dSize}
+        initialDrawerSize={.29}
         finalDrawerHeight={0}
+        onRelease={this.drawerDirection}
         renderContainerView={() => <Map/>}
-        renderDrawerView={() => <EventList/>}
-        renderInitDrawerView={() => (<View style={{
-          backgroundColor: 'white',
-          height: this.state.dHeight,
-          borderBottomWidth: 2,
-          borderBottomColor: '#2ECC71',
-          shadowColor: '#444',
-          shadowOffset: { width: 0, height: 1 },
-          shadowOpacity: 0.3,
-          shadowRadius: 5,
-        }}>
-          <DragBar openDetails={this.openDetails}/>
-        </View>)}
+        renderDrawerView={() => (<Animatable.View
+          duration={500}
+          transition={['translateY', 'height']}
+          style={{ height:this.props.open ? SCREEN_HEIGHT -485 : SCREEN_HEIGHT -235, transform: [{ translateY: this.props.open ? 250 : 0}]}}>
+          <EventList/>
+          </Animatable.View>
+        )}
+        renderInitDrawerView={() => (<Animatable.View
+          duration={500}
+          transition='translateY'
+          style={{
+            backgroundColor: '#2ECC71',
+            height: 165,
+            transform: [{ translateY:this.state.up ? 0 : this.props.open ? -250 : 0}],
+          }}>
+          <StatusBar
+            barStyle="light-content"
+          />
+          <DragBar/>
+        </Animatable.View>)}
       />
     );
   }
 }
 
-export default Home;
+const mapStateToProps = (state) => ({
+  open: state.pages.Home.suggestedOpen,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

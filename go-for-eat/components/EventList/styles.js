@@ -14,7 +14,7 @@ export default StyleSheet.create({
   section_header:{
     height: 30,
     justifyContent: 'center',
-    backgroundColor: '#2ECC71',
+    backgroundColor: '#2DAA5F',
     shadowColor: '#444',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
@@ -24,6 +24,6 @@ export default StyleSheet.create({
     color: 'white',
     fontFamily: 'Roboto_Medium',
     fontSize: 15,
-    paddingLeft: 5, 
+    paddingLeft: 5,
   }
 });

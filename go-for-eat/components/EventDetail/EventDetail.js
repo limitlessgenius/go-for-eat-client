@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { View, ScrollView,TouchableWithoutFeedback, Image, Text } from 'react-native';
 import s from './styles';
 import _ from 'lodash';
+import { navigate, goToUser } from '../../actions';
+
 
 class EventDetail extends Component {
   constructor(props){
@@ -38,12 +40,17 @@ class EventDetail extends Component {
           <View style={s.inner_partecipants_people}>
             {_.range(4).map(i => {
               return this.props.eventData.attendees[i] ?
-                <View key={i} style={s.inner_partecipants_person}>
-                  <Image source={{uri: this.props.users[this.props.eventData.attendees[i]].profile_picture}} style={s.inner_partecipants_picture}></Image>
+                <View  key={i}>
+                  <TouchableWithoutFeedback onPress={()=> {this.props.goToUser(this.props.eventData.attendees[i]); this.props.navigate('User');}} style={s.inner_partecipants_person}>
+                    <Image source={{uri: this.props.users[this.props.eventData.attendees[i]].profile_picture}} style={s.inner_partecipants_picture}></Image>
+                  </TouchableWithoutFeedback>
                   <Text style={s.inner_actions_text}>{this.props.users[this.props.eventData.attendees[i]].name}</Text>
-                </View> :
-                <View key={i} style={s.inner_partecipants_person}>
-                  <Image source={require('../../assets/icons/event_free.png')} style={s.inner_partecipants_picture}></Image>
+                </View>
+                :
+                <View  key={i}>
+                  <TouchableWithoutFeedback onPress={()=> {this.props.goToUser(this.props.eventData.attendees[i]); this.props.navigate('User');}} style={s.inner_partecipants_person}>
+                    <Image source={require('../../assets/icons/event_free.png')} style={s.inner_partecipants_picture}></Image>
+                  </TouchableWithoutFeedback>
                   <Text style={s.inner_actions_text}>free</Text>
                 </View>;
             })}
@@ -60,7 +67,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+  navigate: (screen) => dispatch(navigate(screen)),
+  goToUser: (userId) => goToUser(navigate(userId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventDetail);
