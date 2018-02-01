@@ -4,17 +4,19 @@ const defaultState = {
 };
 
 const entities = (state = defaultState, action) => {
-  console.log('ACTION', action);
-  if (action.entities) {
+  if (action.response && action.response.entities) {
     return {
       events: {
         ...state.events,
-        ...action.entities.events
+        ...action.response.entities.events
       },
       users: {
         ...state.users,
-        ...action.entities.users
-      }
+        ...action.response.entities.users
+      },
     };
   }
+  else return state;
 };
+
+export default entities;

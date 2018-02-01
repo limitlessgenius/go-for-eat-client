@@ -5,7 +5,7 @@ import baseUrl from '../config/serverHost.js';
 const callApi = (endpoint, method='GET', body, accessToken, schema) => {
   const fullUrl = baseUrl + endpoint;
   const headers = {};
-  if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
+  if (accessToken) headers.authorization = `Bearer ${accessToken}`;
   if (method === 'POST' || method === 'PUT') headers['Content-Type'] = 'application/json';
 
   return fetch(fullUrl, {
@@ -22,7 +22,6 @@ export const CALL_API = 'Call API';
 
 export default store => next => action => {
   const callAPI = action[CALL_API];
-
   if (typeof callAPI === 'undefined') return next(action);
 
   const { endpoint, types, method, onSuccess, schema} = callAPI;
@@ -47,15 +46,13 @@ export default store => next => action => {
   next(actionWith({type: requestType}));
 
   let accessToken;
-  if (store.getState().authentication.token) {
-    accessToken = store.getState().authentication.token;
-  } else if (callAPI.data && callAPI.data.token) {
-    accessToken = callAPI.data.token;
+  if (store.getState().authentication.user) {
+    accessToken = store.getState().authentication.user.accessToken;
+  } else if (callAPI.data && callAPI.data.accessToken) {
+    accessToken = callAPI.data.accessToken;
   }
 
-  console.log(store.getState());
-
-  return callApi(endpoint, method, data, accessToken)
+  return callApi(endpoint, method, data, accessToken, schema)
     .then(response => {
       store.dispatch(actionWith({
         type:successType,
