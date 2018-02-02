@@ -73,6 +73,20 @@ export const joinEvent = (eventId, userId) => ({
   userId
 });
 
+export const LEAVE_EVENTS_REQUEST = 'LEAVE_EVENTS_REQUEST';
+export const LEAVE_EVENTS_SUCCESS = 'LEAVE_EVENTS_SUCCESS';
+export const LEAVE_EVENTS_FAILURE = 'LEAVE_EVENTS_FAILURE';
+
+export const leaveEvent = (eventId, userId) => ({
+  [CALL_API]: {
+    types: [LEAVE_EVENTS_REQUEST, LEAVE_EVENTS_SUCCESS, LEAVE_EVENTS_FAILURE],
+    endpoint: `/events/${eventId}/users`,
+    method: 'DELETE',
+  },
+  eventId,
+  userId
+});
+
 export const goToUser = (userId) => ({
   type: 'SELECT_USER',
   userId
