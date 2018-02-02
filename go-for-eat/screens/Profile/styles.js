@@ -41,16 +41,16 @@ export default StyleSheet.create({
   },
 
 
-  profile_interests_outercontainer:{
+  profile_section_outercontainer:{
     flexDirection:'column',
 
   },
-  profile_interests_container:{
+  profile_section_container:{
     flexDirection:'row',
     marginHorizontal:20,
     marginVertical:10,
   },
-  profile_interest: {
+  profile_section_text: {
     flex:8,
     fontSize:15
   },
