@@ -21,11 +21,14 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "debounce": "^1.1.0",
     "eslint-plugin-react": "^7.6.0",
     "eslint-plugin-react-native": "^3.2.1",
     "expo": "^25.0.0",
+    "geolib": "^2.0.24",
     "moment": "^2.20.1",
     "normalizr": "^3.2.4",
+    "qs": "^6.5.1",
     "react": "16.2.0",
     "react-native": "0.52.0",
     "react-native-animatable": "^1.2.4",
