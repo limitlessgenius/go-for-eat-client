@@ -7,8 +7,8 @@ import { NavBar } from '../components/NavBar';
 import Home from '../screens/Home/Home';
 import Login from '../screens/Login/Login';
 import User from '../screens/User';
-import Profile from '../screens/Profile';
-import { CreateEvent } from '../screens/CreateEvent';
+import Profile from '../screens/Profile/Profile';
+import CreateEvent from '../screens/CreateEvent';
 import LoadingPage from '../screens/LoadingPage';
 
 const NavigatorWithRootScreen = (name) => {
@@ -39,32 +39,32 @@ const HomeStack = StackNavigator({
 });
 
 export const AppNavigator = StackNavigator({
-    Login: {
-      screen: Login
-    },
-    HomeStack: {
-      screen: HomeStack,
-      navigationOptions: {
-        gesturesEnabled: false,
-      }
-    },
-    CreateEvent: {
-      screen:NavigatorWithRootScreen(CreateEvent),
-      navigationOptions:{header:()=>null}
-    },
-    Loading:{
-      screen:LoadingPage
-    },
-    Profile: {
-      screen: NavigatorWithRootScreen(Profile),
-      navigationOptions:{header:()=>null}
-    },
-
+  Login: {
+    screen: Login
   },
-  {
-    mode: 'modal',
-    headerMode: 'none'
-  }
+  HomeStack: {
+    screen: HomeStack,
+    navigationOptions: {
+      gesturesEnabled: false,
+    }
+  },
+  CreateEvent: {
+    screen:NavigatorWithRootScreen(CreateEvent),
+    navigationOptions:{header:()=>null}
+  },
+  Loading:{
+    screen:LoadingPage
+  },
+  Profile: {
+    screen: NavigatorWithRootScreen(Profile),
+    navigationOptions:{header:()=>null}
+  },
+
+},
+{
+  mode: 'modal',
+  headerMode: 'none'
+}
 );
 
 class AppWithNavigationState extends React.Component {
@@ -78,12 +78,12 @@ class AppWithNavigationState extends React.Component {
     const { dispatch, nav } = this.props;
     return (
       <AppNavigator
-      navigation = {addNavigationHelpers({
-        dispatch,
-        state:nav,
-      })}
+        navigation = {addNavigationHelpers({
+          dispatch,
+          state:nav,
+        })}
       />
-    )
+    );
   }
 }
 
