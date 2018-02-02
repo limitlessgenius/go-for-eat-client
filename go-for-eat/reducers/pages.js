@@ -56,6 +56,15 @@ const pages = (state = defaultState, action) => {
         ]
       }
     };
+  case 'DELETE_EVENTS_SUCCESS':
+    delete state.Home.events[action.eventId];
+    return {
+      ...state,
+      events: {
+        ...state.events,
+      }
+    };
+    break;
   case 'TOGGLE_DETAILS':
     return {
       ...state,

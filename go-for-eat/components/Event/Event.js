@@ -71,6 +71,7 @@ class Event extends Component {
 const mapStateToProps = (state) => ({
   events: state.entities.events,
   users: state.entities.users,
+  user: state.authentication.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({

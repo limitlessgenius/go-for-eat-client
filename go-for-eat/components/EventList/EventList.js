@@ -10,20 +10,20 @@ import s from './styles';
 
 class EventList extends Component {
   constructor (props) {
-    super(props)
+    super(props);
     this.state = {
       lat: 41.3949187, //get from google
       lng: 2.1957668, //get from google
       dist: 100000, //get from google
       to: Math.floor(new Date(moment().endOf('day')).getTime()/1000),
       from: Math.floor(new Date().getTime()/1000),
-    }
+    };
   }
 
   componentDidMount(){
     this.state.apiCall ? null :
-    this.props.getNearbyEvents(this.state)
-    .then(()=> this.setState({apiCall: true}));
+      this.props.getNearbyEvents(this.state)
+        .then(()=> this.setState({apiCall: true}));
   }
 
   loadMore = async () => {
@@ -41,7 +41,7 @@ class EventList extends Component {
         renderSectionHeader={({section}) => {return (
           <View style={s.section_header}>
             <Text style={s.section_header_text}> {moment(section.title * 1000).format('Do MMMM')} </Text>
-          </View>)
+          </View>);
         }}
         sections={this.props.events}
         renderItem={({ item }) => <Event key={item} eventID={item}/>}
@@ -50,7 +50,7 @@ class EventList extends Component {
         onEndReached={this.loadMore}
         onEndReachedThreshold={1}
       />
-    ) : <Text>Loading</Text>
+    ) : <Text>Loading</Text>;
   }
 
   renderFooter = () => {
