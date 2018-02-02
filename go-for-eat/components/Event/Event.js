@@ -37,12 +37,13 @@ class Event extends Component {
               this.props.toggleDetails();
             }
           }}>
-          <View style={s.event}>
-            <View style={s.event_detail}>
-              <Text style={s.event_detail_eventName}> {this.props.users[eventData.creator].name}, {eventData.place_name} </Text>
-              <Text numberOfLines={1} style={s.event_detail_address}> {eventData.place_address}  </Text>
-              <View style={s.event_detail_time}>
-                <Text style={s.event_detail_time_text}> {moment(eventData.when * 1000 ).format('HH:mm')} </Text>
+            <View style={s.event}>
+              <View style={s.event_detail}>
+                <Text numberOfLines={1} style={s.event_detail_eventName}> {this.props.users[eventData.creator].name}, {eventData.place_name} </Text>
+                <Text numberOfLines={1} style={s.event_detail_address}> {eventData.place_address}  </Text>
+                <View style={s.event_detail_time}>
+                  <Text style={s.event_detail_time_text}> {moment(eventData.when * 1000 ).format('HH:mm')} </Text>
+                </View>
               </View>
             </View>
             <View style={s.event_distance}>

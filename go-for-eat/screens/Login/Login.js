@@ -25,6 +25,7 @@ class Login extends Component {
 
   loginGoogle = async () => {
     Expo.Google.logInAsync({
+      androidClientId: '795597563248-66qbkcj7j3jek2btdrnv66t4gdkoa639.apps.googleusercontent.com',
       iosClientId: '795597563248-aph6ms1e1f53i6ela2281hpcu09itjer.apps.googleusercontent.com',
       scopes: ['profile', 'email', 'https://www.googleapis.com/auth/user.birthday.read'],
     })
