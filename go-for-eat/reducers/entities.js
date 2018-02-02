@@ -16,7 +16,7 @@ const entities = (state = defaultState, action) => {
       },
     };
   }
-  // console.log(Expo.SecureStore.getItemAsync('state'));
+
   switch (action.type) {
   case 'JOIN_EVENTS_SUCCESS':
     return{
@@ -30,6 +30,44 @@ const entities = (state = defaultState, action) => {
             action.userId
           ]
         }
+      }
+    };
+    break;
+  case 'LEAVE_EVENTS_SUCCESS':
+    if (state.events[action.eventId].creator === action.userId) {
+      const newCreator =  state.events[action.eventId].attendees.find(el => el !== action.userId);
+      if (newCreator) {
+        state.events[action.eventId].creator = newCreator;
+      } else {
+        delete state.events[action.eventId];
+        return {
+          ...state,
+          events: {
+            ...state.events,
+          }
+        };
+      }
+    }
+    const newAttendees = state.events[action.eventId].attendees.filter(el => el !== action.userId);
+    return{
+      ...state,
+      events: {
+        ...state.events,
+        [action.eventId]: {
+          ...state.events[action.eventId],
+          attendees:[
+            ...newAttendees,
+          ]
+        }
+      }
+    };
+    break;
+  case 'DELETE_EVENTS_SUCCESS':
+    delete state.events[action.eventId];
+    return {
+      ...state,
+      events: {
+        ...state.events,
       }
     };
     break;
