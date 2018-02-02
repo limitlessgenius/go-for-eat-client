@@ -39,27 +39,12 @@ export default StyleSheet.create({
     backgroundColor: '#2ECC71',
     paddingLeft: 25,
     paddingRight: 25,
+    shadowColor: '#444',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
   goButtonText: {
     color: '#FFF',
-  },
-  PlaceListItem: {
-    flex: 1,
-    backgroundColor: 'blue',
-    height: 50,
-    width: 300,
-  },
-  PlaceListItemName: {
-    flex: 1,
-    backgroundColor: 'orange',
-    width: 100,
-  },
-  PlaceListItemAddress: {
-    backgroundColor: 'yellow',
-    width: '100%',
-  },
-  PlaceListItemDistance: {
-    backgroundColor: 'pink',
-    width: '100%',
   },
 });

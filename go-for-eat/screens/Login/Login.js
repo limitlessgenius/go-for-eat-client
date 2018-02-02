@@ -13,15 +13,15 @@ class Login extends Component {
 
   componentDidMount() {
     Expo.SecureStore.getItemAsync('state')
-      .then(userData => {
-        if (userData) {
-          let user = JSON.parse(userData).authentication;
-          if (user.user._id) {
-            this.props.setUser(user);
-            this.props.navigate('Home');
-          }
+    .then(userData => {
+      if (userData) {
+        let user = JSON.parse(userData).authentication;
+        if (user.user) {
+          this.props.setUser(user);
+          this.props.navigate('Home');
         }
-      });
+      }
+    });
   }
 
   loginGoogle = async () => {

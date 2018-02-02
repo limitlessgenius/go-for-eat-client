@@ -4,7 +4,7 @@ import { Platform, View, Text } from 'react-native';
 import { Button } from 'react-native-elements'
 import { Constants, Location, Permissions } from 'expo';
 import DatePicker from 'react-native-datepicker'
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete } from '../../components/GooglePlacesAutocomplete';
 import { createEvent } from '../../actions';
 
 const moment = require('moment');
@@ -77,17 +77,6 @@ class CreateEvent extends Component {
     console.log(this.newEvent);
   }
 
-  renderPlaceListItem = (data) => {
-    // console.log('data', data);
-    return (
-      <Text style={s.PlaceListItem}>
-        <Text style={s.PlaceListItemName}>{data.name}</Text>
-        <Text style={s.PlaceListItemAddress}>{data.description}</Text>
-        <Text style={s.PlaceListItemDistance}>{}</Text>
-      </Text>
-    )
-  }
-
   render() {
     let text = 'Waiting..';
     let location = '';
@@ -98,31 +87,7 @@ class CreateEvent extends Component {
       <View style={s.container}>
         <Text style={s.title}>Restaurant:</Text>
         <View style={s.GooglePlacesAutocompleteContainer}>
-          <GooglePlacesAutocomplete
-            placeholder='Search...'
-            minLength={2}
-            autoFocus={true}
-            returnKeyType={'search'}
-            listViewDisplayed='auto'
-            fetchDetails={true}
-            renderDescription={row => row.description}
-            onPress={(data, details = null) => this.handleSelectPlace(data, details)}
-            query={{
-              key: 'AIzaSyAcLjRWKGZ5-pzYoV-bDHikVBkhCh2pcD0',
-              language: 'en',
-              location: location,
-              radius: 5000,
-              types: 'establishment',
-            }}
-            nearbyPlacesAPI='GooglePlacesSearch'
-            GooglePlacesSearchQuery={{
-              // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-              rankby: 'distance',
-              types: 'restaurant',
-            }}
-            debounce={200}
-            styles={cs.googlePlacesAutocomplete}
-          />
+          <GooglePlacesAutocomplete />
         </View>
         <Text style={s.title}>Date:</Text>
         <DatePicker
@@ -152,7 +117,6 @@ class CreateEvent extends Component {
         <Text style={s.warningText}>Warning text</Text>
         <View style={s.bottomContainer}>
           <Button
-            raised
             buttonStyle={s.goButton}
             textStyle={s.goButtonText}
             title="GO FOR IT"
