@@ -32,6 +32,7 @@
     "react-native-draggable-view": "git+https://github.com/Leon31/react-native-draggable-view.git",
     "react-native-elements": "^0.19.0",
     "react-native-extended-stylesheet": "^0.8.0",
+    "react-native-keyboard-aware-scroll-view": "^0.4.3",
     "react-navigation": "^1.0.0-beta.27",
     "redux-logger": "^3.0.6",
     "watchman": "^1.0.0"

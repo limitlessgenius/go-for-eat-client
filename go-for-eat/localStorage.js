@@ -1,6 +1,6 @@
 export const loadState = () => {
   try {
-    const serializedState =Expo.SecureStore.getItemAsync('state');
+    const serializedState = Expo.SecureStore.getItemAsync('state');
     if (serializedState === null) return undefined;
     return JSON.parse(serializedState);
   } catch (err) {

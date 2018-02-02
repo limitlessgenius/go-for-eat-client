@@ -7,6 +7,8 @@ const userSchemaArray = [userSchema];
 const eventSchema = new schema.Entity('events', {attendees:userSchemaArray}, {idAttribute:'_id'});
 const eventSchemaArray = [eventSchema];
 
+const mySchema = new schema.Entity('user', {events:eventSchemaArray, created_events:eventSchemaArray}, {idAttribute:'_id'});
+const outerSchema = new schema.Entity('me', {user:mySchema}, {idAttribute:'user'});
 export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST';
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
 export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE';
@@ -16,6 +18,7 @@ export const loginUser = (data) => ({
     types: [ LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE ],
     endpoint: '/auth',
     method: 'POST',
+    schema:outerSchema,
     data,
   }
 });
@@ -45,10 +48,26 @@ export const getNearbyEvents = (queryString) => ({
   }
 });
 
+export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
+
+export const updateUser = (data) => ({
+  [CALL_API]: {
+    types: [UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE],
+    endpoint: '/me',
+    method:'PUT',
+    data:{edit:data}
+  },
+  data:{edit:data}
+});
+
 export const goToUser = (userId) => ({
   type: 'SELECT_USER',
   userId
 });
+
+
 
 export const navigate = (screen) => ({
   type: 'NAVIGATE',
