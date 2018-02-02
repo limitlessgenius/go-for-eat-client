@@ -1,13 +1,11 @@
-// import { normalize } from 'normalizr';
+import { normalize } from 'normalizr';
 import baseUrl from '../config/serverHost.js';
 
 
-const callApi = (endpoint, method='GET', body, accessToken) => {
+const callApi = (endpoint, method='GET', body, accessToken, schema) => {
   const fullUrl = baseUrl + endpoint;
-
-  console.log('CALLING API', endpoint, method, body);
   const headers = {};
-  if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
+  if (accessToken) headers.authorization = `Bearer ${accessToken}`;
   if (method === 'POST' || method === 'PUT') headers['Content-Type'] = 'application/json';
 
   return fetch(fullUrl, {
@@ -15,7 +13,8 @@ const callApi = (endpoint, method='GET', body, accessToken) => {
     headers,
     body
   })
-    .then(response => response.json());
+    .then(response => {return response._bodyInit ?  response.json() : null;})
+    .then(data => data ? schema ? normalize(data, schema) : data : null);
 
 };
 
@@ -23,11 +22,10 @@ export const CALL_API = 'Call API';
 
 export default store => next => action => {
   const callAPI = action[CALL_API];
-
-  console.log('action', action);
   if (typeof callAPI === 'undefined') return next(action);
 
-  const { endpoint, types, method, onSuccess} = callAPI;
+  const { endpoint, types, method, onSuccess, schema} = callAPI;
+
   let data;
   if (callAPI.data) data = JSON.stringify(callAPI.data);
 
@@ -45,18 +43,16 @@ export default store => next => action => {
   };
 
   const [ requestType, successType, failureType ] = types;
-  console.log('TYPES:', requestType, successType, failureType);
-  console.log(actionWith({type: requestType}));
   next(actionWith({type: requestType}));
 
   let accessToken;
-  if (store.getState().authentication.token) {
-    accessToken = store.getState().authentication.token;
-  } else if (callAPI.data && callAPI.data.token) {
-    accessToken = callAPI.data.token;
+  if (store.getState().authentication.user) {
+    accessToken = store.getState().authentication.user.accessToken;
+  } else if (callAPI.data && callAPI.data.accessToken) {
+    accessToken = callAPI.data.accessToken;
   }
 
-  return callApi(endpoint, method, data, accessToken)
+  return callApi(endpoint, method, data, accessToken, schema)
     .then(response => {
       store.dispatch(actionWith({
         type:successType,

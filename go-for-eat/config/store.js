@@ -9,14 +9,14 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   reducers,
-  composeEnhancers(applyMiddleware(logger, api))
+  composeEnhancers(applyMiddleware(api))
 );
 
 
 store.subscribe(() => {
   saveState({
     authentication: store.getState().authentication,
-    // entities: store.getState().entities
+    entities: store.getState().entities
   });
 });
 

@@ -1,32 +1,80 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Image, Text } from 'react-native';
+import { connect } from 'react-redux';
+import { View, ScrollView,TouchableWithoutFeedback, Image, Text } from 'react-native';
 import s from './styles';
+import { toggleDetails } from '../../actions';
+import { EventDetail } from '../EventDetail'
+import moment from 'moment'
+import * as Animatable from 'react-native-animatable';
+import _ from 'lodash';
 
 class Event extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      openDetails: false,
+      height: 120,
+    };
+  }
+
+  renderInnerEvent = (eventData) => {
+  return(
+    <EventDetail key={eventData._id} eventData={eventData}/>
+  )};
 
   render() {
-    return  (
-      <View style={s.event}>
-        <View style={s.event_detail}>
-          <Text style={s.event_detail_eventName}> Nome, Location Restaurant </Text>
-          <Text style={s.event_detail_address}> Carrer Sant Martì 13, Barcelona </Text>
-          <View style={s.event_detail_time}>
-            <Text style={s.event_detail_time_text}> 23:45 </Text>
+    const eventData = this.props.events[this.props.eventID]
+    if (eventData === undefined) return null;
+    return (
+        <Animatable.View duration={500} transition='height' style={{height: this.state.height}}>
+          <TouchableWithoutFeedback
+            onPress={()=>{
+              this.setState({
+                height: !this.state.openDetails ? 370 : 120,
+                openDetails: !this.state.openDetails,
+              });
+              if (this.props.suggested) {
+                this.props.toggleDetails()
+              }
+          }}>
+            <View style={s.event}>
+              <View style={s.event_detail}>
+                <Text numberOfLines={1} style={s.event_detail_eventName}> {this.props.users[eventData.creator].name}, {eventData.place_name} </Text>
+                <Text numberOfLines={1} style={s.event_detail_address}> {eventData.place_address}  </Text>
+                <View style={s.event_detail_time}>
+                  <Text style={s.event_detail_time_text}> {moment(eventData.when * 1000 ).format('HH:mm')} </Text>
+                </View>
+              </View>
+              <View style={s.event_distance}>
+                <Text style={s.event_distance_number}> {Math.round((eventData.distance/1000) * 100) / 100}</Text>
+                <Text style={s.event_distance_text}> km </Text>
+              </View>
+              <View style={s.event_spots}>
+                {_.range(4).map(i => {
+                  return eventData.attendees[i] ?
+                  <Image key={i} style={s.event_spots_full} source={require('../../assets/icons/event_spot.png')}/> :
+                  <Image key={i} style={s.event_spots_free} source={require('../../assets/icons/event_spot.png')}/>
+                })}
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+          <View>
+            {this.state.openDetails ?
+              this.renderInnerEvent(eventData)
+              : null}
           </View>
-        </View>
-        <View style={s.event_distance}>
-          <Text style={s.event_distance_number}> 203 </Text>
-          <Text style={s.event_distance_text}> m </Text>
-        </View>
-        <View style={s.event_spots}>
-          <Image style={s.event_spots_full} source={require('../../assets/icons/event_spot.png')}/>
-          <Image style={s.event_spots_full} source={require('../../assets/icons/event_spot.png')}/>
-          <Image style={s.event_spots_free} source={require('../../assets/icons/event_spot.png')}/>
-          <Image style={s.event_spots_free} source={require('../../assets/icons/event_spot.png')}/>
-        </View>
-      </View>
-    );
-  }
+        </Animatable.View>
+      )
+    }
 }
 
-export default Event;
+const mapStateToProps = (state) => ({
+  events: state.entities.events,
+  users: state.entities.users,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  toggleDetails: () => dispatch(toggleDetails()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Event);

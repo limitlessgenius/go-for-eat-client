@@ -6,30 +6,27 @@ import serverHost from '../../config/serverHost.js';
 import logo from '../../assets/logo/logo2x.png';
 import styles from './styles';
 import PropTypes from 'prop-types';
-import { setUser } from '../../actions';
-import { loginUser } from '../../actions';
+import { setUser, loginUser, navigate } from '../../actions';
+
 
 class Login extends Component {
-  static propTypes = {
-    navigation: PropTypes.object
-  };
 
   componentDidMount() {
     Expo.SecureStore.getItemAsync('state')
       .then(userData => {
         if (userData) {
           let user = JSON.parse(userData).authentication;
-          if (user) {
-            this.props.setUser(user)
-            this.props.navigation.navigate('Home');
+          if (user.user._id) {
+            this.props.setUser(user);
+            this.props.navigate('Home');
           }
         }
       });
   }
 
   loginGoogle = async () => {
-
     Expo.Google.logInAsync({
+      androidClientId: '795597563248-66qbkcj7j3jek2btdrnv66t4gdkoa639.apps.googleusercontent.com',
       iosClientId: '795597563248-aph6ms1e1f53i6ela2281hpcu09itjer.apps.googleusercontent.com',
       scopes: ['profile', 'email'],
     })
@@ -41,12 +38,11 @@ class Login extends Component {
           idToken: result.idToken,
           network: 'google'
         };
-        this.props.serverAuth(data);
+        this.props.serverAuth(data)
       } else {
         return {cancelled: true};
       }
     })
-    .then(() => this.props.navigation.navigate('Home'))
     .catch(err => console.log(err));
 
   }
@@ -68,10 +64,8 @@ class Login extends Component {
             obj[key] = data[key];
             return obj;
           }, {});
-        this.props.serverAuth(filtered);
-
+        this.props.serverAuth(filtered)
       })
-      .then(()=>this.props.navigation.navigate('Home'))
       .catch(err => console.log(err));
     }
   }
@@ -81,7 +75,9 @@ class Login extends Component {
       return (<Text>Loading!</Text>)}
     return (
       <View style={styles.login_container}>
-        <View style={styles.login_logo}><Image source={logo}/></View>
+        <View style={styles.login_logo}>
+          <Image source={logo}/>
+        </View>
         <Text style={styles.login_tagline}>
         Share your lunch with someone new,{'\n'} meet new people and create new contacts
         </Text>
@@ -94,12 +90,13 @@ class Login extends Component {
 
 
 const mapStateToProps = (state) => ({
-  loading: state.authentication.loading,
+  user:state.authentication
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setUser: user => dispatch(setUser(user)),
   serverAuth: (data) => dispatch(loginUser(data)),
+  navigate: (screen) => dispatch(navigate(screen))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

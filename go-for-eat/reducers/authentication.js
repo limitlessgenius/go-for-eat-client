@@ -1,14 +1,12 @@
-const authentication = (state = {}, action) => {
+const defaultState = {};
+
+const authentication = (state = defaultState, action) => {
+
   switch (action.type) {
   case 'LOGIN_USER_SUCCESS':
-    console.log('heres action', action);
     return {
       ...state,
       ...action.response
-    };
-  case 'LOGIN_USER_REQUEST':
-    return {
-      loading:true,
     };
   case 'LOGOUT_USER':
     return {};

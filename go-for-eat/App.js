@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import store from './config/store';
-import Navigator from './config/routes';
+import AppWithNavigationState from './navigation'
 
 export default class App extends React.Component {
   constructor() {
@@ -33,7 +33,7 @@ export default class App extends React.Component {
    }
    return (
     <Provider store={store}>
-     <Navigator onNavigationStateChange={null} />
+      <AppWithNavigationState/>
     </Provider>
    );
   }
