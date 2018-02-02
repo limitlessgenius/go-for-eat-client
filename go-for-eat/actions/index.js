@@ -74,6 +74,7 @@ export const updateUser = (data) => ({
     data:{edit:data}
   },
   data:{edit:data}
+});
 
 export const JOIN_EVENTS_REQUEST = 'JOIN_EVENTS_REQUEST';
 export const JOIN_EVENTS_SUCCESS = 'JOIN_EVENTS_SUCCESS';

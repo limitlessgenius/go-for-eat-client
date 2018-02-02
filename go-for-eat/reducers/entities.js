@@ -33,6 +33,9 @@ const entities = (state = defaultState, action) => {
       }
     };
     break;
+  case 'GET_EVENTS_FAILURE':
+    console.log(action);
+    return state;
   case 'LEAVE_EVENTS_SUCCESS':
     if (state.events[action.eventId].creator === action.userId) {
       const newCreator =  state.events[action.eventId].attendees.find(el => el !== action.userId);
