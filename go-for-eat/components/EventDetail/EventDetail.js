@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, ScrollView,TouchableWithoutFeedback, Image, Text } from 'react-native';
+import { View, ScrollView,TouchableWithoutFeedback, TouchableOpacity, Image, Text, ActionSheetIOS, StyleSheet } from 'react-native';
 import s from './styles';
 import _ from 'lodash';
-import { navigate, goToUser, joinEvent, leaveEvent } from '../../actions';
+import { navigate, goToUser, joinEvent, leaveEvent, deleteEvent } from '../../actions';
 
 
 class EventDetail extends Component {
@@ -11,11 +11,31 @@ class EventDetail extends Component {
     super(props);
   }
 
+  showActionSheet(option, cb, eventId, userId) {
+    var BUTTONS = [
+      option,
+      'Cancel',
+    ];
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: BUTTONS,
+      cancelButtonIndex: 1,
+      tintColor: '#2ECC71'
+    },
+    (buttonIndex) => {
+      switch (buttonIndex) {
+        case 0:
+          cb(eventId, userId)
+          break;
+      }
+    });
+  }
+
   renderOthers = () => {
     return (<View style={s.inner_actions}>
         {this.props.eventData.attendees.indexOf(this.props.user._id) !== -1 ?
           <TouchableWithoutFeedback onPress={()=>{
-            this.props.leaveEvent(this.props.eventData._id, this.props.user._id);}}>
+            this.showActionSheet('Leave The Event', this.props.leaveEvent, this.props.eventData._id, this.props.user._id)
+          }}>
           <View style={[s.inner_actions_btn, s.inner_actions_btn_separator]}>
             <Image source={require('../../assets/icons/event_joined.png')} style={s.inner_actions_icon}></Image>
             <Text style={s.inner_actions_text}>LEAVE EVENT</Text>
@@ -46,14 +66,25 @@ class EventDetail extends Component {
 
   renderYour = () => {
     return (<View style={s.inner_actions}>
-      <TouchableWithoutFeedback
-        onPress={()=>{ this.props.leaveEvent(this.props.eventData._id, this.props.user._id)}}
-        >
-        <View style={[s.inner_actions_btn, s.inner_actions_btn_separator]}>
-          <Image source={require('../../assets/icons/event_joined.png')} style={s.inner_actions_icon}></Image>
-          <Text style={s.inner_actions_text}>LEAVE EVENT</Text>
-        </View>
-      </TouchableWithoutFeedback>
+      {this.props.eventData.attendees.length === 1 ?
+        <TouchableWithoutFeedback onPress={()=>{
+          this.showActionSheet('Delete The Event', this.props.deleteEvent, this.props.eventData._id, this.props.user._id)
+        }}>
+          <View style={[s.inner_actions_btn, s.inner_actions_btn_separator]}>
+            <Image source={require('../../assets/icons/event_delete.png')} style={s.inner_actions_icon}></Image>
+            <Text style={s.inner_actions_text}>DELETE EVENT</Text>
+          </View>
+        </TouchableWithoutFeedback> :
+        <TouchableWithoutFeedback onPress={()=>{
+          this.showActionSheet('Leave The Event', this.props.leaveEvent, this.props.eventData._id, this.props.user._id)
+        }}>
+          <View style={[s.inner_actions_btn, s.inner_actions_btn_separator]}>
+            <Image source={require('../../assets/icons/event_joined.png')} style={s.inner_actions_icon}></Image>
+            <Text style={s.inner_actions_text}>LEAVE EVENT</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      }
+
       <TouchableWithoutFeedback>
         <View style={[s.inner_actions_btn, s.inner_actions_btn_separator]}>
           <Image source={require('../../assets/icons/event_pin.png')} style={s.inner_actions_icon}></Image>
@@ -107,7 +138,8 @@ const mapDispatchToProps = (dispatch) => ({
   navigate: (screen) => dispatch(navigate(screen)),
   goToUser: (userId) => dispatch(goToUser(userId)),
   joinEvent: (eventId, userId) => dispatch(joinEvent(eventId, userId)),
-  leaveEvent: (eventId, userId) => dispatch(leaveEvent(eventId, userId))
+  leaveEvent: (eventId, userId) => dispatch(leaveEvent(eventId, userId)),
+  deleteEvent: (eventId) => dispatch(deleteEvent(eventId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventDetail);

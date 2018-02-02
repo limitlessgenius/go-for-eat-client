@@ -35,7 +35,18 @@ const entities = (state = defaultState, action) => {
     break;
   case 'LEAVE_EVENTS_SUCCESS':
     if (state.events[action.eventId].creator === action.userId) {
-      state.events[action.eventId].creator = state.events[action.eventId].attendees.find(el => el !== action.userId);
+      const newCreator =  state.events[action.eventId].attendees.find(el => el !== action.userId);
+      if (newCreator) {
+        state.events[action.eventId].creator = newCreator;
+      } else {
+        delete state.events[action.eventId];
+        return {
+          ...state,
+          events: {
+            ...state.events,
+          }
+        };
+      }
     }
     const newAttendees = state.events[action.eventId].attendees.filter(el => el !== action.userId);
     return{
@@ -48,6 +59,15 @@ const entities = (state = defaultState, action) => {
             ...newAttendees,
           ]
         }
+      }
+    };
+    break;
+  case 'DELETE_EVENTS_SUCCESS':
+    delete state.events[action.eventId];
+    return {
+      ...state,
+      events: {
+        ...state.events,
       }
     };
     break;

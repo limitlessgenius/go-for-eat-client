@@ -87,6 +87,20 @@ export const leaveEvent = (eventId, userId) => ({
   userId
 });
 
+export const DELETE_EVENTS_REQUEST = 'DELETE_EVENTS_REQUEST';
+export const DELETE_EVENTS_SUCCESS = 'DELETE_EVENTS_SUCCESS';
+export const DELETE_EVENTS_FAILURE = 'DELETE_EVENTS_FAILURE';
+
+export const deleteEvent = (eventId, userId) => ({
+  [CALL_API]: {
+    types: [DELETE_EVENTS_REQUEST, DELETE_EVENTS_SUCCESS, DELETE_EVENTS_FAILURE],
+    endpoint: `/events/${eventId}`,
+    method: 'DELETE',
+  },
+  eventId,
+  userId
+});
+
 export const goToUser = (userId) => ({
   type: 'SELECT_USER',
   userId
