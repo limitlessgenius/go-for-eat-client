@@ -13,16 +13,21 @@ class EventDetail extends Component {
 
 
   render() {
-    console.log();
     return  (
       <View style={s.event_inner_detail}>
         <View style={s.inner_actions}>
           <TouchableWithoutFeedback onPress={()=>{
-            this.props.joinEvent(this.props.eventData._id);}}>
-            <View style={[s.inner_actions_btn, s.inner_actions_btn_separator]}>
-              <Image source={require('../../assets/icons/event_join.png')} style={s.inner_actions_icon}></Image>
-              <Text style={s.inner_actions_text}>JOIN THEM</Text>
-            </View>
+            this.props.joinEvent(this.props.eventData._id, this.props.user._id);}}>
+            {this.props.eventData.attendees.indexOf(this.props.user._id) !== -1 ?
+              <View style={[s.inner_actions_btn, s.inner_actions_btn_separator]}>
+                <Image source={require('../../assets/icons/event_joined.png')} style={s.inner_actions_icon}></Image>
+                <Text style={s.inner_actions_text}>LEAVE</Text>
+              </View> :
+              <View style={[s.inner_actions_btn, s.inner_actions_btn_separator]}>
+                <Image source={require('../../assets/icons/event_join.png')} style={s.inner_actions_icon}></Image>
+                <Text style={s.inner_actions_text}>JOIN THEM</Text>
+              </View>
+            }
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback>
             <View style={[s.inner_actions_btn, s.inner_actions_btn_separator]}>
@@ -63,13 +68,14 @@ class EventDetail extends Component {
 
 const mapStateToProps = (state) => ({
   users: state.entities.users,
-  user: state.authentication.user
+  user: state.authentication.user,
+  events: state.entities.events
 });
 
 const mapDispatchToProps = (dispatch) => ({
   navigate: (screen) => dispatch(navigate(screen)),
   goToUser: (userId) => dispatch(goToUser(userId)),
-  joinEvent: (eventId) => dispatch(joinEvent(eventId))
+  joinEvent: (eventId, userId) => dispatch(joinEvent(eventId, userId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventDetail);
