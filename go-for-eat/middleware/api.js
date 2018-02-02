@@ -13,8 +13,8 @@ const callApi = (endpoint, method='GET', body, accessToken, schema) => {
     headers,
     body
   })
-    .then(response => response.json())
-    .then(data => schema ? normalize(data, schema) : data);
+    .then(response => {return response._bodyInit ?  response.json() : null;})
+    .then(data => data ? schema ? normalize(data, schema) : data : null);
 
 };
 
@@ -22,7 +22,6 @@ export const CALL_API = 'Call API';
 
 export default store => next => action => {
   const callAPI = action[CALL_API];
-
   if (typeof callAPI === 'undefined') return next(action);
 
   const { endpoint, types, method, onSuccess, schema} = callAPI;
@@ -47,14 +46,13 @@ export default store => next => action => {
   next(actionWith({type: requestType}));
 
   let accessToken;
-  console.log(store.getState().authentication);
-  if (store.getState().authentication.user.accessToken) {
+  if (store.getState().authentication.user) {
     accessToken = store.getState().authentication.user.accessToken;
-  } else if (callAPI.data && callAPI.data.token) {
-    accessToken = callAPI.data.token;
+  } else if (callAPI.data && callAPI.data.accessToken) {
+    accessToken = callAPI.data.accessToken;
   }
 
-  return callApi(endpoint, method, data, accessToken)
+  return callApi(endpoint, method, data, accessToken, schema)
     .then(response => {
       store.dispatch(actionWith({
         type:successType,

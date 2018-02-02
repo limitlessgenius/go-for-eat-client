@@ -1,9 +1,16 @@
+import _ from 'lodash';
+
 const defaultState = {
   currentScreen:'Login',
-  Home:{},
+  Home:{
+    events:[],
+    suggestedOpen: false,
+  },
   Login:{},
   Profile:{},
-  User:{},
+  User:{
+    userId:null,
+  },
   CreateScreen:{
     edit:false,
     event:'',
@@ -30,12 +37,39 @@ const pages = (state = defaultState, action) => {
       prevScreen:'Login',
       currentScreen:'Home'
     };
-  case 'GET_EVENTS_REQUEST':
+  case 'GET_EVENTS_SUCCESS':
+    let newEventsArr = _.values(action.response.entities.events);
+    newEventsArr.sort((a,b) =>{
+      return a.distance - b.distance;
+    });
+    const title = newEventsArr[0].when;
+    const data = newEventsArr.map((el, i) => {
+      return el._id;
+    });
     return {
       ...state,
       Home: {
         ...state.Home,
-        loading:true
+        events: [
+          ...state.Home.events,
+          { title, data }
+        ]
+      }
+    };
+  case 'TOGGLE_DETAILS':
+    return {
+      ...state,
+      Home: {
+        ...state.Home,
+        suggestedOpen: !state.Home.suggestedOpen,
+      }
+    };
+  case 'SELECT_USER':
+    return {
+      ...state,
+      User: {
+        ...state.User,
+        userId: action.userId
       }
     };
   default:
