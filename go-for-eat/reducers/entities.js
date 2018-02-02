@@ -27,7 +27,7 @@ const entities = (state = defaultState, action) => {
           ...state.events[action.eventId],
           attendees:[
             ...state.events[action.eventId].attendees,
-            Expo.SecureStore.getItemAsync('state').authentication.user.id
+            action.userId
           ]
         }
       }
@@ -36,6 +36,7 @@ const entities = (state = defaultState, action) => {
   default:
     return state;
   }
+
 };
 
 export default entities;
