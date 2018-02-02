@@ -32,6 +32,20 @@ export const setUser = (data) => ({
   data,
 });
 
+export const CREATE_EVENT_REQUEST = 'CREATE_EVENT_REQUEST';
+export const CREATE_EVENT_SUCCESS = 'CREATE_EVENT_SUCCESS';
+export const CREATE_EVENT_FAILURE = 'CREATE_EVENT_FAILURE';
+
+export const createEvent = (data) => ({
+  type: 'CREATE_EVENT',
+  [CALL_API]: {
+    types: [CREATE_EVENT_REQUEST, CREATE_EVENT_SUCCESS, CREATE_EVENT_FAILURE],
+    endpoint: '/events',
+    method: 'POST',
+    data
+  }
+});
+
 export const GET_EVENTS_REQUEST = 'GET_EVENTS_REQUEST';
 export const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
 export const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
