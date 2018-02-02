@@ -63,13 +63,14 @@ export const JOIN_EVENTS_REQUEST = 'JOIN_EVENTS_REQUEST';
 export const JOIN_EVENTS_SUCCESS = 'JOIN_EVENTS_SUCCESS';
 export const JOIN_EVENTS_FAILURE = 'JOIN_EVENTS_FAILURE';
 
-export const joinEvent = (eventId) => ({
+export const joinEvent = (eventId, userId) => ({
   [CALL_API]: {
     types: [JOIN_EVENTS_REQUEST, JOIN_EVENTS_SUCCESS, JOIN_EVENTS_FAILURE],
     endpoint: `/events/${eventId}/users`,
     method: 'PUT',
   },
-  eventId
+  eventId,
+  userId
 });
 
 export const goToUser = (userId) => ({
