@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { Button } from 'react-native-elements';
 import styles from './styles';
 import { connect } from 'react-redux';
-// import { loginUser } from '../../actions';
 import PropTypes from 'prop-types';
 
 

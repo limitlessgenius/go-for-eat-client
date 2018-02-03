@@ -36,9 +36,10 @@ class NavBar extends Component {
 
   handleLogout = () => {
     const serializedState = JSON.stringify({});
+    this.props.navigate('Login');
     Expo.SecureStore.setItemAsync('state', serializedState);
     this.props.logoutState();
-    this.props.navigate('Login');
+
   }
 
   renderButton = (button) => {

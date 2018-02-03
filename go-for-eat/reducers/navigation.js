@@ -20,12 +20,13 @@ const nav = (state = initialNavState, action) => {
     );
     break;
   case 'LOGIN_USER_SUCCESS':
-    // nextState = AppNavigator.router.getStateForAction(
-    //   NavigationActions.navigate({ routeName: 'Home' }),
-    //   state
-    // );
+    nextState = AppNavigator.router.getStateForAction(
+      NavigationActions.navigate({ routeName: 'Home' }),
+      state
+    );
     break;
   case 'NAVIGATE':
+    console.log('ACTION', action);
     nextState = AppNavigator.router.getStateForAction(
       NavigationActions.navigate({ routeName: action.screen }),
       state
