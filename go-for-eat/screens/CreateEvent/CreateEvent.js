@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Platform, View, Text } from 'react-native';
+import { Platform, View, Text, Alert } from 'react-native';
 import { Button } from 'react-native-elements'
-import { Constants, Location, Permissions } from 'expo';
 import DatePicker from 'react-native-datepicker'
 import { GooglePlacesAutocomplete } from '../../components/GooglePlacesAutocomplete';
-import { createEvent } from '../../actions';
+import { createEvent, navigate, closeCreateEventConfirmationAlert, closeCreateEventErrorAlert } from '../../actions';
 
 const moment = require('moment');
 
@@ -16,111 +15,112 @@ class CreateEvent extends Component {
   constructor (props) {
     super(props);
     this.newEvent = {};
+    this.state = {
+      date: moment().format('DD / MM / YYYY'),
+      time: moment().format('HH : mm'),
+      okButtonDisabled: true,
+    };
   }
 
-  state = {
-    location: null,
-    errorMessage: null,
-    date: '',
-    time: '',
+  confirmationAlert = () => {
+    Alert.alert(
+      'Your event has been created!',
+      '',
+      [
+        {text: 'OK', onPress: () => this.onConfirmationAlertOk()},
+      ],
+      { cancelable: false }
+    );
   }
 
-  componentWillMount() {
-    if (Platform.OS === 'android' && !Constants.isDevice) {
-      this.setState({
-        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
-      });
-    } else {
-      this._getLocationAsync();
-    }
+  errorAlert = () =>{
+    Alert.alert(
+      'Error',
+      '',
+      [
+        {text: 'OK', onPress: () => this.onErrorAlertOk()},
+      ],
+      { cancelable: false }
+    );
   }
 
-  _getLocationAsync = async () => {
-    // console.log('GET LOCATION ASYNC');
+  onConfirmationAlertOk = () => {
+    this.props.closeConfirmationAlertOpen();
+    this.props.navigate('Home');
+  }
 
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      this.setState({
-        errorMessage: 'Permission to access location was denied',
-      });
-    }
-
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ location });
-    // console.log('this.setState', location);
-  };
+  onErrorAlertOk = () => {
+    this.props.closeErrorAlertOpen();
+  }
 
   handleGo = () => {
-    console.log('-----------------------handleGo---------------------');
     if ( this.newEvent.place_id && this.state.date !== '' && this.state.time !== '') {
-      var date = this.state.date.split(" / ");
-      var dateTime = date[2]+"-"+date[1]+"-"+date[0]+'T'+this.state.time.replace(/\s/g, '')+':00';
-      this.newEvent.when = (new Date(dateTime).getTime())/1000
-      console.log('newEvent', this.newEvent);
-      this.props.createEvent(this.newEvent);
-    } else {
-      console.log('Please fill all the information');
+      var date = this.state.date.split(' / ');
+      var dateTime = date[2]+'-'+date[1]+'-'+date[0]+'T'+this.state.time.replace(/\s/g, '')+':00';
+      this.newEvent.when = (new Date(dateTime).getTime())/1000;
+      this.props.createEvent(this.newEvent)
     }
   }
 
   handleSelectPlace = (data, details) => {
-    console.log('-----------------------handleSelectPlace---------------------');
     this.newEvent = {
-      "place_id": details.id,
-      "place_name": details.name,
-      "place_address": details.formatted_address,
-      "location": {
-          "type": "Point",
-          "coordinates": [details.geometry.location.lat, details.geometry.location.lng]
+      'place_id': data.id,
+      'place_name': data.name,
+      'place_address': data.vicinity,
+      'place_url': details.url,
+      'location': {
+        'type': 'Point',
+        'coordinates': [data.geometry.location.lat, data.geometry.location.lng]
       }
     };
-    console.log(this.newEvent);
+    this.setState({okButtonDisabled: false});
   }
 
   render() {
-    let text = 'Waiting..';
-    let location = '';
-    if (this.state.location) {
-      location = this.state.location.coords.latitude +','+ this.state.location.coords.longitude;
-    }
+    if (this.props.confirmationAlertOpen) this.confirmationAlert();
     return  (
       <View style={s.container}>
         <Text style={s.title}>Restaurant:</Text>
         <View style={s.GooglePlacesAutocompleteContainer}>
-          <GooglePlacesAutocomplete />
+          <GooglePlacesAutocomplete
+            onPress={(data, details) => {
+              this.handleSelectPlace(data, details);
+            }}
+          />
         </View>
         <Text style={s.title}>Date:</Text>
         <DatePicker
           style={s.datePicker}
           date={this.state.date}
           mode="date"
-          placeholder={''}
-          format="DD / MM / YYYY"
+          format='DD / MM / YYYY'
           minDate={moment().format('DD / MM / YYYY')}
           confirmBtnText="Confirm"
           cancelBtnText="Cancel"
           customStyles={cs.datePicker}
-          onDateChange={(date) => {this.setState({date: date}), console.log(this.state)}}
+          onDateChange={(date) => this.setState({date: date})}
         />
         <Text style={s.title}>Hours:</Text>
         <DatePicker
           style={s.timePicker}
           date={this.state.time}
-          mode="time"
-          placeholder={''}
+          mode='time'
           format='HH : mm'
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
+          confirmBtnText='Confirm'
+          cancelBtnText='Cancel'
           customStyles={cs.timePicker}
-          onDateChange={(time) => {this.setState({time: time}), console.log(this.state)}}
+          onDateChange={(time) => this.setState({time: time})}
         />
         <Text style={s.warningText}>Warning text</Text>
         <View style={s.bottomContainer}>
           <Button
             buttonStyle={s.goButton}
             textStyle={s.goButtonText}
-            title="GO FOR IT"
+            title='GO FOR IT'
             onPress={this.handleGo}
+            disabled={this.state.okButtonDisabled}
+            disabledStyle={s.disabledStyle}
+            disabledTextStyle={s.isabledTextStyle}
           />
         </View>
       </View>
@@ -129,10 +129,16 @@ class CreateEvent extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  confirmationAlertOpen: state.pages.CreateEvent.confirmationAlertOpen,
+  errorAlertOpen: state.pages.CreateEvent.errorAlertOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   createEvent: (data) => dispatch(createEvent(data)),
+  navigate: (screen) => dispatch(navigate(screen)),
+  closeConfirmationAlertOpen: () => dispatch(closeCreateEventConfirmationAlert()),
+  closeErrorAlertOpen: () => dispatch(closeCreateEventErrorAlert()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);
+

@@ -11,6 +11,10 @@ const defaultState = {
   User:{
     userId:null,
   },
+  CreateEvent:{
+    confirmationAlertOpen: false,
+    errorAlertOpen: false,
+  },
   CreateScreen:{
     edit:false,
     event:'',
@@ -79,6 +83,38 @@ const pages = (state = defaultState, action) => {
       User: {
         ...state.User,
         userId: action.userId
+      }
+    };
+  case 'CREATE_EVENT_SUCCESS':
+    return {
+      ...state,
+      CreateEvent: {
+        ...state.CreateEvent,
+        confirmationAlertOpen: true,
+      }
+    };
+  case 'CREATE_EVENT_FAILURE':
+    return {
+      ...state,
+      CreateEvent: {
+        ...state.CreateEvent,
+        errorAlertOpen: true,
+      }
+    };
+  case 'CLOSE_CREATE_EVENT_CONF_ALERT':
+    return {
+      ...state,
+      CreateEvent: {
+        ...state.CreateEvent,
+        confirmationAlertOpen: false,
+      }
+    };
+  case 'CLOSE_CREATE_EVENT_ERR_ALERT':
+    return {
+      ...state,
+      CreateEvent: {
+        ...state.CreateEvent,
+        errorAlertOpen: false,
       }
     };
   default:

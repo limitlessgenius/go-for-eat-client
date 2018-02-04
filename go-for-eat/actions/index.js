@@ -138,3 +138,11 @@ export const navigateBack = () => ({
 export const toggleDetails = () => ({
   type: 'TOGGLE_DETAILS',
 });
+
+export const closeCreateEventConfirmationAlert = () => ({
+  type: 'CLOSE_CREATE_EVENT_CONF_ALERT',
+});
+
+export const closeCreateEventErrorAlert = () => ({
+  type: 'CLOSE_CREATE_EVENT_ERR_ALERT',
+});

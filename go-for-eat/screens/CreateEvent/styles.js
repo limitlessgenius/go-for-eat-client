@@ -47,4 +47,11 @@ export default StyleSheet.create({
   goButtonText: {
     color: '#FFF',
   },
+  disabledStyle: {
+    backgroundColor: '#2ECC71',
+    opacity: .5,
+  },
+  disabledTextStyle: {
+
+  },
 });
