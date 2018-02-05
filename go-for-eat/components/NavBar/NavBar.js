@@ -19,7 +19,7 @@ class NavBar extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {screen: this.props.screen}
+    this.state = {screen: this.props.screen};
   }
 
   handleNavBack = () => {
@@ -53,11 +53,12 @@ class NavBar extends Component {
 
         />
       </TouchableOpacity>
-    )
+    );
   }
 
 
   render () {
+    console.log('screen', this.props.screen);
     const allButtons = {
       create: {
         onPress:this.handleCreate,
@@ -82,9 +83,12 @@ class NavBar extends Component {
     };
 
     const buttons = {};
-    if (this.state.screen==='Home') {buttons.center = <Image source={logo} style={style.navbar_logo}/>}
-    else {
-      buttons.center = <View><Text style={style.navbar_title}>{this.state.screen}</Text></View>
+    if (this.state.screen==='Home') {
+      buttons.center = <Image source={logo} style={style.navbar_logo}/>;
+    } else if (this.state.screen === 'CreateEvent') {
+      buttons.center = <View><Text style={style.navbar_title}>Create Event</Text></View>;
+    } else {
+      buttons.center = <View><Text style={style.navbar_title}>{this.state.screen}</Text></View>;
     };
 
     if (this.state.screen === 'Home') {
@@ -105,12 +109,12 @@ class NavBar extends Component {
     }
     return (
       <View>
-      <Header
-        leftComponent={buttons.left}
-        centerComponent={buttons.center}
-        rightComponent={buttons.right}
-        outerContainerStyles={style.navbar_container}
-      />
+        <Header
+          leftComponent={buttons.left}
+          centerComponent={buttons.center}
+          rightComponent={buttons.right}
+          outerContainerStyles={style.navbar_container}
+        />
       </View>
     );
   }

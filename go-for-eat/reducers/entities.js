@@ -74,17 +74,6 @@ const entities = (state = defaultState, action) => {
       }
     };
     break;
-  case 'CREATE_EVENT_SUCCESS':
-    return{
-      ...state,
-      events: {
-        ...state.events,
-        [action.eventId]: {
-          ...state.events[action.eventId]
-        }
-      }
-    };
-    break;
   default:
     return state;
   }
