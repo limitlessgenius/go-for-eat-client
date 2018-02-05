@@ -9,6 +9,7 @@ const authentication = (state = defaultState, action) => {
       user: action.response.entities.user[userId]
     };
   case 'LOGIN_USER_FAILURE':
+    console.log(action);
     return state;
   case 'LOGOUT_USER':
     return {};

@@ -77,6 +77,15 @@ const pages = (state = defaultState, action) => {
         suggestedOpen: !state.Home.suggestedOpen,
       }
     };
+  case 'GET_USER_SUCCESS':
+    console.log(action);
+    return {
+      ...state,
+      User: {
+        ...state.User,
+        userData:action.response
+      }
+    };
   case 'SELECT_USER':
     return {
       ...state,
