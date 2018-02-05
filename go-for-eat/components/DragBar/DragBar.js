@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import s from './styles';
 import { getNearbyEvents } from '../../actions';
 import { Event } from '../Event';
@@ -28,7 +28,9 @@ class DragBar extends Component {
           <Event suggested={true}
             key={this.props.events[0].data[0]}
             eventID={this.props.events[0].data[0]}/>
-          : null}
+          :  <View style={{paddingVertical: 40}}>
+            <ActivityIndicator size="large" color="#ffffff"/>
+          </View>}
       </View>
     );
   }

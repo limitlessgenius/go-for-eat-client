@@ -30,12 +30,13 @@ class EventDetail extends Component {
     });
   }
 
-  goToRestaurantAction( cb, eventId, userId) {
+  goToRestaurantAction(dest) {
     var BUTTONS = [
       'Open Google Maps',
       'Open Maps',
       'Cancel',
     ];
+    dest = dest.split(' ').join('+');
     ActionSheetIOS.showActionSheetWithOptions({
       options: BUTTONS,
       cancelButtonIndex: 2,
@@ -44,12 +45,12 @@ class EventDetail extends Component {
     (buttonIndex) => {
       switch (buttonIndex) {
       case 0:
-        Linking.openURL('https://www.google.es/maps/dir/Carrer+d\'Àvila,+Barcelona/Carrer+de+Sant+Mart').catch(err =>
+        Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${dest}`).catch(err =>
           console.error('An error occurred', err)
         );
         break;
       case 1:
-        Linking.openURL('http://maps.apple.com/?saddr=Carrer+de+Sant+Martí&daddr=Carrer+d\'Àvila&dirflg=w&t=r').catch(err =>
+        Linking.openURL(`http://maps.apple.com/?daddr=${dest}&dirflg=w&t=r`).catch(err =>
           console.error('An error occurred', err)
         );
         break;
@@ -77,14 +78,14 @@ class EventDetail extends Component {
         </TouchableWithoutFeedback>
       }
       <TouchableWithoutFeedback onPress={()=>{
-        this.goToRestaurantAction();}}>
+        this.goToRestaurantAction(this.props.eventData.place_address);}}>
         <View style={[s.inner_actions_btn, s.inner_actions_btn_separator]}>
           <Image source={require('../../assets/icons/event_pin.png')} style={s.inner_actions_icon}></Image>
           <Text style={s.inner_actions_text}>GET THERE</Text>
         </View>
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback onPress={() =>
-        Linking.openURL('http://www.dvtlrd.com').catch(err =>
+        Linking.openURL(this.props.eventData.place_url).catch(err =>
           console.error('An error occurred', err)
         )
       }>
@@ -117,7 +118,8 @@ class EventDetail extends Component {
         </TouchableWithoutFeedback>
       }
 
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={()=>{
+        this.goToRestaurantAction(this.props.eventData.place_address);}}>
         <View style={[s.inner_actions_btn, s.inner_actions_btn_separator]}>
           <Image source={require('../../assets/icons/event_pin.png')} style={s.inner_actions_icon}></Image>
           <Text style={s.inner_actions_text}>GET THERE</Text>
