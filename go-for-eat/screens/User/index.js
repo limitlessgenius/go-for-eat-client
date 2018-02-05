@@ -11,7 +11,7 @@ class User extends Component {
   }
 
   render() {
-    return <UserBio user={this.props.user}/>;
+    return this.props.user?<UserBio user={this.props.user}/>:null;
   }
 }
 const mapStateToProps = (state) => ({

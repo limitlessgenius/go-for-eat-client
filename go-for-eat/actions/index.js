@@ -102,8 +102,6 @@ export const getUser = (userId) => ({
     endpoint: `/users/${userId}`,
     method: 'GET',
   },
-  eventId,
-  userId
 });
 
 export const LEAVE_EVENTS_REQUEST = 'LEAVE_EVENTS_REQUEST';

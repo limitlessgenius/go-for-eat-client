@@ -78,7 +78,7 @@ class UserBio extends Component {
     const { ratings_number } = this.props.user;
     return (
       <View>
-        <Text style ={s.profile_bio_title}>Your Rating:</Text>
+        <Text style ={s.profile_bio_title}>Rating:</Text>
         <View style={s.profile_rating_stars}>
           {ratings_number>0?
             this.renderRating()
@@ -91,6 +91,8 @@ class UserBio extends Component {
   }
 
   renderSection = (key, title) => {
+
+    if (this.props.screen==='User' && this.state.text[key]==='') return null;
     return (
       <View style={s.profile_section_outercontainer}>
         <Text style={s.profile_bio_title}>{title}</Text>
@@ -109,14 +111,14 @@ class UserBio extends Component {
               <Text style={s.profile_section_text}>{this.state.text[key]}</Text>
 
           }
-          {(this.state.edit[key])?
+          {(this.props.screen==='Profile')?(this.state.edit[key])?
             (<TouchableOpacity ref={key} style={s.profile_icon} onPress={this.handleSave(key)}>
               <Image style={s.profile_icon_save} source={profileSave}/>
             </TouchableOpacity>)
             :
             (<TouchableOpacity ref={key} style={s.profile_icon} onPress={this.handleEdit(key)}>
               <Image style={s.profile_icon_edit} source={profileEdit}/>
-            </TouchableOpacity>)
+            </TouchableOpacity>):null
           }
 
         </View>
@@ -127,7 +129,7 @@ class UserBio extends Component {
   render() {
 
     if (!this.props.user) return null;
-    const { name, birthday, profile_picture, interests, profession, description} = this.props.user;
+    const { name, birthday, profile_picture, interests, profession, description } = this.props.user;
     return (
       <KeyboardAwareScrollView  style={s.profile} behavior='padding'>
         <View style={s.profile_picture}>
@@ -138,9 +140,9 @@ class UserBio extends Component {
         </View>
         <Text style={s.profile_name}>{name}{birthday?', ' + this.getAgeFromBirthday(birthday):''}</Text>
         {this.renderRatingSection()}
-        {this.renderSection('profession', 'Your Profession: ', 'Student at Codeworks')}
-        {this.renderSection('description', 'Brief Description: ', 'Description of yourself blah blah blah')}
-        {this.renderSection('interests', 'Your Interests: ', 'Here are my interests')}
+        {this.renderSection('profession', 'Profession: ')}
+        {this.renderSection('description', 'Brief Description: ')}
+        {this.renderSection('interests', 'Interests: ')}
         <View style={{ height: 60 }} />
       </KeyboardAwareScrollView>
 
