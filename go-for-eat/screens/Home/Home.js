@@ -24,10 +24,6 @@ class Home extends Component {
     });
   }
 
-class Home extends Component {
-  constructor(props){
-    super(props);
-  }
   render() {
     return  (
       <Drawer
@@ -53,7 +49,7 @@ class Home extends Component {
           <StatusBar
             barStyle="light-content"
           />
-          <DragBar/>
+          <DragBar dragBarHeight={this.props.open ? 0 : 40}/>
         </Animatable.View>)}
       />
     );

@@ -8,17 +8,6 @@ export default StyleSheet.create({
     backgroundColor: '#2DAA5F',
     height: 40,
   },
-  // dragBar_bubble:{
-  //   height: 70,
-  //   width: 80,
-  //   backgroundColor: '#2ECC71',
-  //   borderBottomLeftRadius: 0,
-  //   borderBottomRightRadius: 0,
-  //   borderTopLeftRadius: 50,
-  //   borderTopRightRadius: 50,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
   dragBar_line:{
     backgroundColor: 'white',
     borderRadius: 4,
