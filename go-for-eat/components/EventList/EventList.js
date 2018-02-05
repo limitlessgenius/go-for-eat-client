@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, ScrollView, Text, FlatList, SectionList, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import serverHost from '../../config/serverHost.js';
-import { getNearbyEvents } from '../../actions';
+import { getNearbyEvents, setQueryState } from '../../actions';
 import { Event } from '../Event';
 import moment from 'moment';
 import _ from 'lodash';
@@ -11,27 +11,19 @@ import s from './styles';
 class EventList extends Component {
   constructor (props) {
     super(props);
-    this.state = {
-      lat: 41.3949187, //get from google
-      lng: 2.1957668, //get from google
-      dist: 100000, //get from google
-      to: Math.floor(new Date(moment().endOf('day')).getTime()/1000),
-      from: Math.floor(new Date().getTime()/1000),
-    };
   }
 
-
-
   loadMore = async () => {
-    await this.setState({
-      to: Math.floor(new Date(moment((this.state.to+100)*1000).endOf('day')).getTime()/1000),
-      from: this.state.to,
-    });
-    this.props.getNearbyEvents(this.state);
+    const newQuery =  {
+      to: Math.floor(new Date(moment((this.props.query.to+100)*1000).endOf('day')).getTime()/1000),
+      from: this.props.query.to,
+    };
+    await this.props.setQueryState(newQuery);
+    this.props.getNearbyEvents(this.props.query);
   }
 
   render() {
-    return  this.props.events ? (
+    return  this.props.events.length > 0 ? (
       <SectionList
         style={s.list}
         renderSectionHeader={({section}) => {return (
@@ -62,9 +54,11 @@ class EventList extends Component {
 
 const mapStateToProps = (state) => ({
   events: state.pages.Home.events,
+  query: state.pages.Maps.query,
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  setQueryState: (newQuery) => dispatch(setQueryState(newQuery)),
   getNearbyEvents: (queryString) => dispatch(getNearbyEvents(queryString)),
 });
 

@@ -8,6 +8,9 @@ const defaultState = {
   },
   Login:{},
   Profile:{},
+  Maps:{
+    query:{},
+  },
   User:{
     userId:null,
   },
@@ -41,25 +44,50 @@ const pages = (state = defaultState, action) => {
       prevScreen:'Login',
       currentScreen:'Home'
     };
-  case 'GET_EVENTS_SUCCESS':
-    let newEventsArr = _.values(action.response.entities.events);
-    newEventsArr.sort((a,b) =>{
-      return a.distance - b.distance;
-    });
-    const title = newEventsArr[0].when;
-    const data = newEventsArr.map((el, i) => {
-      return el._id;
-    });
+  case 'UPDATE_QUERY_STATE':
+    const newQuery = Object.assign(state.Maps.query, action.newQuery);
     return {
       ...state,
-      Home: {
-        ...state.Home,
-        events: [
-          ...state.Home.events,
-          { title, data }
-        ]
-      }
+      Maps:{
+        ...state.Maps,
+        query:{
+          ...newQuery
+        },
+      },
     };
+  case 'GET_EVENTS_SUCCESS':
+    if (action.response.entities.events) {
+      let newEventsArr = _.values(action.response.entities.events);
+      newEventsArr.sort((a,b) =>{
+        return a.distance - b.distance;
+      });
+      const data = newEventsArr.map((el, i) => {
+        return el._id;
+      });
+      const title = newEventsArr[0].when;
+      if (action.distFetch) {
+        return {
+          ...state,
+          Home: {
+            ...state.Home,
+            events: [
+              { title, data }
+            ]
+          }
+        };
+      } else {
+        return {
+          ...state,
+          Home: {
+            ...state.Home,
+            events: [
+              ...state.Home.events,
+              { title, data }
+            ]
+          }
+        };
+      }
+    }
   case 'DELETE_EVENTS_SUCCESS':
     delete state.Home.events[action.eventId];
     return {
