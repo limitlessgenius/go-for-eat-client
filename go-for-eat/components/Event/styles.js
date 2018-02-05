@@ -39,10 +39,7 @@ export default StyleSheet.create({
     color: 'white',
   },
   event_distance:{
-<<<<<<< HEAD
-=======
     flex: 2,
->>>>>>> d1cf50b4bf94a17f23288433ee9fd596747de55e
     width: 100,
     justifyContent: 'center',
     alignItems: 'center',
@@ -63,17 +60,11 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-<<<<<<< HEAD
-    bottom: 10,
-    paddingLeft: 150,
-    paddingRight: 150,
-=======
     height: 10,
     marginLeft: 10,
     bottom: 20,
     paddingLeft: 140,
     paddingRight: 140,
->>>>>>> d1cf50b4bf94a17f23288433ee9fd596747de55e
   },
   event_spots_full:{
     transform: [
