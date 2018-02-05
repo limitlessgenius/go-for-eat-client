@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Platform, View, Text, Alert } from 'react-native';
-import { Button } from 'react-native-elements'
-import DatePicker from 'react-native-datepicker'
+import { Platform, View, Text, Alert, ActivityIndicator } from 'react-native';
+import { Button } from 'react-native-elements';
+import DatePicker from 'react-native-datepicker';
 import { GooglePlacesAutocomplete } from '../../components/GooglePlacesAutocomplete';
 import { createEvent, navigate, closeCreateEventConfirmationAlert, closeCreateEventErrorAlert } from '../../actions';
 
@@ -19,6 +19,7 @@ class CreateEvent extends Component {
       date: moment().format('DD / MM / YYYY'),
       time: moment().format('HH : mm'),
       okButtonDisabled: true,
+      showActivityIndicator: false,
     };
   }
 
@@ -58,7 +59,9 @@ class CreateEvent extends Component {
       var date = this.state.date.split(' / ');
       var dateTime = date[2]+'-'+date[1]+'-'+date[0]+'T'+this.state.time.replace(/\s/g, '')+':00';
       this.newEvent.when = (new Date(dateTime).getTime())/1000;
-      this.props.createEvent(this.newEvent)
+      this.props.createEvent(this.newEvent);
+      this.setState({okButtonDisabled: true});
+      this.setState({showActivityIndicator: true});
     }
   }
 
@@ -75,6 +78,26 @@ class CreateEvent extends Component {
     };
     console.log('newEvent', this.newEvent);
     this.setState({okButtonDisabled: false});
+  }
+
+  renderBotom() {
+    if (this.showActivityIndicator) {
+      return (
+        <ActivityIndicator size="large" color="#2ECC71" />
+      );
+    } else {
+      return (
+        <Button
+          buttonStyle={s.goButton}
+          textStyle={s.goButtonText}
+          title='GO FOR IT'
+          onPress={this.handleGo}
+          disabled={this.state.okButtonDisabled}
+          disabledStyle={s.disabledStyle}
+          disabledTextStyle={s.isabledTextStyle}
+        />
+      );
+    }
   }
 
   render() {
@@ -113,15 +136,7 @@ class CreateEvent extends Component {
           onDateChange={(time) => this.setState({time: time})}
         />
         <View style={s.bottomContainer}>
-          <Button
-            buttonStyle={s.goButton}
-            textStyle={s.goButtonText}
-            title='GO FOR IT'
-            onPress={this.handleGo}
-            disabled={this.state.okButtonDisabled}
-            disabledStyle={s.disabledStyle}
-            disabledTextStyle={s.isabledTextStyle}
-          />
+          {this.renderBotom()}
         </View>
       </View>
     );

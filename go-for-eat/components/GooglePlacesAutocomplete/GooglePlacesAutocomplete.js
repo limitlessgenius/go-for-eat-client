@@ -283,14 +283,14 @@ class GooglePlacesAutocomplete extends Component {
       <ScrollView
         style={{ flex: 1 }}
         scrollEnabled={true}
-        keyboardShouldPersistTaps={this.props.keyboardShouldPersistTaps}
+        keyboardShouldPersistTaps={'handled'}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <TouchableHighlight
           style={{ width: WINDOW.width }}
           onPress={() => this._onPress(rowData)}
-          underlayColor={"#c8c7cc"}
+          underlayColor={'#c8c7cc'}
         >
           <View style={s.row}>
             <View style={s.rowLeft}>
@@ -343,6 +343,8 @@ class GooglePlacesAutocomplete extends Component {
             extraData={this.state.dataSource}
             ItemSeparatorComponent={this._renderSeparator}
             renderItem={({ item }) => this._renderRow(item)}
+            keyboardDismissMode={'on-drag'}
+            keyboardShouldPersistTaps={'handled'}
           />
         </View>
       );
