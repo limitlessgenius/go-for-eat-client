@@ -5,6 +5,7 @@ import { Button } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import { GooglePlacesAutocomplete } from '../../components/GooglePlacesAutocomplete';
 import { createEvent, navigate, closeCreateEventConfirmationAlert, closeCreateEventErrorAlert } from '../../actions';
+import debounce from 'lodash.debounce';
 
 const moment = require('moment');
 
@@ -21,6 +22,10 @@ class CreateEvent extends Component {
       okButtonDisabled: true,
       showActivityIndicator: false,
     };
+  }
+
+  componentWillMount() {
+    this.handleGo = debounce(this.handleGo, 10);
   }
 
   confirmationAlert = () => {
@@ -60,8 +65,10 @@ class CreateEvent extends Component {
       var dateTime = date[2]+'-'+date[1]+'-'+date[0]+'T'+this.state.time.replace(/\s/g, '')+':00';
       this.newEvent.when = (new Date(dateTime).getTime())/1000;
       this.props.createEvent(this.newEvent);
-      this.setState({okButtonDisabled: true});
-      this.setState({showActivityIndicator: true});
+      this.setState({
+        okButtonDisabled: true,
+        showActivityIndicator: true
+      });
     }
   }
 
@@ -76,12 +83,11 @@ class CreateEvent extends Component {
         'coordinates': [data.geometry.location.lng, data.geometry.location.lat]
       }
     };
-    console.log('newEvent', this.newEvent);
     this.setState({okButtonDisabled: false});
   }
 
   renderBotom() {
-    if (this.showActivityIndicator) {
+    if (this.state.showActivityIndicator && !this.props.confirmationAlertOpen) {
       return (
         <ActivityIndicator size="large" color="#2ECC71" />
       );
