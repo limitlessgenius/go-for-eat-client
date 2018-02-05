@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import s from './styles';
 import { getNearbyEvents } from '../../actions';
 import { Event } from '../Event';
 import _ from 'lodash';
+import * as Animatable from 'react-native-animatable';
 
 class DragBar extends Component {
   constructor (props) {
@@ -15,16 +16,21 @@ class DragBar extends Component {
   render() {
     return  (
       <View>
-        <View style={s.dragBar}>
-          <View style={s.dragBar_bubble}>
-            <View style={s.dragBar_line}></View>
+        <Animatable.View duration={500}
+          transition='height' style={{height: this.props.dragBarHeight}}>
+          <View style={s.dragBar}>
+            <View style={s.dragBar_bubble}>
+              <View style={s.dragBar_line}></View>
+            </View>
           </View>
-        </View>
+        </Animatable.View>
         {this.props.events[0] ?
           <Event suggested={true}
             key={this.props.events[0].data[0]}
             eventID={this.props.events[0].data[0]}/>
-          : null}
+          :  <View style={{paddingVertical: 40}}>
+            <ActivityIndicator size="large" color="#ffffff"/>
+          </View>}
       </View>
     );
   }
