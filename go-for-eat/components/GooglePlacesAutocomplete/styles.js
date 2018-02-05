@@ -1,4 +1,6 @@
-import { StyleSheet, PixelRatio } from 'react-native';
+import { StyleSheet, PixelRatio, Dimensions } from 'react-native';
+
+const WINDOW = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
@@ -12,6 +14,9 @@ export default StyleSheet.create({
   textInput: {
     flex: 1,
     height: '100%',
+    width: WINDOW.with - 40,
+    marginLeft: 20,
+    marginRight: 20,
     borderRadius: 0,
     borderBottomWidth: 5 / PixelRatio.get(),
     borderBottomColor: '#2ECC71',
@@ -24,10 +29,12 @@ export default StyleSheet.create({
   },
   powered: {},
   listViewContainer: {
-    width: '100%',
+    width: WINDOW.with - 36,
+    marginLeft: 18,
+    marginRight: 18,
     position: 'absolute',
     top: 44,
-    maxHeight: 400,
+    maxHeight: WINDOW.height * 0.6,
     overflow: 'hidden',
   },
   listView: {
