@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, PixelRatio } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -13,7 +13,7 @@ export default StyleSheet.create({
     flex: 1,
     height: '100%',
     borderRadius: 0,
-    borderBottomWidth: 2,
+    borderBottomWidth: 5 / PixelRatio.get(),
     borderBottomColor: '#2ECC71',
     fontSize: 20,
   },
@@ -23,15 +23,23 @@ export default StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   powered: {},
-  listView: {
-    flex: 1,
-    backgroundColor: 'white',
+  listViewContainer: {
+    width: '100%',
     position: 'absolute',
     top: 44,
+    maxHeight: 400,
+    overflow: 'hidden',
+  },
+  listView: {
+    marginLeft: 2,
+    marginRight: 2,
+    marginBottom: 2,
     shadowColor: '#444',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: .5,
+    shadowRadius: 1,
+    overflow: 'visible',
+
   },
   row: {
     paddingTop: 13,

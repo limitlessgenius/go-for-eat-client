@@ -7,7 +7,7 @@ import Home from '../screens/Home/Home';
 import Login from '../screens/Login/Login';
 import User from '../screens/User';
 import Profile from '../screens/Profile/Profile';
-import CreateEvent from '../screens/CreateEvent/CreateEvent';
+import { CreateEvent } from '../screens/CreateEvent';
 import LoadingPage from '../screens/LoadingPage';
 
 const NavigatorWithRootScreen = (name) => {
