@@ -35,8 +35,8 @@ class CreateEvent extends Component {
 
   errorAlert = () =>{
     Alert.alert(
-      'Error',
-      '',
+      'Oops',
+      'Something went wrong, try to creat it again',
       [
         {text: 'OK', onPress: () => this.onErrorAlertOk()},
       ],
@@ -70,9 +70,10 @@ class CreateEvent extends Component {
       'place_url': details.url,
       'location': {
         'type': 'Point',
-        'coordinates': [data.geometry.location.lat, data.geometry.location.lng]
+        'coordinates': [data.geometry.location.lng, data.geometry.location.lat]
       }
     };
+    console.log('newEvent', this.newEvent);
     this.setState({okButtonDisabled: false});
   }
 
@@ -111,7 +112,6 @@ class CreateEvent extends Component {
           customStyles={cs.timePicker}
           onDateChange={(time) => this.setState({time: time})}
         />
-        <Text style={s.warningText}>Warning text</Text>
         <View style={s.bottomContainer}>
           <Button
             buttonStyle={s.goButton}
