@@ -8,6 +8,7 @@ import Login from '../screens/Login/Login';
 import User from '../screens/User';
 import Profile from '../screens/Profile/Profile';
 import { CreateEvent } from '../screens/CreateEvent';
+import { EditEvent } from '../screens/EditEvent';
 import LoadingPage from '../screens/LoadingPage';
 
 const NavigatorWithRootScreen = (name) => {
@@ -49,6 +50,10 @@ export const AppNavigator = StackNavigator({
   },
   CreateEvent: {
     screen:NavigatorWithRootScreen(CreateEvent),
+    navigationOptions:{header:()=>null}
+  },
+  EditEvent: {
+    screen:NavigatorWithRootScreen(EditEvent),
     navigationOptions:{header:()=>null}
   },
   Loading:{

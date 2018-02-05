@@ -58,6 +58,10 @@ class EventDetail extends Component {
     });
   }
 
+  goToEditEventction() {
+    this.props.navigate('EditEvent');
+  }
+
   renderOthers = () => {
     return (<View style={s.inner_actions}>
       {this.props.eventData.attendees.indexOf(this.props.user._id) !== -1 ?
@@ -125,7 +129,8 @@ class EventDetail extends Component {
           <Text style={s.inner_actions_text}>GET THERE</Text>
         </View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={()=>{
+        this.goToEditEventction(this.props.eventData);}}>
         <View style={s.inner_actions_btn}>
           <Image source={require('../../assets/icons/event_edit.png')} style={s.inner_actions_icon}></Image>
           <Text style={s.inner_actions_text}>EDIT EVENT</Text>

@@ -15,6 +15,10 @@ const defaultState = {
     confirmationAlertOpen: false,
     errorAlertOpen: false,
   },
+  EditEvent:{
+    confirmationAlertOpen: false,
+    errorAlertOpen: false,
+  },
   CreateScreen:{
     edit:false,
     event:'',
