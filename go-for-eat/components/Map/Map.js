@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { getNearbyEvents } from '../../actions';
+import { getNearbyEvents, disableReloadEvents } from '../../actions';
 
 import s from './styles';
 import moment from 'moment';
@@ -24,6 +24,14 @@ class Maps extends Component {
     this.props.getNearbyEvents(this.state);
   }
 
+  componentDidUpdate() {
+    if (this.props.reloadEvents) {
+      console.log('reload');
+      this.props.disableReloadEvents();
+      this.props.getNearbyEvents(this.state, true);
+    }
+  }
+
   render() {
     return  (
       <View style={s.map}>
@@ -36,10 +44,13 @@ class Maps extends Component {
 
 const mapStateToProps = (state) => ({
   events: state.pages.Home.events,
+  routes: state.nav.routes,
+  reloadEvents: state.pages.Home.reloadEvents,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getNearbyEvents: (queryString) => dispatch(getNearbyEvents(queryString)),
+  disableReloadEvents: () => dispatch(disableReloadEvents()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Maps);

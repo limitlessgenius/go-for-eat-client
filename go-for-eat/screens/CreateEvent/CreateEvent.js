@@ -4,7 +4,13 @@ import { Platform, View, Text, Alert, ActivityIndicator } from 'react-native';
 import { Button } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import { GooglePlacesAutocomplete } from '../../components/GooglePlacesAutocomplete';
-import { createEvent, navigate, closeCreateEventConfirmationAlert, closeCreateEventErrorAlert } from '../../actions';
+import {
+  createEvent,
+  navigate,
+  navigateBack,
+  closeCreateEventConfirmationAlert,
+  closeCreateEventErrorAlert,
+} from '../../actions';
 import debounce from 'lodash.debounce';
 
 const moment = require('moment');
@@ -26,6 +32,11 @@ class CreateEvent extends Component {
 
   componentWillMount() {
     this.handleGo = debounce(this.handleGo, 10);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.confirmationAlertOpen && !this.props.confirmationAlertOpen) this.confirmationAlert();
+    else if(nextProps.errorAlertOpen && !this.props.errorAlertOpen) this.errorAlert();
   }
 
   confirmationAlert = () => {
@@ -52,10 +63,11 @@ class CreateEvent extends Component {
 
   onConfirmationAlertOk = () => {
     this.props.closeConfirmationAlertOpen();
-    this.props.navigate('Home');
+    this.props.navigateBack();
   }
 
   onErrorAlertOk = () => {
+    this.alertOpen = false;
     this.props.closeErrorAlertOpen();
   }
 
@@ -108,7 +120,6 @@ class CreateEvent extends Component {
   }
 
   render() {
-    if (this.props.confirmationAlertOpen) this.confirmationAlert();
     return  (
       <View style={s.container}>
         <Text style={s.title}>Restaurant:</Text>
@@ -159,7 +170,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   createEvent: (data) => dispatch(createEvent(data)),
   navigate: (screen) => dispatch(navigate(screen)),
+  navigateBack: () => dispatch(navigateBack()),
   closeConfirmationAlertOpen: () => dispatch(closeCreateEventConfirmationAlert()),
+  closeErrorAlertOpen: () => dispatch(closeCreateEventErrorAlert()),
   closeErrorAlertOpen: () => dispatch(closeCreateEventErrorAlert()),
 });
 

@@ -5,6 +5,7 @@ const defaultState = {
   Home:{
     events:[],
     suggestedOpen: false,
+    reloadEvents: false,
   },
   Login:{},
   Profile:{},
@@ -119,6 +120,10 @@ const pages = (state = defaultState, action) => {
       CreateEvent: {
         ...state.CreateEvent,
         confirmationAlertOpen: false,
+      },
+      Home: {
+        ...state.Home,
+        reloadEvents: true,
       }
     };
   case 'CLOSE_CREATE_EVENT_ERR_ALERT':
@@ -130,7 +135,6 @@ const pages = (state = defaultState, action) => {
       }
     };
   case 'EDIT_EVENT_SUCCESS':
-    console.log('EDIT_EVENT_SUCCESS');
     return {
       ...state,
       EditEvent: {
@@ -139,7 +143,6 @@ const pages = (state = defaultState, action) => {
       }
     };
   case 'EDIT_EVENT_FAILURE':
-    console.log('EDIT_EVENT_FAILURE');
     return {
       ...state,
       EditEvent: {
@@ -153,6 +156,10 @@ const pages = (state = defaultState, action) => {
       EditEvent: {
         ...state.EditEvent,
         confirmationAlertOpen: false,
+      },
+      Home: {
+        ...state.Home,
+        reloadEvents: true,
       }
     };
   case 'CLOSE_EDIT_EVENT_ERR_ALERT':
@@ -161,6 +168,14 @@ const pages = (state = defaultState, action) => {
       EditEvent: {
         ...state.EditEvent,
         errorAlertOpen: false,
+      }
+    };
+  case 'DISABLE_RELOAD_EVENTS':
+    return {
+      ...state,
+      Home: {
+        ...state.Home,
+        reloadEvents: false,
       }
     };
   default:

@@ -4,7 +4,13 @@ import { Platform, View, Text, Alert, ActivityIndicator } from 'react-native';
 import { Button } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import { GooglePlacesAutocomplete } from '../../components/GooglePlacesAutocomplete';
-import { editEvent, navigate, closeEditEventConfirmationAlert, closeEditEventErrorAlert } from '../../actions';
+import {
+  editEvent,
+  navigate,
+  navigateBack,
+  closeEditEventConfirmationAlert,
+  closeEditEventErrorAlert
+} from '../../actions';
 import debounce from 'lodash.debounce';
 
 const moment = require('moment');
@@ -59,7 +65,7 @@ class EditEvent extends Component {
 
   onConfirmationAlertOk = () => {
     this.props.closeConfirmationAlertOpen();
-    this.props.navigate('Home');
+    this.props.navigateBack();
   }
 
   onErrorAlertOk = () => {
@@ -175,6 +181,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   editEvent: (eventId, data) => dispatch(editEvent(eventId,data)),
   navigate: (screen) => dispatch(navigate(screen)),
+  navigateBack: () => dispatch(navigateBack()),
   closeConfirmationAlertOpen: () => dispatch(closeEditEventConfirmationAlert()),
   closeErrorAlertOpen: () => dispatch(closeEditEventErrorAlert()),
 });

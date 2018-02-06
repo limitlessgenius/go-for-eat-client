@@ -11,10 +11,10 @@ import { CreateEvent } from '../screens/CreateEvent';
 import { EditEvent } from '../screens/EditEvent';
 import LoadingPage from '../screens/LoadingPage';
 
-const NavigatorWithRootScreen = (name) => {
+const NavigatorWithRootScreen = (routeName, screen) => {
   return StackNavigator({
-    [name] : {
-      screen:name,
+    [routeName] : {
+      screen,
       navigationOptions:{
         gesturesEnabled:false,
         header:(<NavBar/>),
@@ -29,11 +29,11 @@ const HomeStack = StackNavigator({
     screen: LoadingPage
   },
   User: {
-    screen: NavigatorWithRootScreen(User),
+    screen: NavigatorWithRootScreen('User', User),
     navigationOptions:{header:()=>null}
   },
   Home: {
-    screen: NavigatorWithRootScreen(Home),
+    screen: NavigatorWithRootScreen('Home', Home),
     navigationOptions:{header:()=>null}
   },
 });
@@ -49,18 +49,18 @@ export const AppNavigator = StackNavigator({
     }
   },
   CreateEvent: {
-    screen:NavigatorWithRootScreen(CreateEvent),
+    screen:NavigatorWithRootScreen('CreateEvent', CreateEvent),
     navigationOptions:{header:()=>null}
   },
   EditEvent: {
-    screen:NavigatorWithRootScreen(EditEvent),
+    screen:NavigatorWithRootScreen('EditEvent', EditEvent),
     navigationOptions:{header:()=>null}
   },
   Loading:{
     screen:LoadingPage
   },
   Profile: {
-    screen: NavigatorWithRootScreen(Profile),
+    screen: NavigatorWithRootScreen('Profile', Profile),
     navigationOptions:{header:()=>null}
   },
 

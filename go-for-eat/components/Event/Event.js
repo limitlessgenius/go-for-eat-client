@@ -46,8 +46,8 @@ class Event extends Component {
               </View>
             </View>
             <View style={s.event_distance}>
-              <Text style={s.event_distance_number}> {Math.round((eventData.distance/1000) * 100) / 100}</Text>
-              <Text style={s.event_distance_text}> km </Text>
+              <Text style={s.event_distance_number}> {(eventData.distance > 1000) ? (String((eventData.distance/1000).toFixed(2))) : eventData.distance.toFixed(0)}</Text>
+              <Text style={s.event_distance_text}>{(eventData.distance > 1000) ? 'Km' : 'm'}</Text>
             </View>
             <View style={s.event_spots}>
               {_.range(4).map(i => {
