@@ -124,7 +124,7 @@ class EditEvent extends Component {
           onPress={this.handleEdit}
           disabled={this.state.editButtonDisabled}
           disabledStyle={s.disabledStyle}
-          disabledTextStyle={s.isabledTextStyle}
+          disabledTextStyle={s.disabledTextStyle}
         />
       );
     }
