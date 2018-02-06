@@ -140,6 +140,10 @@ const pages = (state = defaultState, action) => {
   case 'CREATE_EVENT_SUCCESS':
     return {
       ...state,
+      Home: {
+        ...state.Home,
+        events: []
+      },
       CreateEvent: {
         ...state.CreateEvent,
         confirmationAlertOpen: true,

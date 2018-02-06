@@ -21,11 +21,6 @@ class EventList extends Component {
 
   }
 
-  componentDidMount () {
-    this.state.apiCall ? null :
-      this.props.getNearbyEvents(this.state)
-        .then(()=> this.setState({apiCall: true}));
-  }
 
   loadMore = async () => {
     await this.setState({
@@ -36,8 +31,7 @@ class EventList extends Component {
   }
 
   render() {
-
-    return  this.state.apiCall ? (
+    return  this.props.events ? (
       <SectionList
         style={s.list}
         renderSectionHeader={({section}) => {return (
@@ -52,16 +46,11 @@ class EventList extends Component {
         onEndReached={this.loadMore}
         onEndReachedThreshold={1}
       />
-    ) : <Text>Loading</Text>;
+    ) : <View style={{paddingVertical: 20}}>
+      <ActivityIndicator size="large" color="#ffffff"/>
+    </View>;
   }
 
-  renderFooter = () => {
-    return (
-      <View style={{paddingVertical: 20}}>
-        <ActivityIndicator animating size="large"/>
-      </View>
-    );
-  }
 
   renderSeparator = () => {
     return (
