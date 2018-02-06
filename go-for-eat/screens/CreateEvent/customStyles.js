@@ -1,9 +1,11 @@
+import { PixelRatio } from 'react-native';
+
 export default {
   datePicker: {
     dateInput:{
       borderWidth: 0,
+      borderBottomWidth: 3 / PixelRatio.get(),
       borderBottomColor: '#2ECC71',
-      borderBottomWidth: 2,
     },
     dateIcon:{
       display: 'none'
@@ -15,15 +17,13 @@ export default {
     dateText:{
       color: '#000',
       fontSize: 20,
-      borderBottomColor: '#2ECC71',
-      borderBottomWidth: 1,
     }
   },
   timePicker: {
     dateInput:{
       borderWidth: 0,
+      borderBottomWidth: 3 / PixelRatio.get(),
       borderBottomColor: '#2ECC71',
-      borderBottomWidth: 2,
     },
     dateIcon:{
       display: 'none',
@@ -35,8 +35,6 @@ export default {
     dateText:{
       color: '#000',
       fontSize: 20,
-      borderBottomColor: '#2ECC71',
-      borderBottomWidth: 1,
     }
   }
 };

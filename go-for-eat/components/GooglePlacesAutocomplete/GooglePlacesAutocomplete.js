@@ -36,78 +36,49 @@ class GooglePlacesAutocomplete extends Component {
     text: '',
     dataSource: [],
     listViewDisplayed: false,
+    query: {
+      key: 'AIzaSyAcLjRWKGZ5-pzYoV-bDHikVBkhCh2pcD0',
+      language: 'en',
+    },
+    position: {
+      lat: '',
+      lng: '',
+    },
   })
-
-  // setAddressText = address => this.setState({ text: address })
-
-  // getAddressText = () => this.state.text
 
   buildRowsFromResults = (results) => {
     let res = [];
-
-    if (results.length === 0) {
-      res = [...this.props.predefinedPlaces];
-    }
-
-    res = res.map(place => ({
-      ...place,
-      isPredefinedPlace: true
-    }));
 
     return [...res, ...results];
   }
 
   componentWillMount() {
-    this._requestNearby = debounce(this._requestNearby, 200);
+    this._request = debounce(this._request, 200);
     this.getCurrentLocation();
   }
 
   componentDidMount() {
-    // This will load the default value's search results after the view has
-    // been rendered
     this._isMounted = true;
-    // this._onChangeText(this.state.text);
+    this._onChangeText(this.state.text);
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.listViewDisplayed !== 'auto') {
-  //     this.setState({
-  //       listViewDisplayed: nextProps.listViewDisplayed,
-  //     });
-  //   }
-
-  //   if(typeof(nextProps.text) !== "undefined" && this.state.text !== nextProps.text) {
-  //     this.setState({
-  //       listViewDisplayed:true
-  //     }, this._handleChangeText(nextProps.text));
-  //   }
-  // }
-
-  // componentWillUnmount() {
-  //   this._abortRequests();
-  //   this._isMounted = false;
-  // }
+  componentWillUnmount() {
+    this._abortRequests();
+    this._isMounted = false;
+  }
 
   _abortRequests = () => {
     this._requests.map(i => i.abort());
     this._requests = [];
   }
 
-  // /**
-  //  * This method is exposed to parent components to focus on textInput manually.
-  //  * @public
-  //  */
-  // triggerFocus = () => {
-  //   if (this.refs.textInput) this.refs.textInput.focus();
-  // }
+  triggerFocus = () => {
+    if (this.refs.textInput) this.refs.textInput.focus();
+  }
 
-  // /**
-  //  * This method is exposed to parent components to blur textInput manually.
-  //  * @public
-  //  */
-  // triggerBlur = () => {
-  //   if (this.refs.textInput) this.refs.textInput.blur();
-  // }
+  triggerBlur = () => {
+    if (this.refs.textInput) this.refs.textInput.blur();
+  }
 
   getCurrentLocation = () => {
     let options = {
@@ -116,11 +87,11 @@ class GooglePlacesAutocomplete extends Component {
       maximumAge: 1000
     };
 
-    if (this.props.enableHighAccuracyLocation && Platform.OS === 'android') {
+    if (Platform.OS === 'android') {
       options = {
         enableHighAccuracy: true,
         timeout: 20000
-      }
+      };
     }
 
     navigator.geolocation.getCurrentPosition(
@@ -130,7 +101,7 @@ class GooglePlacesAutocomplete extends Component {
         });
       },
       (error) => {
-        // this._disableRowLoaders();
+        this._disableRowLoaders();
         alert(error.message);
       },
       options
@@ -142,153 +113,75 @@ class GooglePlacesAutocomplete extends Component {
       return;
     }
     this._abortRequests();
-    this.setState({
-      text: rowData.description,
-    });
+    // display loader
+    this._enableRowLoader(rowData);
+    // fetch details
+    const request = new XMLHttpRequest();
+    this._requests.push(request);
+    request.timeout = this.props.timeout;
+    request.ontimeout = this.props.onTimeout;
+    request.onreadystatechange = () => {
+      if (request.readyState !== 4) return;
+      if (request.status === 200) {
+        const responseJSON = JSON.parse(request.responseText);
+        if (responseJSON.status === 'OK') {
+          if (this._isMounted === true) {
+            const details = responseJSON.result;
+            this._disableRowLoaders();
+            this._onBlur();
+
+            this.setState({
+              text: rowData.name,
+            });
+
+            delete rowData.isLoading;
+            this.props.onPress(rowData, details);
+          }
+        } else {
+          this._disableRowLoaders();
+          console.warn('error', responseJSON);
+        }
+      } else {
+        this._disableRowLoaders();
+        console.warn('Google places autocomplete: request could not be completed or has been aborted');
+      }
+    };
+    request.open('GET', 'https://maps.googleapis.com/maps/api/place/details/json?' + Qs.stringify({
+      key: this.state.query.key,
+      placeid: rowData.place_id,
+      language: this.state.query.language,
+    }));
+    request.send();
   }
 
-  //     // display loader
-  //     this._enableRowLoader(rowData);
+  _enableRowLoader = (rowData) => {
+    let rows = this.buildRowsFromResults(this._results);
+    for (let i = 0; i < rows.length; i++) {
+      if ((rows[i].place_id === rowData.place_id) || (rows[i].isCurrentLocation === true && rowData.isCurrentLocation === true)) {
+        rows[i].isLoading = true;
+        this.setState({
+          dataSource: rows,
+        });
+        break;
+      }
+    }
+  }
 
-  //     // fetch details
-  //     const request = new XMLHttpRequest();
-  //     this._requests.push(request);
-  //     request.timeout = 20000;
-  //     request.ontimeout = this.props.onTimeout;
-  //     request.onreadystatechange = () => {
-  //       if (request.readyState !== 4) return;
+  _disableRowLoaders = () => {
+    if (this._isMounted === true) {
+      for (let i = 0; i < this._results.length; i++) {
+        if (this._results[i].isLoading === true) {
+          this._results[i].isLoading = false;
+        }
+      }
 
-  //       if (request.status === 200) {
-  //         const responseJSON = JSON.parse(request.responseText);
+      this.setState({
+        dataSource: this.buildRowsFromResults(this._results),
+      });
+    }
+  }
 
-  //         if (responseJSON.status === 'OK') {
-  //           if (this._isMounted === true) {
-  //             const details = responseJSON.result;
-  //             this._disableRowLoaders();
-  //             this._onBlur();
-
-  //             this.setState({
-  //               text: this._renderDescription( rowData ),
-  //             });
-
-  //             delete rowData.isLoading;
-  //             this.props.onPress(rowData, details);
-  //           }
-  //         } else {
-  //           this._disableRowLoaders();
-
-  //           if (this.props.autoFillOnNotFound) {
-  //             this.setState({
-  //               text: this._renderDescription(rowData)
-  //             });
-  //             delete rowData.isLoading;
-  //           }
-
-  //           if (!this.props.onNotFound) {
-  //             console.warn('google places autocomplete: ' + responseJSON.status);
-  //           } else {
-  //             this.props.onNotFound(responseJSON);
-  //           }
-  //         }
-  //       } else {
-  //         this._disableRowLoaders();
-
-  //         if (!this.props.onFail) {
-  //           console.warn(
-  //             'google places autocomplete: request could not be completed or has been aborted'
-  //           );
-  //         } else {
-  //           this.props.onFail();
-  //         }
-  //       }
-  //     };
-  //     console.log('lolo');
-  //     request.open('GET', 'https://maps.googleapis.com/maps/api/place/details/json?' + Qs.stringify({
-  //       key: this.props.query.key,
-  //       placeid: rowData.place_id,
-  //       language: this.props.query.language,
-  //     }));
-
-  //     if (this.props.query.origin !== null) {
-  //       request.setRequestHeader('Referer', this.props.query.origin)
-  //     }
-
-  //     request.send();
-  //   } else if (rowData.isCurrentLocation === true) {
-  //     // display loader
-  //     this._enableRowLoader(rowData);
-
-  //     this.setState({
-  //       text: this._renderDescription( rowData ),
-  //     });
-
-  //     this.triggerBlur(); // hide keyboard but not the results
-  //     delete rowData.isLoading;
-  //     this.getCurrentLocation();
-
-  //   } else {
-  //     this.setState({
-  //       text: this._renderDescription( rowData ),
-  //     });
-
-  //     this._onBlur();
-  //     delete rowData.isLoading;
-  //     let predefinedPlace = this._getPredefinedPlace(rowData);
-
-  //     // sending predefinedPlace as details for predefined places
-  //     this.props.onPress(predefinedPlace, predefinedPlace);
-  //   }
-  // }
-
-  // _enableRowLoader = (rowData) => {
-  //   let rows = this.buildRowsFromResults(this._results);
-  //   for (let i = 0; i < rows.length; i++) {
-  //     if ((rows[i].place_id === rowData.place_id) || (rows[i].isCurrentLocation === true && rowData.isCurrentLocation === true)) {
-  //       rows[i].isLoading = true;
-  //       this.setState({
-  //         dataSource: rows,
-  //       });
-  //       break;
-  //     }
-  //   }
-  // }
-
-  // _filterResultsByTypes = (responseJSON, types) => {
-  //   if (types.length === 0) return responseJSON.results;
-
-  //   var results = [];
-  //   for (let i = 0; i < responseJSON.results.length; i++) {
-  //     let found = false;
-
-  //     for (let j = 0; j < types.length; j++) {
-  //       if (responseJSON.results[i].types.indexOf(types[j]) !== -1) {
-  //         found = true;
-  //         break;
-  //       }
-  //     }
-
-  //     if (found === true) {
-  //       results.push(responseJSON.results[i]);
-  //     }
-  //   }
-  //   return results;
-  // }
-
-  // _disableRowLoaders = () => {
-  //   if (this._isMounted === true) {
-  //     for (let i = 0; i < this._results.length; i++) {
-  //       if (this._results[i].isLoading === true) {
-  //         this._results[i].isLoading = false;
-  //       }
-  //     }
-
-  //     this.setState({
-  //       dataSource: this.buildRowsFromResults(this._results),
-  //     });
-  //   }
-  // }
-
-  _requestNearby = (latitude, longitude, text) => {
+  _request = (latitude, longitude, text) => {
     this._abortRequests();
     if (text.length >= 2) {
       const request = new XMLHttpRequest();
@@ -299,7 +192,7 @@ class GooglePlacesAutocomplete extends Component {
         if (request.readyState !== 4) return;
         if (request.status === 200) {
           const responseJSON = JSON.parse(request.responseText);
-          // this._disableRowLoaders();
+          this._disableRowLoaders();
           if (typeof responseJSON.results !== 'undefined') {
             if (this._isMounted === true) {
               var results = responseJSON.results;
@@ -312,13 +205,14 @@ class GooglePlacesAutocomplete extends Component {
             console.warn('google places autocomplete: ' + responseJSON.error_message);
           }
         } else {
-          // console.warn("google places autocomplete: request could not be completed or has been aborted");
+          // console.warn('google places autocomplete: request could not be completed or has been aborted');
         }
-      }
+      };
       let url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + Qs.stringify({
         location: latitude + ',' + longitude,
-        radius: 1000,
-        key: 'AIzaSyAcLjRWKGZ5-pzYoV-bDHikVBkhCh2pcD0',
+        radius: 5000,
+        key: this.state.query.key,
+        language: this.state.query.language,
         keyword: text,
         type: 'restaurant',
       });
@@ -333,11 +227,15 @@ class GooglePlacesAutocomplete extends Component {
   }
 
   _onChangeText = (text) => {
-    this._requestNearby(this.state.position.lat, this.state.position.lng, text);
+    this._request(this.state.position.lat, this.state.position.lng, text);
     this.setState({
       text: text,
-      listViewDisplayed: true,
     });
+    if (text.length >= 2) {
+      this.setState({
+        listViewDisplayed: true,
+      });
+    }
   }
 
   _handleChangeText = (text) => {
@@ -352,6 +250,27 @@ class GooglePlacesAutocomplete extends Component {
     }
   }
 
+  _getRowLoader() {
+    return (
+      <ActivityIndicator
+        animating={true}
+        size="small"
+      />
+    );
+  }
+
+  _renderLoader = (rowData) => {
+    if (rowData.isLoading === true) {
+      return (
+        <View style={s.loader}>
+          {this._getRowLoader()}
+        </View>
+      );
+    }
+
+    return null;
+  }
+
   _renderRow = (rowData = {}, sectionID, rowID) => {
     let distance = geolib.getDistance(
       {latitude: this.state.position.lat, longitude: this.state.position.lng},
@@ -364,14 +283,14 @@ class GooglePlacesAutocomplete extends Component {
       <ScrollView
         style={{ flex: 1 }}
         scrollEnabled={true}
-        keyboardShouldPersistTaps={this.props.keyboardShouldPersistTaps}
+        keyboardShouldPersistTaps={'handled'}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <TouchableHighlight
           style={{ width: WINDOW.width }}
           onPress={() => this._onPress(rowData)}
-          underlayColor={"#c8c7cc"}
+          underlayColor={'#c8c7cc'}
         >
           <View style={s.row}>
             <View style={s.rowLeft}>
@@ -407,7 +326,7 @@ class GooglePlacesAutocomplete extends Component {
     });
   }
 
-  _onFocus = () => this.setState({ listViewDisplayed: true })
+  // _onFocus = () => this.setState({ listViewDisplayed: true })
 
   _getFlatList = () => {
     const keyGenerator = () => (
@@ -416,17 +335,20 @@ class GooglePlacesAutocomplete extends Component {
 
     if (this.state.text !== '' && this.state.listViewDisplayed === true) {
       return (
-        <FlatList
-          style={s.listView}
-          data={this.state.dataSource}
-          keyExtractor={keyGenerator}
-          extraData={this.state.dataSource}
-          ItemSeparatorComponent={this._renderSeparator}
-          renderItem={({ item }) => this._renderRow(item)}
-        />
+        <View style={s.listViewContainer} >
+          <FlatList
+            style={s.listView}
+            data={this.state.dataSource}
+            keyExtractor={keyGenerator}
+            extraData={this.state.dataSource}
+            ItemSeparatorComponent={this._renderSeparator}
+            renderItem={({ item }) => this._renderRow(item)}
+            keyboardDismissMode={'on-drag'}
+            keyboardShouldPersistTaps={'handled'}
+          />
+        </View>
       );
     }
-
     return null;
   }
 
@@ -449,7 +371,6 @@ class GooglePlacesAutocomplete extends Component {
           />
         </View>
         {this._getFlatList()}
-        {/* {this.props.children} */}
       </View>
     );
   }

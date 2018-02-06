@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, PixelRatio, Dimensions } from 'react-native';
+
+const WINDOW = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
@@ -12,8 +14,11 @@ export default StyleSheet.create({
   textInput: {
     flex: 1,
     height: '100%',
+    width: WINDOW.with - 40,
+    marginLeft: 20,
+    marginRight: 20,
     borderRadius: 0,
-    borderBottomWidth: 2,
+    borderBottomWidth: 5 / PixelRatio.get(),
     borderBottomColor: '#2ECC71',
     fontSize: 20,
   },
@@ -23,15 +28,25 @@ export default StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   powered: {},
-  listView: {
-    flex: 1,
-    backgroundColor: 'white',
+  listViewContainer: {
+    width: WINDOW.with - 36,
+    marginLeft: 18,
+    marginRight: 18,
     position: 'absolute',
     top: 44,
+    maxHeight: WINDOW.height * 0.6,
+    overflow: 'hidden',
+  },
+  listView: {
+    marginLeft: 2,
+    marginRight: 2,
+    marginBottom: 2,
     shadowColor: '#444',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: .5,
+    shadowRadius: 1,
+    overflow: 'visible',
+
   },
   row: {
     paddingTop: 13,

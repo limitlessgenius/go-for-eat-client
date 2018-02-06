@@ -38,6 +38,12 @@ const nav = (state = initialNavState, action) => {
       state
     );
     break;
+  case 'CREATE_EVENT_REQUEST':
+    nextState = AppNavigator.router.getStateForAction(
+      NavigationActions.navigate({ routeName: 'CreateEventConfirmation'}),
+      state
+    );
+    break;
   default:
     break;
   }

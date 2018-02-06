@@ -36,6 +36,16 @@ export const setUser = (data) => ({
   data,
 });
 
+export const setMainEvent= (id) => ({
+  type: 'SET_MAIN_EVENT',
+  id,
+});
+
+export const setQueryState = (newQuery) => ({
+  type: 'UPDATE_QUERY_STATE',
+  newQuery,
+});
+
 export const CREATE_EVENT_REQUEST = 'CREATE_EVENT_REQUEST';
 export const CREATE_EVENT_SUCCESS = 'CREATE_EVENT_SUCCESS';
 export const CREATE_EVENT_FAILURE = 'CREATE_EVENT_FAILURE';
@@ -54,12 +64,13 @@ export const GET_EVENTS_REQUEST = 'GET_EVENTS_REQUEST';
 export const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
 export const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
 
-export const getNearbyEvents = (queryString) => ({
+export const getNearbyEvents = (queryString, distFetch=false) => ({
   [CALL_API]: {
     types: [GET_EVENTS_REQUEST, GET_EVENTS_SUCCESS, GET_EVENTS_FAILURE],
     endpoint: `/events?lat=${queryString.lat}&lng=${queryString.lng}&dist=${queryString.dist}&to=${queryString.to}&from=${queryString.from}`,
     schema: eventSchemaArray,
-  }
+  },
+  distFetch
 });
 
 export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
@@ -124,7 +135,10 @@ export const goToUser = (userId) => ({
   userId
 });
 
-
+// export const wipeHomeState = (userId) => ({
+//   type: 'WIPE_HOME_STATE',
+//   userId
+// });
 
 export const navigate = (screen) => ({
   type: 'NAVIGATE',
@@ -137,4 +151,12 @@ export const navigateBack = () => ({
 
 export const toggleDetails = () => ({
   type: 'TOGGLE_DETAILS',
+});
+
+export const closeCreateEventConfirmationAlert = () => ({
+  type: 'CLOSE_CREATE_EVENT_CONF_ALERT',
+});
+
+export const closeCreateEventErrorAlert = () => ({
+  type: 'CLOSE_CREATE_EVENT_ERR_ALERT',
 });

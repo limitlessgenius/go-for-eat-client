@@ -4,12 +4,20 @@ const defaultState = {
   currentScreen:'Login',
   Home:{
     events:[],
+    mainEvent: null,
     suggestedOpen: false,
   },
   Login:{},
   Profile:{},
+  Maps:{
+    query:{},
+  },
   User:{
     userId:null,
+  },
+  CreateEvent:{
+    confirmationAlertOpen: false,
+    errorAlertOpen: false,
   },
   CreateScreen:{
     edit:false,
@@ -37,25 +45,45 @@ const pages = (state = defaultState, action) => {
       prevScreen:'Login',
       currentScreen:'Home'
     };
+  case 'UPDATE_QUERY_STATE':
+    const newQuery = Object.assign(state.Maps.query, action.newQuery);
+    return {
+      ...state,
+      Maps:{
+        ...state.Maps,
+        query:{
+          ...newQuery
+        },
+      },
+    };
   case 'GET_EVENTS_SUCCESS':
-    let newEventsArr = _.values(action.response.entities.events);
-    newEventsArr.sort((a,b) =>{
-      return a.distance - b.distance;
-    });
-    const title = newEventsArr[0].when;
-    const data = newEventsArr.map((el, i) => {
-      return el._id;
-    });
+    if (action.response.entities.events) {
+      const eventIds = action.response.result;
+      if(eventIds.length === 0) return state;
+      const title = action.response.entities.events[eventIds[0]].when;
+      const originalEvents = action.distFetch ? [] : state.Home.events;
+      return {
+        ...state,
+        Home: {
+          ...state.Home,
+          events: [
+            ...originalEvents,
+            { title, data: eventIds }
+          ],
+          mainEvent: eventIds[0],
+        }
+      };
+    }
+  case 'SET_MAIN_EVENT':
+    console.log('SET_MAIN_EVENT',action.id);
     return {
       ...state,
       Home: {
         ...state.Home,
-        events: [
-          ...state.Home.events,
-          { title, data }
-        ]
+        mainEvent: action.id,
       }
     };
+    break;
   case 'DELETE_EVENTS_SUCCESS':
     delete state.Home.events[action.eventId];
     return {
@@ -79,6 +107,42 @@ const pages = (state = defaultState, action) => {
       User: {
         ...state.User,
         userId: action.userId
+      }
+    };
+  case 'CREATE_EVENT_SUCCESS':
+    return {
+      ...state,
+      Home: {
+        ...state.Home,
+        events: []
+      },
+      CreateEvent: {
+        ...state.CreateEvent,
+        confirmationAlertOpen: true,
+      }
+    };
+  case 'CREATE_EVENT_FAILURE':
+    return {
+      ...state,
+      CreateEvent: {
+        ...state.CreateEvent,
+        errorAlertOpen: true,
+      }
+    };
+  case 'CLOSE_CREATE_EVENT_CONF_ALERT':
+    return {
+      ...state,
+      CreateEvent: {
+        ...state.CreateEvent,
+        confirmationAlertOpen: false,
+      }
+    };
+  case 'CLOSE_CREATE_EVENT_ERR_ALERT':
+    return {
+      ...state,
+      CreateEvent: {
+        ...state.CreateEvent,
+        errorAlertOpen: false,
       }
     };
   default:
