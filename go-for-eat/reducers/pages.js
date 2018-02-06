@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 
 const defaultState = {
   currentScreen:'Login',
@@ -27,6 +28,12 @@ const defaultState = {
 
 const pages = (state = defaultState, action) => {
   switch (action.type) {
+  case 'LOGIN_USER_SUCCESS':
+    return {
+      ...state,
+      prevScreen:'Login',
+      currentScreen:'Home'
+    };
   case 'NAVIGATE':
     return {
       ...state,
@@ -39,11 +46,47 @@ const pages = (state = defaultState, action) => {
       prevScreen:state.currentScreen,
       currentScreen:state.prevScreen
     };
-  case 'LOGIN_USER_SUCCESS':
+  case 'FORM_PROFILE_PAGE':
+
+    const { created_events, events } = action.user;
+
+    created_events = created_events
+      .map(elem => action.events[elem])
+      .sort((a,b) => a.distance -b.distance)
+      .map(elem => elem._id);
+
+    events = events
+      .map(elem => action.events[elem])
+      .sort((a,b) => a.distance - b.distance);
+
+    const myComingEvents = events
+      .filter(elem => moment(elem.when*1000) > moment())
+      .map(elem => elem._id);
+
+    const myPastEvents = events
+      .filter(elem => moment(elem.when*1000) < moment())
+      .map(elem => elem._id);
+
     return {
       ...state,
-      prevScreen:'Login',
-      currentScreen:'Home'
+      Profile: {
+        ...state.Profile,
+        events: [
+          {
+            title: 'Created Events',
+            data: created_events
+          },
+          {
+            title: 'My Upcoming Events',
+            data: myComingEvents
+          },
+          {
+            title: 'My Past Events',
+            data: myPastEvents
+          }
+        ]
+
+      }
     };
   case 'UPDATE_QUERY_STATE':
     const newQuery = Object.assign(state.Maps.query, action.newQuery);
@@ -56,6 +99,7 @@ const pages = (state = defaultState, action) => {
         },
       },
     };
+
   case 'GET_EVENTS_SUCCESS':
     if (action.response.entities.events) {
       const eventIds = action.response.result;
@@ -99,6 +143,14 @@ const pages = (state = defaultState, action) => {
       Home: {
         ...state.Home,
         suggestedOpen: !state.Home.suggestedOpen,
+      }
+    };
+  case 'GET_USER_SUCCESS':
+    return {
+      ...state,
+      User: {
+        ...state.User,
+        userData:action.response
       }
     };
   case 'SELECT_USER':

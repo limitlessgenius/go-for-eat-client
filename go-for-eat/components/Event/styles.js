@@ -38,6 +38,15 @@ export default StyleSheet.create({
     fontSize: 16,
     color: 'white',
   },
+  event_detail_time_extend:{
+    backgroundColor: '#2ECC71',
+    borderRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 120,
+    padding: 5,
+    marginLeft: 5,
+  },
   event_distance:{
     flex: 2,
     width: 100,

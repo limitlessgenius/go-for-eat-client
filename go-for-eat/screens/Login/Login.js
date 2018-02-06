@@ -5,22 +5,24 @@ import { FacebookButton, GoogleButton } from '../../components/Buttons';
 import serverHost from '../../config/serverHost.js';
 import logo from '../../assets/logo/logo2x.png';
 import styles from './styles';
-import { setUser, loginUser, navigate } from '../../actions';
+import { setUser, setPages, setEntities, loginUser, navigate } from '../../actions';
 
 
 class Login extends Component {
 
   componentDidMount() {
     Expo.SecureStore.getItemAsync('state')
-    .then(userData => {
-      if (userData) {
-        let user = JSON.parse(userData).authentication;
-        if (user.user) {
-          this.props.setUser(user);
-          this.props.navigate('Home');
+      .then(userData => {
+        if (userData) {
+          let user = JSON.parse(userData).authentication;
+          let entities = JSON.parse(userData).entities;
+          if (entities) this.props.setEntities(entities);
+          if (user.user) {
+            this.props.setUser(user);
+            this.props.navigate('Home');
+          }
         }
-      }
-    });
+      });
   }
 
   loginGoogle = async () => {
@@ -95,7 +97,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setUser: user => dispatch(setUser(user)),
   serverAuth: (data) => dispatch(loginUser(data)),
-  navigate: (screen) => dispatch(navigate(screen))
+  navigate: (screen) => dispatch(navigate(screen)),
+  setPages: (data) => dispatch(setPages(data)),
+  setEntities: (data) => dispatch(setEntities(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -9,13 +9,17 @@ const authentication = (state = defaultState, action) => {
       user: action.response.entities.user[userId]
     };
   case 'LOGIN_USER_FAILURE':
+
     return state;
   case 'LOGOUT_USER':
     return {};
   case 'UPDATE_USER_SUCCESS':
     return {
       ...state,
-      ...action.data
+      user: {
+        ...state.user,
+        ...action.data.edit
+      }
     };
   case 'UPDATE_USER_FAILURE':
 
@@ -24,6 +28,14 @@ const authentication = (state = defaultState, action) => {
     return {
       ...state,
       ...action.data
+    };
+  case 'JOIN_EVENTS_SUCCESS':
+    return {
+      ...state,
+      events: [
+        ...state.events,
+        action.eventId
+      ],
     };
   default:
     return state;
