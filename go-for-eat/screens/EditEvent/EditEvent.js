@@ -55,7 +55,7 @@ class EditEvent extends Component {
   errorAlert = () =>{
     Alert.alert(
       'Oops',
-      'Something went wrong, try to creat it again',
+      'Something went wrong, try to create it again',
       [
         {text: 'OK', onPress: () => this.onErrorAlertOk()},
       ],
