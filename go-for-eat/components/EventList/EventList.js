@@ -14,12 +14,14 @@ class EventList extends Component {
   }
 
   loadMore = async () => {
-    const newQuery =  {
-      to: Math.floor(new Date(moment((this.props.query.to+100)*1000).endOf('day')).getTime()/1000),
-      from: this.props.query.to,
-    };
-    await this.props.setQueryState(newQuery);
-    this.props.getNearbyEvents(this.props.query);
+    if (this.props.up) {
+      const newQuery =  {
+        to: Math.floor(new Date(moment((this.props.query.to+100)*1000).endOf('day')).getTime()/1000),
+        from: this.props.query.to,
+      };
+      await this.props.setQueryState(newQuery);
+      this.props.getNearbyEvents(this.props.query);
+    }
   }
 
   render() {
@@ -35,14 +37,22 @@ class EventList extends Component {
         renderItem={({ item }) => <Event key={item} eventID={item}/>}
         ItemSeparatorComponent={this.renderSeparator}
         keyExtractor={item => item}
+        ListFooterComponent={this.renderFooter}
         onEndReached={this.loadMore}
-        onEndReachedThreshold={1}
+        onEndReachedThreshold={0.1}
       />
     ) : <View style={{paddingVertical: 20}}>
       <ActivityIndicator size="large" color="#ffffff"/>
     </View>;
   }
 
+
+  renderFooter = () => {
+    return (
+      <View style={s.list_footer}>
+        <Text style={s.list_footer_text}>Scroll Down to load more events</Text>
+      </View>
+    );};
 
   renderSeparator = () => {
     return (

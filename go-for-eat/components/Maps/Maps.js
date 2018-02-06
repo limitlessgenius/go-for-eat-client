@@ -1,25 +1,43 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, Image } from 'react-native';
 import { connect } from 'react-redux';
-import { getNearbyEvents, setQueryState } from '../../actions';
-import MapView from 'react-native-maps';
+import { getNearbyEvents, setQueryState, setMainEvent } from '../../actions';
+import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
 import s from './styles';
 import moment from 'moment';
 import _ from 'lodash';
+import MapPinImage from '../../assets/icons/map_pin.png';
+import MapCenter from '../../assets/icons/map_center.png';
+import * as Animatable from 'react-native-animatable';
+
 
 
 class Maps extends Component {
   constructor (props) {
     super(props);
+    this.state = {
+      moving: false,
+    };
+  }
+
+  getInitialState() {
+    return {
+      coordinate: new AnimatedRegion({
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+      }),
+    };
   }
 
   componentDidMount () {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const query = {
+          userLat: position.coords.latitude,
+          userLng: position.coords.longitude,
           lat: position.coords.latitude,
           lng: position.coords.longitude,
-          dist: 100000,
+          dist: 2000,
           to: Math.floor(new Date(moment().endOf('day')).getTime()/1000),
           from: Math.floor(new Date().getTime()/1000),
         };
@@ -29,8 +47,16 @@ class Maps extends Component {
     );
   }
 
-  onRegionChange = async (region) => {
+
+  onRegionChangeComplete = async (region) => {
+    if (this.state.moving) {
+      this.setState({
+        moving: false,
+      });
+    }
     const newQuery = {
+      lat: region.latitude,
+      lng: region.longitude,
       dist: (111.19*(region.latitudeDelta))*1000,
       to: Math.floor(new Date(moment().endOf('day')).getTime()/1000),
       from: Math.floor(new Date().getTime()/1000),
@@ -39,40 +65,101 @@ class Maps extends Component {
     this.props.getNearbyEvents(this.props.query, true);
   };
 
-  onMarkerPress = () => {
-    console.log('hi');
+
+
+  renderMarkers = () => {
+    return this.props.sections.map((day, i) => {
+      return day.data.map(id => {
+        const event = this.props.events[id];
+        return (
+          <Marker
+            coordinate={{
+              latitude: this.props.events[id].location.coordinates[1],
+              longitude: this.props.events[id].location.coordinates[0]
+            }}
+            image={MapPinImage}
+            identifier= {id}
+            onPress={e => this.onMarkerPress(e.nativeEvent.id)}
+            key={id + Math.random()}
+          />
+        );
+      });
+    }).reduce((accum, e) => {
+      return [
+        ...accum,
+        ...e
+      ];
+    }, []);
+  }
+
+
+  onMarkerPress = (id) => {
+    this.props.setMainEvent(id);
   };
 
+  onRegionChange = () => {
+    if (!this.state.moving) {
+      this.setState({
+        moving: true,
+      });
+    }
+  }
+
+  nearMe = () => {
+    const query = this.props.query;
+    if (
+      Math.round(query.lat*10000) < (Math.round(query.userLat*10000) + 10)
+      && Math.round(query.lat*10000) > (Math.round(query.userLat*10000) - 10)
+      && Math.round(query.lng*10000) < (Math.round(query.userLng*10000) + 10)
+      && Math.round(query.lng*10000) > (Math.round(query.userLng*10000) - 10)
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+
+
   render() {
-    return this.props.query.lat ? (
+    return this.props.events && this.props.query.lat &&  this.props.query.lng? (
       <MapView style={s.map}
         initialRegion={{
           latitude: this.props.query.lat,
           longitude: this.props.query.lng,
-          latitudeDelta: 0.109,
-          longitudeDelta: 0.106
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.01
         }}
         showsPointsOfInterest = {false}
         showsUserLocation = {true}
-        showsCompass = {true}
-        showsMyLocationButton = {true}
-        onRegionChangeComplete={this.onRegionChange}
-        onMarkerPress={this.onMarkerPress}
-      ></MapView> ) :
+        showsCompass = {false}
+        showsMyLocationButton = {false}
+        onRegionChangeComplete={this.onRegionChangeComplete}
+        onRegionChange={this.onRegionChange}
+      >
+        <Animatable.Image
+          easing='ease-in-out'
+          duration={300}
+          transition={['scale','opacity']}
+          style={this.nearMe() ? s.center__hide : this.state.moving ? s.center__onMove : s.center}
+          source={MapCenter}>
+        </Animatable.Image>
+        {this.renderMarkers()}
+      </MapView> ) :
       <View style={{paddingVertical: 20}}>
         <ActivityIndicator size="large" color="#ffffff"/>
       </View>;
   }
 }
 
-
 const mapStateToProps = (state) => ({
-  events: state.pages.Home.events,
-  query: state.pages.Maps.query
+  sections: state.pages.Home.events,
+  query: state.pages.Maps.query,
+  events: state.entities.events,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setQueryState: (newQuery) => dispatch(setQueryState(newQuery)),
+  setMainEvent: (id) => dispatch(setMainEvent(id)),
   getNearbyEvents: (queryString, distFetch) => dispatch(getNearbyEvents(queryString, distFetch)),
 });
 

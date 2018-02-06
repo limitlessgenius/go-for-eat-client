@@ -13,9 +13,7 @@ let SCREEN_HEIGHT = Dimensions.get('window').height;
 class Home extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      open: false,
-    };
+    this.state = {};
   }
 
   drawerDirection = (direction) => {
@@ -35,7 +33,9 @@ class Home extends Component {
           duration={500}
           transition={['translateY', 'height']}
           style={{ height:this.props.open ? SCREEN_HEIGHT -450 : SCREEN_HEIGHT -235, transform: [{ translateY: this.props.open ? 215 : 0}]}}>
-          <EventList/>
+          <EventList
+            up={this.state.up}
+          />
         </Animatable.View>
         )}
         renderInitDrawerView={() => (<Animatable.View

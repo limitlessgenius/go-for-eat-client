@@ -36,6 +36,11 @@ export const setUser = (data) => ({
   data,
 });
 
+export const setMainEvent= (id) => ({
+  type: 'SET_MAIN_EVENT',
+  id,
+});
+
 export const setQueryState = (newQuery) => ({
   type: 'UPDATE_QUERY_STATE',
   newQuery,

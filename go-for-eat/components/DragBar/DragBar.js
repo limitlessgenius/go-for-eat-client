@@ -14,6 +14,7 @@ class DragBar extends Component {
 
 
   render() {
+    console.log(this.props.mainEvent);
     return  (
       <View>
         <Animatable.View duration={500}
@@ -24,10 +25,10 @@ class DragBar extends Component {
             </View>
           </View>
         </Animatable.View>
-        {this.props.events[0] ?
+        {this.props.mainEvent ?
           <Event suggested={true}
-            key={this.props.events[0].data[0]}
-            eventID={this.props.events[0].data[0]}/>
+            key={this.props.mainEvent}
+            eventID={this.props.mainEvent}/>
           :  <View style={{paddingVertical: 40}}>
             <ActivityIndicator size="large" color="#ffffff"/>
           </View>}
@@ -38,6 +39,7 @@ class DragBar extends Component {
 
 const mapStateToProps = (state) => ({
   events: state.pages.Home.events,
+  mainEvent: state.pages.Home.mainEvent,
 });
 
 const mapDispatchToProps = (dispatch) => ({

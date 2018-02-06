@@ -4,6 +4,7 @@ const defaultState = {
   currentScreen:'Login',
   Home:{
     events:[],
+    mainEvent: null,
     suggestedOpen: false,
   },
   Login:{},
@@ -57,37 +58,32 @@ const pages = (state = defaultState, action) => {
     };
   case 'GET_EVENTS_SUCCESS':
     if (action.response.entities.events) {
-      let newEventsArr = _.values(action.response.entities.events);
-      newEventsArr.sort((a,b) =>{
-        return a.distance - b.distance;
-      });
-      const data = newEventsArr.map((el, i) => {
-        return el._id;
-      });
-      const title = newEventsArr[0].when;
-      if (action.distFetch) {
-        return {
-          ...state,
-          Home: {
-            ...state.Home,
-            events: [
-              { title, data }
-            ]
-          }
-        };
-      } else {
-        return {
-          ...state,
-          Home: {
-            ...state.Home,
-            events: [
-              ...state.Home.events,
-              { title, data }
-            ]
-          }
-        };
-      }
+      const eventIds = action.response.result;
+      if(eventIds.length === 0) return state;
+      const title = action.response.entities.events[eventIds[0]].when;
+      const originalEvents = action.distFetch ? [] : state.Home.events;
+      return {
+        ...state,
+        Home: {
+          ...state.Home,
+          events: [
+            ...originalEvents,
+            { title, data: eventIds }
+          ],
+          mainEvent: eventIds[0],
+        }
+      };
     }
+  case 'SET_MAIN_EVENT':
+    console.log('SET_MAIN_EVENT',action.id);
+    return {
+      ...state,
+      Home: {
+        ...state.Home,
+        mainEvent: action.id,
+      }
+    };
+    break;
   case 'DELETE_EVENTS_SUCCESS':
     delete state.Home.events[action.eventId];
     return {
