@@ -6,6 +6,7 @@ const defaultState = {
   Home:{
     events:[],
     suggestedOpen: false,
+    reloadEvents: false,
   },
   Login:{},
   Profile:{},
@@ -13,6 +14,10 @@ const defaultState = {
     userId:null,
   },
   CreateEvent:{
+    confirmationAlertOpen: false,
+    errorAlertOpen: false,
+  },
+  EditEvent:{
     confirmationAlertOpen: false,
     errorAlertOpen: false,
   },
@@ -137,13 +142,17 @@ const pages = (state = defaultState, action) => {
         userId: action.userId
       }
     };
+  case 'SELECT_EVENT':
+    return {
+      ...state,
+      EditEvent: {
+        ...state.EditEvent,
+        eventId: action.eventId
+      }
+    };
   case 'CREATE_EVENT_SUCCESS':
     return {
       ...state,
-      Home: {
-        ...state.Home,
-        events: []
-      },
       CreateEvent: {
         ...state.CreateEvent,
         confirmationAlertOpen: true,
@@ -163,6 +172,10 @@ const pages = (state = defaultState, action) => {
       CreateEvent: {
         ...state.CreateEvent,
         confirmationAlertOpen: false,
+      },
+      Home: {
+        ...state.Home,
+        reloadEvents: true,
       }
     };
   case 'CLOSE_CREATE_EVENT_ERR_ALERT':
@@ -171,6 +184,50 @@ const pages = (state = defaultState, action) => {
       CreateEvent: {
         ...state.CreateEvent,
         errorAlertOpen: false,
+      }
+    };
+  case 'EDIT_EVENT_SUCCESS':
+    return {
+      ...state,
+      EditEvent: {
+        ...state.EditEvent,
+        confirmationAlertOpen: true,
+      }
+    };
+  case 'EDIT_EVENT_FAILURE':
+    return {
+      ...state,
+      EditEvent: {
+        ...state.EditEvent,
+        errorAlertOpen: true,
+      }
+    };
+  case 'CLOSE_EDIT_EVENT_CONF_ALERT':
+    return {
+      ...state,
+      EditEvent: {
+        ...state.EditEvent,
+        confirmationAlertOpen: false,
+      },
+      Home: {
+        ...state.Home,
+        reloadEvents: true,
+      }
+    };
+  case 'CLOSE_EDIT_EVENT_ERR_ALERT':
+    return {
+      ...state,
+      EditEvent: {
+        ...state.EditEvent,
+        errorAlertOpen: false,
+      }
+    };
+  case 'DISABLE_RELOAD_EVENTS':
+    return {
+      ...state,
+      Home: {
+        ...state.Home,
+        reloadEvents: false,
       }
     };
   default:

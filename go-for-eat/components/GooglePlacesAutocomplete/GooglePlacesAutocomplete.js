@@ -33,7 +33,7 @@ class GooglePlacesAutocomplete extends Component {
   }
 
   getInitialState = () => ({
-    text: '',
+    text: this.props.text,
     dataSource: [],
     listViewDisplayed: false,
     query: {
@@ -276,8 +276,6 @@ class GooglePlacesAutocomplete extends Component {
       {latitude: this.state.position.lat, longitude: this.state.position.lng},
       {latitude: rowData.geometry.location.lat, longitude:rowData.geometry.location.lng}
     );
-    if (distance > 1000) distance = (String((distance/1000).toFixed(2)))+' Km';
-    else distance = String(distance)+' m';
 
     return (
       <ScrollView
@@ -298,7 +296,8 @@ class GooglePlacesAutocomplete extends Component {
               <Text style={s.PlaceListItemAddress}>{rowData.vicinity}</Text>
             </View>
             <View style={s.rowRight}>
-              <Text style={s.PlaceListItemDistance}>{distance}</Text>
+              <Text style={s.PlaceListItemDistance}>{(distance > 1000) ? (String((distance/1000).toFixed(2))) : distance}</Text>
+              <Text style={s.PlaceListItemDistance}>{(distance > 1000) ? 'Km' : 'm'}</Text>
             </View>
           </View>
         </TouchableHighlight>

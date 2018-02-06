@@ -49,7 +49,6 @@ class Home extends Component {
           <StatusBar
             barStyle="light-content"
           />
-
           <DragBar dragBarHeight={this.props.open || !this.props.events ? 0 : 40}/>
         </Animatable.View>)}
       />
