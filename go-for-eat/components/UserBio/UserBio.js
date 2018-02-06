@@ -21,11 +21,11 @@ class UserBio extends Component {
       interests:'',
       profession:'',
       description:''
-    }
+    },
+    error: false
   };
 
   componentDidMount() {
-    console.log(this.props.user);
     this.setState({
       ...this.state,
       text:{
@@ -35,16 +35,23 @@ class UserBio extends Component {
       }
     });
   }
+
   handleEdit = (key) => {
+
     return () => {
-      this.setState({edit: {...this.state.edit, [key]:true}});
-
-
+      const edit = {...this.state.edit};
+      edit[key] = true;
+      this.setState({edit: edit});
     };
   }
 
   handleSave = (key) => {
     return () => {
+      if (this.state.text[key].length>140) {
+        this.setState({error:true});
+        return;
+      }
+      this.setState({error:false});
       this.setState({
         edit: {
           ...this.state.edit,
@@ -102,6 +109,8 @@ class UserBio extends Component {
               <TextInput
                 onChangeText={(text)=> this.setState({text:{...this.state.text, [key]:text}})}
                 style={s.profile_section_text_edit}
+                multiline = {true}
+                numberOfLines = {4}
                 value={this.state.text[key]}/>
             )
             :
@@ -111,14 +120,14 @@ class UserBio extends Component {
               <Text style={s.profile_section_text}>{this.state.text[key]}</Text>
 
           }
-          {(this.props.screen==='Profile')?(this.state.edit[key])?
+          {(this.props.screen==='Profile')?((this.state.edit[key])?
             (<TouchableOpacity ref={key} style={s.profile_icon} onPress={this.handleSave(key)}>
               <Image style={s.profile_icon_save} source={profileSave}/>
             </TouchableOpacity>)
             :
             (<TouchableOpacity ref={key} style={s.profile_icon} onPress={this.handleEdit(key)}>
               <Image style={s.profile_icon_edit} source={profileEdit}/>
-            </TouchableOpacity>):null
+            </TouchableOpacity>)):null
           }
 
         </View>
@@ -127,7 +136,6 @@ class UserBio extends Component {
   }
 
   render() {
-
     if (!this.props.user) return null;
     const { name, birthday, profile_picture, interests, profession, description } = this.props.user;
     return (
@@ -139,6 +147,7 @@ class UserBio extends Component {
           />
         </View>
         <Text style={s.profile_name}>{name}{birthday?', ' + this.getAgeFromBirthday(birthday):''}</Text>
+        {this.state.error? <Text style={s.profile_error}>{'Fields must only be 140 characters or less.'}</Text>:null}
         {this.renderRatingSection()}
         {this.renderSection('profession', 'Profession: ')}
         {this.renderSection('description', 'Brief Description: ')}
@@ -154,7 +163,6 @@ class UserBio extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  // user:state.authentication.user,
   screen:state.pages.currentScreen
 });
 

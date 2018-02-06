@@ -25,6 +25,10 @@ export default StyleSheet.create({
     fontSize:30,
     marginVertical:10
   },
+  profile_error: {
+    color:'red',
+    marginLeft:20
+  },
   profile_icon: {
     width:25,
     height:25,
@@ -64,7 +68,7 @@ export default StyleSheet.create({
     flexDirection:'row',
     marginHorizontal:20,
     marginVertical:10,
-    height:25,
+
   },
   profile_section_text: {
     flex:8,

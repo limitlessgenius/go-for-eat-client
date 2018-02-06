@@ -33,17 +33,17 @@ export default StyleSheet.create({
   inner_actions_text:{
     color: 'white',
   },
-  inner_partecipants_people:{
+  inner_participants_people:{
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
-  inner_partecipants_person:{
+  inner_participants_person:{
     height: 100,
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-  inner_partecipants_picture:{
+  inner_participants_picture:{
     width: 95,
     height: 95,
     transform: [

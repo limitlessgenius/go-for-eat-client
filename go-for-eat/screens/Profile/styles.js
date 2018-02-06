@@ -88,6 +88,21 @@ export default StyleSheet.create({
     borderColor:appColor,
     marginRight:10
   },
+  section_header:{
+    height: 30,
+    justifyContent: 'center',
+    backgroundColor: '#2DAA5F',
+    shadowColor: '#444',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+  section_header_text:{
+    color: 'white',
+    fontFamily: 'Roboto_Medium',
+    fontSize: 15,
+    paddingLeft: 5,
+  }
 
 
 });

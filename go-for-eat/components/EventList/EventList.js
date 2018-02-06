@@ -18,9 +18,10 @@ class EventList extends Component {
       to: Math.floor(new Date(moment().endOf('day')).getTime()/1000),
       from: Math.floor(new Date().getTime()/1000),
     };
+
   }
 
-  componentDidMount(){
+  componentDidMount () {
     this.state.apiCall ? null :
       this.props.getNearbyEvents(this.state)
         .then(()=> this.setState({apiCall: true}));
@@ -30,11 +31,12 @@ class EventList extends Component {
     await this.setState({
       to: Math.floor(new Date(moment((this.state.to+100)*1000).endOf('day')).getTime()/1000),
       from: this.state.to,
-    })
-    this.props.getNearbyEvents(this.state)
+    });
+    this.props.getNearbyEvents(this.state);
   }
 
   render() {
+
     return  this.state.apiCall ? (
       <SectionList
         style={s.list}
@@ -58,15 +60,15 @@ class EventList extends Component {
       <View style={{paddingVertical: 20}}>
         <ActivityIndicator animating size="large"/>
       </View>
-    )
+    );
   }
 
   renderSeparator = () => {
     return (
       <View
-        style={{height: 1,width: "100%",backgroundColor: "#2ECC71",}}
+        style={{height: 1,width: '100%',backgroundColor: '#2ECC71',}}
       />
-  )};
+    );};
 }
 
 const mapStateToProps = (state) => ({

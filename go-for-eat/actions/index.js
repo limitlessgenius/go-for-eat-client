@@ -137,6 +137,10 @@ export const goToUser = (userId) => ({
   userId
 });
 
+export const setEntities = (data) => ({
+  type:'SET_ENTITIES',
+  data
+});
 
 
 export const navigate = (screen) => ({
@@ -158,4 +162,10 @@ export const closeCreateEventConfirmationAlert = () => ({
 
 export const closeCreateEventErrorAlert = () => ({
   type: 'CLOSE_CREATE_EVENT_ERR_ALERT',
+});
+
+export const formProfilePage = (events, user) => ({
+  type:'FORM_PROFILE_PAGE',
+  events,
+  user
 });
