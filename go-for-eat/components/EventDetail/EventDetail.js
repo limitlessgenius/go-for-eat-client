@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { View, ScrollView,TouchableWithoutFeedback, TouchableOpacity, Image, Text, ActionSheetIOS, StyleSheet, Linking } from 'react-native';
 import s from './styles';
 import _ from 'lodash';
-import { navigate, goToUser, joinEvent, leaveEvent, deleteEvent } from '../../actions';
+import { navigate, goToUser, joinEvent, leaveEvent, deleteEvent, goToEditEvent } from '../../actions';
 
 
 class EventDetail extends Component {
@@ -54,8 +54,14 @@ class EventDetail extends Component {
           console.error('An error occurred', err)
         );
         break;
+
       }
     });
+  }
+
+  goToEditEventAction = () => {
+    this.props.goToEditEvent(this.props.eventData._id);
+    this.props.navigate('EditEvent');
   }
 
   renderOthers = () => {
@@ -125,7 +131,8 @@ class EventDetail extends Component {
           <Text style={s.inner_actions_text}>GET THERE</Text>
         </View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback 
+        onPress={this.goToEditEventAction}>
         <View style={s.inner_actions_btn}>
           <Image source={require('../../assets/icons/event_edit.png')} style={s.inner_actions_icon}></Image>
           <Text style={s.inner_actions_text}>EDIT EVENT</Text>
@@ -138,20 +145,20 @@ class EventDetail extends Component {
     return  (
       <View style={s.event_inner_detail}>
         {this.props.user._id === this.props.eventData.creator ? this.renderYour() : this.renderOthers()}
-        <View style={s.event_inner_partecipants}>
-          <Text style={s.inner_actions_text}>Partecipants:</Text>
-          <View style={s.inner_partecipants_people}>
+        <View style={s.event_inner_participants}>
+          <Text style={s.inner_actions_text}>Participants:</Text>
+          <View style={s.inner_participants_people}>
             {_.range(4).map(i => {
               return this.props.eventData.attendees[i] ?
-                <View  key={i} style={s.inner_partecipants_person}>
+                <View  key={i} style={s.inner_participants_person}>
                   <TouchableWithoutFeedback onPress={()=> {this.props.goToUser(this.props.eventData.attendees[i]); this.props.navigate('User');}} >
-                    <Image source={{uri: this.props.users[this.props.eventData.attendees[i]].profile_picture}} style={s.inner_partecipants_picture}></Image>
+                    <Image source={{uri: this.props.users[this.props.eventData.attendees[i]].profile_picture}} style={s.inner_participants_picture}></Image>
                   </TouchableWithoutFeedback>
                   <Text style={s.inner_actions_text}>{this.props.users[this.props.eventData.attendees[i]].name}</Text>
                 </View>
                 :
-                <View  key={i}  style={s.inner_partecipants_person}>
-                  <Image source={require('../../assets/icons/event_free.png')} style={s.inner_partecipants_picture}></Image>
+                <View  key={i}  style={s.inner_participants_person}>
+                  <Image source={require('../../assets/icons/event_free.png')} style={s.inner_participants_picture}></Image>
                   <Text style={s.inner_actions_text}>Free</Text>
                 </View>;
             })}
@@ -174,6 +181,7 @@ const mapDispatchToProps = (dispatch) => ({
   joinEvent: (eventId, userId) => dispatch(joinEvent(eventId, userId)),
   leaveEvent: (eventId, userId) => dispatch(leaveEvent(eventId, userId)),
   deleteEvent: (eventId) => dispatch(deleteEvent(eventId)),
+  goToEditEvent: (eventId) => dispatch(goToEditEvent(eventId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventDetail);

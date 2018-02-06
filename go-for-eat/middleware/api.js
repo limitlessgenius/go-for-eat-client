@@ -7,15 +7,13 @@ const callApi = (endpoint, method='GET', body, accessToken, schema) => {
   const headers = {};
   if (accessToken) headers.authorization = `Bearer ${accessToken}`;
   if (method === 'POST' || method === 'PUT') headers['Content-Type'] = 'application/json';
-
   return fetch(fullUrl, {
     method,
     headers,
     body
   })
     .then(response => {
-      return response._bodyInit ?  response.json() : null;
-    })
+      return response._bodyInit ?  response.json() : null;})
     .then(data => data ? schema ? normalize(data, schema) : data : null);
 };
 

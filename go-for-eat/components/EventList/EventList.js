@@ -30,7 +30,7 @@ class EventList extends Component {
         style={s.list}
         renderSectionHeader={({section}) => {return (
           <View style={s.section_header}>
-            <Text style={s.section_header_text}> {moment(section.title * 1000).format('Do MMMM')} </Text>
+            <Text style={s.section_header_text}> {moment(section.title).format('Do MMMM')} </Text>
           </View>);
         }}
         sections={this.props.events}

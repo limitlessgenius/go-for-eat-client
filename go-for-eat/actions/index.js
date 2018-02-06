@@ -9,6 +9,7 @@ const eventSchemaArray = [eventSchema];
 
 const mySchema = new schema.Entity('user', {events:eventSchemaArray, created_events:eventSchemaArray}, {idAttribute:'_id'});
 const outerSchema = new schema.Entity('me', {user:mySchema}, {idAttribute:'user'});
+
 export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST';
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
 export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE';
@@ -46,33 +47,6 @@ export const setQueryState = (newQuery) => ({
   newQuery,
 });
 
-export const CREATE_EVENT_REQUEST = 'CREATE_EVENT_REQUEST';
-export const CREATE_EVENT_SUCCESS = 'CREATE_EVENT_SUCCESS';
-export const CREATE_EVENT_FAILURE = 'CREATE_EVENT_FAILURE';
-
-export const createEvent = (data) => ({
-  type: 'CREATE_EVENT',
-  [CALL_API]: {
-    types: [CREATE_EVENT_REQUEST, CREATE_EVENT_SUCCESS, CREATE_EVENT_FAILURE],
-    endpoint: '/events',
-    method: 'POST',
-    data
-  }
-});
-
-export const GET_EVENTS_REQUEST = 'GET_EVENTS_REQUEST';
-export const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
-export const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
-
-export const getNearbyEvents = (queryString, distFetch=false) => ({
-  [CALL_API]: {
-    types: [GET_EVENTS_REQUEST, GET_EVENTS_SUCCESS, GET_EVENTS_FAILURE],
-    endpoint: `/events?lat=${queryString.lat}&lng=${queryString.lng}&dist=${queryString.dist}&to=${queryString.to}&from=${queryString.from}`,
-    schema: eventSchemaArray,
-  },
-  distFetch
-});
-
 export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
@@ -87,33 +61,32 @@ export const updateUser = (data) => ({
   data:{edit:data}
 });
 
-export const JOIN_EVENTS_REQUEST = 'JOIN_EVENTS_REQUEST';
-export const JOIN_EVENTS_SUCCESS = 'JOIN_EVENTS_SUCCESS';
-export const JOIN_EVENTS_FAILURE = 'JOIN_EVENTS_FAILURE';
+export const CREATE_EVENT_REQUEST = 'CREATE_EVENT_REQUEST';
+export const CREATE_EVENT_SUCCESS = 'CREATE_EVENT_SUCCESS';
+export const CREATE_EVENT_FAILURE = 'CREATE_EVENT_FAILURE';
 
-export const joinEvent = (eventId, userId) => ({
+export const createEvent = (data) => ({
+  type: 'CREATE_EVENT',
   [CALL_API]: {
-    types: [JOIN_EVENTS_REQUEST, JOIN_EVENTS_SUCCESS, JOIN_EVENTS_FAILURE],
-    endpoint: `/events/${eventId}/users`,
-    method: 'PUT',
-  },
-  eventId,
-  userId
-
+    types: [CREATE_EVENT_REQUEST, CREATE_EVENT_SUCCESS, CREATE_EVENT_FAILURE],
+    endpoint: '/events',
+    method: 'POST',
+    data
+  }
 });
 
-export const LEAVE_EVENTS_REQUEST = 'LEAVE_EVENTS_REQUEST';
-export const LEAVE_EVENTS_SUCCESS = 'LEAVE_EVENTS_SUCCESS';
-export const LEAVE_EVENTS_FAILURE = 'LEAVE_EVENTS_FAILURE';
+export const EDIT_EVENT_REQUEST = 'EDIT_EVENT_REQUEST';
+export const EDIT_EVENT_SUCCESS = 'EDIT_EVENT_SUCCESS';
+export const EDIT_EVENT_FAILURE = 'EDIT_EVENT_FAILURE';
 
-export const leaveEvent = (eventId, userId) => ({
+export const editEvent = (eventId, data) => ({
+  type: 'EDIT_EVENT',
   [CALL_API]: {
-    types: [LEAVE_EVENTS_REQUEST, LEAVE_EVENTS_SUCCESS, LEAVE_EVENTS_FAILURE],
-    endpoint: `/events/${eventId}/users`,
-    method: 'DELETE',
-  },
-  eventId,
-  userId
+    types: [EDIT_EVENT_REQUEST, EDIT_EVENT_SUCCESS, EDIT_EVENT_FAILURE],
+    endpoint: `/events/${eventId}`,
+    method: 'PUT',
+    data
+  }
 });
 
 export const DELETE_EVENTS_REQUEST = 'DELETE_EVENTS_REQUEST';
@@ -130,15 +103,74 @@ export const deleteEvent = (eventId, userId) => ({
   userId
 });
 
+export const GET_EVENTS_REQUEST = 'GET_EVENTS_REQUEST';
+export const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
+export const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
+
+export const getNearbyEvents = (queryString, distFetch=false) => ({
+  [CALL_API]: {
+    types: [GET_EVENTS_REQUEST, GET_EVENTS_SUCCESS, GET_EVENTS_FAILURE],
+    endpoint: `/events?lat=${queryString.lat}&lng=${queryString.lng}&dist=${queryString.dist}&to=${queryString.to}&from=${queryString.from}`,
+    schema: eventSchemaArray,
+  },
+  distFetch
+});
+
+export const JOIN_EVENTS_REQUEST = 'JOIN_EVENTS_REQUEST';
+export const JOIN_EVENTS_SUCCESS = 'JOIN_EVENTS_SUCCESS';
+export const JOIN_EVENTS_FAILURE = 'JOIN_EVENTS_FAILURE';
+
+export const joinEvent = (eventId, userId) => ({
+  [CALL_API]: {
+    types: [JOIN_EVENTS_REQUEST, JOIN_EVENTS_SUCCESS, JOIN_EVENTS_FAILURE],
+    endpoint: `/events/${eventId}/users`,
+    method: 'PUT',
+  },
+  eventId,
+  userId
+});
+
+export const GET_USER_REQUEST = 'GET_USER_REQUEST';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_USER_FAILURE = 'GET_USER_FAILURE';
+
+export const getUser = (userId) => ({
+  [CALL_API]: {
+    types: [GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE],
+    endpoint: `/users/${userId}`,
+    method: 'GET',
+  },
+});
+
+export const LEAVE_EVENTS_REQUEST = 'LEAVE_EVENTS_REQUEST';
+export const LEAVE_EVENTS_SUCCESS = 'LEAVE_EVENTS_SUCCESS';
+export const LEAVE_EVENTS_FAILURE = 'LEAVE_EVENTS_FAILURE';
+
+export const leaveEvent = (eventId, userId) => ({
+  [CALL_API]: {
+    types: [LEAVE_EVENTS_REQUEST, LEAVE_EVENTS_SUCCESS, LEAVE_EVENTS_FAILURE],
+    endpoint: `/events/${eventId}/users`,
+    method: 'DELETE',
+  },
+  eventId,
+  userId
+});
+
+export const goToEditEvent = (eventId) => ({
+  type: 'SELECT_EVENT',
+  eventId
+});
+
 export const goToUser = (userId) => ({
   type: 'SELECT_USER',
   userId
 });
 
-// export const wipeHomeState = (userId) => ({
-//   type: 'WIPE_HOME_STATE',
-//   userId
-// });
+
+export const setEntities = (data) => ({
+  type:'SET_ENTITIES',
+  data
+});
 
 export const navigate = (screen) => ({
   type: 'NAVIGATE',
@@ -159,4 +191,22 @@ export const closeCreateEventConfirmationAlert = () => ({
 
 export const closeCreateEventErrorAlert = () => ({
   type: 'CLOSE_CREATE_EVENT_ERR_ALERT',
+});
+
+export const closeEditEventConfirmationAlert = () => ({
+  type: 'CLOSE_EDIT_EVENT_CONF_ALERT',
+});
+
+export const closeEditEventErrorAlert = () => ({
+  type: 'CLOSE_EDIT_EVENT_ERR_ALERT',
+});
+
+export const disableReloadEvents = () => ({
+  type: 'DISABLE_RELOAD_EVENTS',
+});
+
+export const formProfilePage = (events, user) => ({
+  type:'FORM_PROFILE_PAGE',
+  events,
+  user
 });

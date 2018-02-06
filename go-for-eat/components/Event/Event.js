@@ -23,6 +23,7 @@ class Event extends Component {
     );};
 
   render() {
+
     const eventData = this.props.events[this.props.eventID];
     if (eventData === undefined) return null;
     return (
@@ -42,12 +43,12 @@ class Event extends Component {
               <Text numberOfLines={1} style={s.event_detail_eventName}> {this.props.users[eventData.creator].name}, {eventData.place_name} </Text>
               <Text numberOfLines={1} style={s.event_detail_address}> {eventData.place_address}  </Text>
               <View style={s.event_detail_time}>
-                <Text style={s.event_detail_time_text}> {moment(eventData.when * 1000 ).format('HH:mm')} </Text>
+                <Text style={s.event_detail_time_text}> {moment(eventData.when).format('HH:mm')} </Text>
               </View>
             </View>
             <View style={s.event_distance}>
-              <Text style={s.event_distance_number}> {Math.round((eventData.distance/1000) * 100) / 100}</Text>
-              <Text style={s.event_distance_text}> km </Text>
+              <Text style={s.event_distance_number}> {(eventData.distance > 1000) ? (String((eventData.distance/1000).toFixed(2))) : eventData.distance.toFixed(0)}</Text>
+              <Text style={s.event_distance_text}>{(eventData.distance > 1000) ? 'Km' : 'm'}</Text>
             </View>
             <View style={s.event_spots}>
               {_.range(4).map(i => {
@@ -69,6 +70,7 @@ class Event extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  screen: state.pages.currentScreen,
   events: state.entities.events,
   users: state.entities.users,
   user: state.authentication.user,
