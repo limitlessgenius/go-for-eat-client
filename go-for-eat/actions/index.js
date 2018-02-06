@@ -37,32 +37,6 @@ export const setUser = (data) => ({
   data,
 });
 
-export const CREATE_EVENT_REQUEST = 'CREATE_EVENT_REQUEST';
-export const CREATE_EVENT_SUCCESS = 'CREATE_EVENT_SUCCESS';
-export const CREATE_EVENT_FAILURE = 'CREATE_EVENT_FAILURE';
-
-export const createEvent = (data) => ({
-  type: 'CREATE_EVENT',
-  [CALL_API]: {
-    types: [CREATE_EVENT_REQUEST, CREATE_EVENT_SUCCESS, CREATE_EVENT_FAILURE],
-    endpoint: '/events',
-    method: 'POST',
-    data
-  }
-});
-
-export const GET_EVENTS_REQUEST = 'GET_EVENTS_REQUEST';
-export const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
-export const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
-
-export const getNearbyEvents = (queryString) => ({
-  [CALL_API]: {
-    types: [GET_EVENTS_REQUEST, GET_EVENTS_SUCCESS, GET_EVENTS_FAILURE],
-    endpoint: `/events?lat=${queryString.lat}&lng=${queryString.lng}&dist=${queryString.dist}&to=${queryString.to}&from=${queryString.from}`,
-    schema: eventSchemaArray,
-  }
-});
-
 export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
@@ -77,6 +51,60 @@ export const updateUser = (data) => ({
   data:{edit:data}
 });
 
+export const CREATE_EVENT_REQUEST = 'CREATE_EVENT_REQUEST';
+export const CREATE_EVENT_SUCCESS = 'CREATE_EVENT_SUCCESS';
+export const CREATE_EVENT_FAILURE = 'CREATE_EVENT_FAILURE';
+
+export const createEvent = (data) => ({
+  type: 'CREATE_EVENT',
+  [CALL_API]: {
+    types: [CREATE_EVENT_REQUEST, CREATE_EVENT_SUCCESS, CREATE_EVENT_FAILURE],
+    endpoint: '/events',
+    method: 'POST',
+    data
+  }
+});
+
+export const EDIT_EVENT_REQUEST = 'EDIT_EVENT_REQUEST';
+export const EDIT_EVENT_SUCCESS = 'EDIT_EVENT_SUCCESS';
+export const EDIT_EVENT_FAILURE = 'EDIT_EVENT_FAILURE';
+
+export const editEvent = (eventId, data) => ({
+  type: 'EDIT_EVENT',
+  [CALL_API]: {
+    types: [EDIT_EVENT_REQUEST, EDIT_EVENT_SUCCESS, EDIT_EVENT_FAILURE],
+    endpoint: `/events/${eventId}`,
+    method: 'PUT',
+    data
+  }
+});
+
+export const DELETE_EVENTS_REQUEST = 'DELETE_EVENTS_REQUEST';
+export const DELETE_EVENTS_SUCCESS = 'DELETE_EVENTS_SUCCESS';
+export const DELETE_EVENTS_FAILURE = 'DELETE_EVENTS_FAILURE';
+
+export const deleteEvent = (eventId, userId) => ({
+  [CALL_API]: {
+    types: [DELETE_EVENTS_REQUEST, DELETE_EVENTS_SUCCESS, DELETE_EVENTS_FAILURE],
+    endpoint: `/events/${eventId}`,
+    method: 'DELETE',
+  },
+  eventId,
+  userId
+});
+
+export const GET_EVENTS_REQUEST = 'GET_EVENTS_REQUEST';
+export const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
+export const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
+
+export const getNearbyEvents = (queryString) => ({
+  [CALL_API]: {
+    types: [GET_EVENTS_REQUEST, GET_EVENTS_SUCCESS, GET_EVENTS_FAILURE],
+    endpoint: `/events?lat=${queryString.lat}&lng=${queryString.lng}&dist=${queryString.dist}&to=${queryString.to}&from=${queryString.from}`,
+    schema: eventSchemaArray,
+  }
+});
+
 export const JOIN_EVENTS_REQUEST = 'JOIN_EVENTS_REQUEST';
 export const JOIN_EVENTS_SUCCESS = 'JOIN_EVENTS_SUCCESS';
 export const JOIN_EVENTS_FAILURE = 'JOIN_EVENTS_FAILURE';
@@ -89,7 +117,6 @@ export const joinEvent = (eventId, userId) => ({
   },
   eventId,
   userId
-
 });
 
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
@@ -118,18 +145,9 @@ export const leaveEvent = (eventId, userId) => ({
   userId
 });
 
-export const DELETE_EVENTS_REQUEST = 'DELETE_EVENTS_REQUEST';
-export const DELETE_EVENTS_SUCCESS = 'DELETE_EVENTS_SUCCESS';
-export const DELETE_EVENTS_FAILURE = 'DELETE_EVENTS_FAILURE';
-
-export const deleteEvent = (eventId, userId) => ({
-  [CALL_API]: {
-    types: [DELETE_EVENTS_REQUEST, DELETE_EVENTS_SUCCESS, DELETE_EVENTS_FAILURE],
-    endpoint: `/events/${eventId}`,
-    method: 'DELETE',
-  },
-  eventId,
-  userId
+export const goToEditEvent = (eventId) => ({
+  type: 'SELECT_EVENT',
+  eventId
 });
 
 export const goToUser = (userId) => ({
@@ -137,11 +155,11 @@ export const goToUser = (userId) => ({
   userId
 });
 
+
 export const setEntities = (data) => ({
   type:'SET_ENTITIES',
   data
 });
-
 
 export const navigate = (screen) => ({
   type: 'NAVIGATE',
@@ -162,6 +180,18 @@ export const closeCreateEventConfirmationAlert = () => ({
 
 export const closeCreateEventErrorAlert = () => ({
   type: 'CLOSE_CREATE_EVENT_ERR_ALERT',
+});
+
+export const closeEditEventConfirmationAlert = () => ({
+  type: 'CLOSE_EDIT_EVENT_CONF_ALERT',
+});
+
+export const closeEditEventErrorAlert = () => ({
+  type: 'CLOSE_EDIT_EVENT_ERR_ALERT',
+});
+
+export const disableReloadEvents = () => ({
+  type: 'DISABLE_RELOAD_EVENTS',
 });
 
 export const formProfilePage = (events, user) => ({

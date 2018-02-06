@@ -58,7 +58,7 @@ class NavBar extends Component {
 
 
   render () {
-    console.log('screen', this.props.screen);
+    // console.log('screen', this.props.screen);
     const allButtons = {
       create: {
         onPress:this.handleCreate,
@@ -87,6 +87,8 @@ class NavBar extends Component {
       buttons.center = <Image source={logo} style={style.navbar_logo}/>;
     } else if (this.state.screen === 'CreateEvent') {
       buttons.center = <View><Text style={style.navbar_title}>Create Event</Text></View>;
+    } else if (this.state.screen === 'EditEvent') {
+      buttons.center = <View><Text style={style.navbar_title}>Edit Event</Text></View>;
     } else {
       buttons.center = <View><Text style={style.navbar_title}>{this.state.screen}</Text></View>;
     };
@@ -101,6 +103,9 @@ class NavBar extends Component {
       buttons.left = this.renderButton(allButtons.close);
       buttons.right = this.renderButton(allButtons.logout);
     } else if (this.state.screen === 'CreateEvent') {
+      buttons.left = this.renderButton(allButtons.close);
+      buttons.right = null;
+    } else if (this.state.screen === 'EditEvent') {
       buttons.left = this.renderButton(allButtons.close);
       buttons.right = null;
     } else {
