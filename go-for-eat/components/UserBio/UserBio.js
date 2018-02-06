@@ -51,8 +51,8 @@ class UserBio extends Component {
         this.setState({error:true});
         return;
       }
-      this.setState({error:false});
       this.setState({
+        error:false,
         edit: {
           ...this.state.edit,
           [key]:false
@@ -87,10 +87,9 @@ class UserBio extends Component {
       <View>
         <Text style ={s.profile_bio_title}>Rating:</Text>
         <View style={s.profile_rating_stars}>
-          {ratings_number>0?
-            this.renderRating()
-            :
-            <Text>No ratings to show.</Text>
+          {ratings_number>0
+            ? this.renderRating()
+            : <Text>No ratings to show.</Text>
           }
         </View>
       </View>
@@ -98,7 +97,6 @@ class UserBio extends Component {
   }
 
   renderSection = (key, title) => {
-
     if (this.props.screen==='User' && this.state.text[key]==='') return null;
     return (
       <View style={s.profile_section_outercontainer}>
@@ -118,20 +116,21 @@ class UserBio extends Component {
               <Text style={s.profile_section_text_italic}>Add your {key} here</Text>
               :
               <Text style={s.profile_section_text}>{this.state.text[key]}</Text>
-
           }
-          {(this.props.screen==='Profile')?((this.state.edit[key])?
-            (<TouchableOpacity ref={key} style={s.profile_icon} onPress={this.handleSave(key)}>
-              <Image style={s.profile_icon_save} source={profileSave}/>
-            </TouchableOpacity>)
-            :
-            (<TouchableOpacity ref={key} style={s.profile_icon} onPress={this.handleEdit(key)}>
-              <Image style={s.profile_icon_edit} source={profileEdit}/>
-            </TouchableOpacity>)):null
+          {(this.props.screen==='Profile')
+            ? this.renderButton(key, this.state.edit[key])
+            : null
           }
-
         </View>
       </View>
+    );
+  }
+
+  renderButton = (key, edit) => {
+    return (
+      <TouchableOpacity ref={key} style={s.profile_icon} onPress={edit?this.handleSave(key):this.handleEdit(key)}>
+        <Image style={edit?s.profile_icon_save:s.profile_icon_edit} source={edit?profileSave:profileEdit}/>
+      </TouchableOpacity>
     );
   }
 
@@ -154,12 +153,8 @@ class UserBio extends Component {
         {this.renderSection('interests', 'Interests: ')}
         <View style={{ height: 60 }} />
       </KeyboardAwareScrollView>
-
     );
   }
-
-
-
 }
 
 const mapStateToProps = (state) => ({

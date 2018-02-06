@@ -26,7 +26,6 @@ const nav = (state = initialNavState, action) => {
     );
     break;
   case 'NAVIGATE':
-    console.log('ACTION', action);
     nextState = AppNavigator.router.getStateForAction(
       NavigationActions.navigate({ routeName: action.screen }),
       state

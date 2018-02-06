@@ -16,7 +16,10 @@ const authentication = (state = defaultState, action) => {
   case 'UPDATE_USER_SUCCESS':
     return {
       ...state,
-      ...action.data
+      user: {
+        ...state.user,
+        ...action.data.edit
+      }
     };
   case 'UPDATE_USER_FAILURE':
 
