@@ -18,8 +18,8 @@ class EventList extends Component {
       to: Math.floor(new Date(moment().endOf('day')).getTime()/1000),
       from: Math.floor(new Date().getTime()/1000),
     };
-  }
 
+  }
 
 
   loadMore = async () => {

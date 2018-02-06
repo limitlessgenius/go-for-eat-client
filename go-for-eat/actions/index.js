@@ -9,6 +9,7 @@ const eventSchemaArray = [eventSchema];
 
 const mySchema = new schema.Entity('user', {events:eventSchemaArray, created_events:eventSchemaArray}, {idAttribute:'_id'});
 const outerSchema = new schema.Entity('me', {user:mySchema}, {idAttribute:'user'});
+
 export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST';
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
 export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE';
@@ -91,6 +92,18 @@ export const joinEvent = (eventId, userId) => ({
 
 });
 
+export const GET_USER_REQUEST = 'GET_USER_REQUEST';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_USER_FAILURE = 'GET_USER_FAILURE';
+
+export const getUser = (userId) => ({
+  [CALL_API]: {
+    types: [GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE],
+    endpoint: `/users/${userId}`,
+    method: 'GET',
+  },
+});
+
 export const LEAVE_EVENTS_REQUEST = 'LEAVE_EVENTS_REQUEST';
 export const LEAVE_EVENTS_SUCCESS = 'LEAVE_EVENTS_SUCCESS';
 export const LEAVE_EVENTS_FAILURE = 'LEAVE_EVENTS_FAILURE';
@@ -124,6 +137,10 @@ export const goToUser = (userId) => ({
   userId
 });
 
+export const setEntities = (data) => ({
+  type:'SET_ENTITIES',
+  data
+});
 
 
 export const navigate = (screen) => ({
@@ -145,4 +162,10 @@ export const closeCreateEventConfirmationAlert = () => ({
 
 export const closeCreateEventErrorAlert = () => ({
   type: 'CLOSE_CREATE_EVENT_ERR_ALERT',
+});
+
+export const formProfilePage = (events, user) => ({
+  type:'FORM_PROFILE_PAGE',
+  events,
+  user
 });
