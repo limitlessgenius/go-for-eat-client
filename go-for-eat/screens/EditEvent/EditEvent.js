@@ -4,7 +4,7 @@ import { Platform, View, Text, Alert, ActivityIndicator } from 'react-native';
 import { Button } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import { GooglePlacesAutocomplete } from '../../components/GooglePlacesAutocomplete';
-import { createEvent, navigate, closeCreateEventConfirmationAlert, closeCreateEventErrorAlert } from '../../actions';
+import { editEvent, navigate, closeEditEventConfirmationAlert, closeEditEventErrorAlert } from '../../actions';
 import debounce from 'lodash.debounce';
 
 const moment = require('moment');
@@ -15,23 +15,30 @@ import cs from './customStyles';
 class EditEvent extends Component {
   constructor (props) {
     super(props);
-    this.newEvent = {};
+    this.eventUpdate ={
+      'place_id': this.props.events[this.props.eventId].place_id,
+      'place_name': this.props.events[this.props.eventId].place_name,
+      'place_address': this.props.events[this.props.eventId].place_address,
+      'place_url': this.props.events[this.props.eventId].place_url,
+      'location': this.props.events[this.props.eventId].location,
+      'when': this.props.events[this.props.eventId].when,
+    };
     this.state = {
-      date: moment().format('DD / MM / YYYY'),
-      time: moment().format('HH : mm'),
-      okButtonDisabled: true,
+      date: moment(this.eventUpdate.when).format('DD / MM / YYYY'),
+      time: moment(this.eventUpdate.when).format('HH : mm'),
+      editButtonDisabled: true,
       showActivityIndicator: false,
     };
   }
 
   componentWillMount() {
-    this.handleGo = debounce(this.handleGo, 10);
+    this.handleEdit = debounce(this.handleEdit, 10);
   }
 
   confirmationAlert = () => {
     Alert.alert(
-      'Your event has been created!',
-      '',
+      'Congratulations!',
+      'Your event has been modified',
       [
         {text: 'OK', onPress: () => this.onConfirmationAlertOk()},
       ],
@@ -59,21 +66,22 @@ class EditEvent extends Component {
     this.props.closeErrorAlertOpen();
   }
 
-  handleGo = () => {
-    if ( this.newEvent.place_id && this.state.date !== '' && this.state.time !== '') {
-      var date = this.state.date.split(' / ');
-      var dateTime = date[2]+'-'+date[1]+'-'+date[0]+'T'+this.state.time.replace(/\s/g, '')+':00';
-      this.newEvent.when = (new Date(dateTime).getTime())/1000;
-      this.props.createEvent(this.newEvent);
-      this.setState({
-        okButtonDisabled: true,
-        showActivityIndicator: true
-      });
-    }
+  handleEdit = () => {
+    let date = this.state.date.split(' / ');
+    let time = this.state.time.split(':');
+    let newDateTime = new Date(date[2], parseInt(date[1], 10) - 1, date[0], time[0], time[1]);
+    this.eventUpdate.when = newDateTime.getTime();
+    // if ( restaurant input is not empty ) {
+    this.props.editEvent(this.props.eventId, this.eventUpdate);
+    this.setState({
+      editButtonDisabled: true,
+      showActivityIndicator: true
+    });
+    // }
   }
 
   handleSelectPlace = (data, details) => {
-    this.newEvent = {
+    this.eventUpdate = {
       'place_id': data.id,
       'place_name': data.name,
       'place_address': data.vicinity,
@@ -83,7 +91,17 @@ class EditEvent extends Component {
         'coordinates': [data.geometry.location.lng, data.geometry.location.lat]
       }
     };
-    this.setState({okButtonDisabled: false});
+    this.setState({editButtonDisabled: false});
+  }
+
+  handleOnDateChange = (date) =>  {
+    this.setState({date: date});
+    this.setState({editButtonDisabled: false});
+  }
+
+  handleOnTimeChange = (time) =>  {
+    this.setState({time: time});
+    this.setState({editButtonDisabled: false});
   }
 
   renderBotom() {
@@ -96,9 +114,9 @@ class EditEvent extends Component {
         <Button
           buttonStyle={s.goButton}
           textStyle={s.goButtonText}
-          title='GO FOR IT'
-          onPress={this.handleGo}
-          disabled={this.state.okButtonDisabled}
+          title='Edit'
+          onPress={this.handleEdit}
+          disabled={this.state.editButtonDisabled}
           disabledStyle={s.disabledStyle}
           disabledTextStyle={s.isabledTextStyle}
         />
@@ -113,9 +131,8 @@ class EditEvent extends Component {
         <Text style={s.title}>Restaurant:</Text>
         <View style={s.GooglePlacesAutocompleteContainer}>
           <GooglePlacesAutocomplete
-            onPress={(data, details) => {
-              this.handleSelectPlace(data, details);
-            }}
+            text={this.eventUpdate.place_name}
+            onPress={(data, details) => this.handleSelectPlace(data, details)}
           />
         </View>
         <Text style={s.title}>Date:</Text>
@@ -124,11 +141,10 @@ class EditEvent extends Component {
           date={this.state.date}
           mode="date"
           format='DD / MM / YYYY'
-          minDate={moment().format('DD / MM / YYYY')}
           confirmBtnText="Confirm"
           cancelBtnText="Cancel"
           customStyles={cs.datePicker}
-          onDateChange={(date) => this.setState({date: date})}
+          onDateChange={(date) => this.handleOnDateChange(date)}
         />
         <Text style={s.title}>Hours:</Text>
         <DatePicker
@@ -139,7 +155,7 @@ class EditEvent extends Component {
           confirmBtnText='Confirm'
           cancelBtnText='Cancel'
           customStyles={cs.timePicker}
-          onDateChange={(time) => this.setState({time: time})}
+          onDateChange={(time) => this.handleOnTimeChange(time)}
         />
         <View style={s.bottomContainer}>
           {this.renderBotom()}
@@ -150,15 +166,17 @@ class EditEvent extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  confirmationAlertOpen: state.pages.CreateEvent.confirmationAlertOpen,
-  errorAlertOpen: state.pages.CreateEvent.errorAlertOpen,
+  confirmationAlertOpen: state.pages.EditEvent.confirmationAlertOpen,
+  errorAlertOpen: state.pages.EditEvent.errorAlertOpen,
+  events: state.entities.events,
+  eventId: state.pages.EditEvent.eventId
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  createEvent: (data) => dispatch(createEvent(data)),
+  editEvent: (eventId, data) => dispatch(editEvent(eventId,data)),
   navigate: (screen) => dispatch(navigate(screen)),
-  closeConfirmationAlertOpen: () => dispatch(closeCreateEventConfirmationAlert()),
-  closeErrorAlertOpen: () => dispatch(closeCreateEventErrorAlert()),
+  closeConfirmationAlertOpen: () => dispatch(closeEditEventConfirmationAlert()),
+  closeErrorAlertOpen: () => dispatch(closeEditEventErrorAlert()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditEvent);

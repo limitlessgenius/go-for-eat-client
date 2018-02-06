@@ -15,8 +15,8 @@ class EventList extends Component {
       lat: 41.3949187, //get from google
       lng: 2.1957668, //get from google
       dist: 100000, //get from google
-      to: Math.floor(new Date(moment().endOf('day')).getTime()/1000),
-      from: Math.floor(new Date().getTime()/1000),
+      to: new Date(moment().endOf('day')).getTime(),
+      from: new Date().getTime(),
     };
   }
 
@@ -24,7 +24,7 @@ class EventList extends Component {
 
   loadMore = async () => {
     await this.setState({
-      to: Math.floor(new Date(moment((this.state.to+100)*1000).endOf('day')).getTime()/1000),
+      to: Math.floor(new Date(moment(this.state.to+100000).endOf('day')).getTime()),
       from: this.state.to,
     });
     this.props.getNearbyEvents(this.state);
@@ -36,7 +36,7 @@ class EventList extends Component {
         style={s.list}
         renderSectionHeader={({section}) => {return (
           <View style={s.section_header}>
-            <Text style={s.section_header_text}> {moment(section.title * 1000).format('Do MMMM')} </Text>
+            <Text style={s.section_header_text}> {moment(section.title).format('Do MMMM')} </Text>
           </View>);
         }}
         sections={this.props.events}

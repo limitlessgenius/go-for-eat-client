@@ -89,13 +89,17 @@ const pages = (state = defaultState, action) => {
         userId: action.userId
       }
     };
+  case 'SELECT_EVENT':
+    return {
+      ...state,
+      EditEvent: {
+        ...state.EditEvent,
+        eventId: action.eventId
+      }
+    };
   case 'CREATE_EVENT_SUCCESS':
     return {
       ...state,
-      Home: {
-        ...state.Home,
-        events: []
-      },
       CreateEvent: {
         ...state.CreateEvent,
         confirmationAlertOpen: true,
@@ -122,6 +126,40 @@ const pages = (state = defaultState, action) => {
       ...state,
       CreateEvent: {
         ...state.CreateEvent,
+        errorAlertOpen: false,
+      }
+    };
+  case 'EDIT_EVENT_SUCCESS':
+    console.log('EDIT_EVENT_SUCCESS');
+    return {
+      ...state,
+      EditEvent: {
+        ...state.EditEvent,
+        confirmationAlertOpen: true,
+      }
+    };
+  case 'EDIT_EVENT_FAILURE':
+    console.log('EDIT_EVENT_FAILURE');
+    return {
+      ...state,
+      EditEvent: {
+        ...state.EditEvent,
+        errorAlertOpen: true,
+      }
+    };
+  case 'CLOSE_EDIT_EVENT_CONF_ALERT':
+    return {
+      ...state,
+      EditEvent: {
+        ...state.EditEvent,
+        confirmationAlertOpen: false,
+      }
+    };
+  case 'CLOSE_EDIT_EVENT_ERR_ALERT':
+    return {
+      ...state,
+      EditEvent: {
+        ...state.EditEvent,
         errorAlertOpen: false,
       }
     };

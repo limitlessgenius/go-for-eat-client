@@ -33,7 +33,7 @@ class GooglePlacesAutocomplete extends Component {
   }
 
   getInitialState = () => ({
-    text: '',
+    text: this.props.text,
     dataSource: [],
     listViewDisplayed: false,
     query: {

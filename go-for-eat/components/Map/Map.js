@@ -15,8 +15,8 @@ class Maps extends Component {
       lat: 41.3949187, //get from google
       lng: 2.1957668, //get from google
       dist: 100000, //get from google
-      to: Math.floor(new Date(moment().endOf('day')).getTime()/1000),
-      from: Math.floor(new Date().getTime()/1000),
+      to: new Date(moment().endOf('day')).getTime(),
+      from: new Date().getTime(),
     };
   }
 

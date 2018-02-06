@@ -88,7 +88,6 @@ export const joinEvent = (eventId, userId) => ({
   },
   eventId,
   userId
-
 });
 
 export const LEAVE_EVENTS_REQUEST = 'LEAVE_EVENTS_REQUEST';
@@ -119,12 +118,29 @@ export const deleteEvent = (eventId, userId) => ({
   userId
 });
 
+export const EDIT_EVENT_REQUEST = 'EDIT_EVENT_REQUEST';
+export const EDIT_EVENT_SUCCESS = 'EDIT_EVENT_SUCCESS';
+export const EDIT_EVENT_FAILURE = 'EDIT_EVENT_FAILURE';
+
+export const editEvent = (eventId, data) => ({
+  type: 'EDIT_EVENT',
+  [CALL_API]: {
+    types: [EDIT_EVENT_REQUEST, EDIT_EVENT_SUCCESS, EDIT_EVENT_FAILURE],
+    endpoint: `/events/${eventId}`,
+    method: 'PUT',
+    data
+  },
+});
+
+export const goToEditEvent = (eventId) => ({
+  type: 'SELECT_EVENT',
+  eventId
+});
+
 export const goToUser = (userId) => ({
   type: 'SELECT_USER',
   userId
 });
-
-
 
 export const navigate = (screen) => ({
   type: 'NAVIGATE',
@@ -145,4 +161,12 @@ export const closeCreateEventConfirmationAlert = () => ({
 
 export const closeCreateEventErrorAlert = () => ({
   type: 'CLOSE_CREATE_EVENT_ERR_ALERT',
+});
+
+export const closeEditEventConfirmationAlert = () => ({
+  type: 'CLOSE_EDIT_EVENT_CONF_ALERT',
+});
+
+export const closeEditEventErrorAlert = () => ({
+  type: 'CLOSE_EDIT_EVENT_ERR_ALERT',
 });

@@ -30,8 +30,8 @@ class CreateEvent extends Component {
 
   confirmationAlert = () => {
     Alert.alert(
-      'Your event has been created!',
-      '',
+      'Congratulations!',
+      'Your event has been created',
       [
         {text: 'OK', onPress: () => this.onConfirmationAlertOk()},
       ],
@@ -61,9 +61,10 @@ class CreateEvent extends Component {
 
   handleGo = () => {
     if ( this.newEvent.place_id && this.state.date !== '' && this.state.time !== '') {
-      var date = this.state.date.split(' / ');
-      var dateTime = date[2]+'-'+date[1]+'-'+date[0]+'T'+this.state.time.replace(/\s/g, '')+':00';
-      this.newEvent.when = (new Date(dateTime).getTime())/1000;
+      let date = this.state.date.split(' / ');
+      let time = this.state.time.split(':');
+      let dateTime = new Date(date[2], parseInt(date[1], 10) - 1, date[0], time[0], time[1]);
+      this.newEvent.when = dateTime.getTime();
       this.props.createEvent(this.newEvent);
       this.setState({
         okButtonDisabled: true,
@@ -113,6 +114,7 @@ class CreateEvent extends Component {
         <Text style={s.title}>Restaurant:</Text>
         <View style={s.GooglePlacesAutocompleteContainer}>
           <GooglePlacesAutocomplete
+            text={''}
             onPress={(data, details) => {
               this.handleSelectPlace(data, details);
             }}
@@ -122,11 +124,11 @@ class CreateEvent extends Component {
         <DatePicker
           style={s.datePicker}
           date={this.state.date}
-          mode="date"
+          mode='date'
           format='DD / MM / YYYY'
           minDate={moment().format('DD / MM / YYYY')}
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
+          confirmBtnText='Confirm'
+          cancelBtnText='Cancel'
           customStyles={cs.datePicker}
           onDateChange={(date) => this.setState({date: date})}
         />

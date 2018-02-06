@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { View, ScrollView,TouchableWithoutFeedback, TouchableOpacity, Image, Text, ActionSheetIOS, StyleSheet, Linking } from 'react-native';
 import s from './styles';
 import _ from 'lodash';
-import { navigate, goToUser, joinEvent, leaveEvent, deleteEvent } from '../../actions';
+import { navigate, goToUser, joinEvent, leaveEvent, deleteEvent, goToEditEvent } from '../../actions';
 
 
 class EventDetail extends Component {
@@ -58,7 +58,8 @@ class EventDetail extends Component {
     });
   }
 
-  goToEditEventction() {
+  goToEditEventAction = () => {
+    this.props.goToEditEvent(this.props.eventData._id);
     this.props.navigate('EditEvent');
   }
 
@@ -129,8 +130,8 @@ class EventDetail extends Component {
           <Text style={s.inner_actions_text}>GET THERE</Text>
         </View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={()=>{
-        this.goToEditEventction(this.props.eventData);}}>
+      <TouchableWithoutFeedback 
+        onPress={this.goToEditEventAction}>
         <View style={s.inner_actions_btn}>
           <Image source={require('../../assets/icons/event_edit.png')} style={s.inner_actions_icon}></Image>
           <Text style={s.inner_actions_text}>EDIT EVENT</Text>
@@ -179,6 +180,7 @@ const mapDispatchToProps = (dispatch) => ({
   joinEvent: (eventId, userId) => dispatch(joinEvent(eventId, userId)),
   leaveEvent: (eventId, userId) => dispatch(leaveEvent(eventId, userId)),
   deleteEvent: (eventId) => dispatch(deleteEvent(eventId)),
+  goToEditEvent: (eventId) => dispatch(goToEditEvent(eventId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventDetail);
