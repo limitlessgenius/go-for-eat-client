@@ -54,6 +54,7 @@ class EventDetail extends Component {
           console.error('An error occurred', err)
         );
         break;
+
       }
     });
   }
@@ -144,20 +145,20 @@ class EventDetail extends Component {
     return  (
       <View style={s.event_inner_detail}>
         {this.props.user._id === this.props.eventData.creator ? this.renderYour() : this.renderOthers()}
-        <View style={s.event_inner_partecipants}>
-          <Text style={s.inner_actions_text}>Partecipants:</Text>
-          <View style={s.inner_partecipants_people}>
+        <View style={s.event_inner_participants}>
+          <Text style={s.inner_actions_text}>Participants:</Text>
+          <View style={s.inner_participants_people}>
             {_.range(4).map(i => {
               return this.props.eventData.attendees[i] ?
-                <View  key={i} style={s.inner_partecipants_person}>
+                <View  key={i} style={s.inner_participants_person}>
                   <TouchableWithoutFeedback onPress={()=> {this.props.goToUser(this.props.eventData.attendees[i]); this.props.navigate('User');}} >
-                    <Image source={{uri: this.props.users[this.props.eventData.attendees[i]].profile_picture}} style={s.inner_partecipants_picture}></Image>
+                    <Image source={{uri: this.props.users[this.props.eventData.attendees[i]].profile_picture}} style={s.inner_participants_picture}></Image>
                   </TouchableWithoutFeedback>
                   <Text style={s.inner_actions_text}>{this.props.users[this.props.eventData.attendees[i]].name}</Text>
                 </View>
                 :
-                <View  key={i}  style={s.inner_partecipants_person}>
-                  <Image source={require('../../assets/icons/event_free.png')} style={s.inner_partecipants_picture}></Image>
+                <View  key={i}  style={s.inner_participants_person}>
+                  <Image source={require('../../assets/icons/event_free.png')} style={s.inner_participants_picture}></Image>
                   <Text style={s.inner_actions_text}>Free</Text>
                 </View>;
             })}

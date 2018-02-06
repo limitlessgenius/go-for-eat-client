@@ -13,6 +13,7 @@ export const saveState = (state) => {
   try {
     const serializedState = JSON.stringify({
       authentication: state.authentication,
+      entities:state.entities
     });
     Expo.SecureStore.setItemAsync('state', serializedState);
   } catch (err) {

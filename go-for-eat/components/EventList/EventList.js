@@ -18,8 +18,8 @@ class EventList extends Component {
       to: new Date(moment().endOf('day')).getTime(),
       from: new Date().getTime(),
     };
-  }
 
+  }
 
 
   loadMore = async () => {

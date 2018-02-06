@@ -23,6 +23,7 @@ class Event extends Component {
     );};
 
   render() {
+
     const eventData = this.props.events[this.props.eventID];
     if (eventData === undefined) return null;
     return (
@@ -69,6 +70,7 @@ class Event extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  screen: state.pages.currentScreen,
   events: state.entities.events,
   users: state.entities.users,
   user: state.authentication.user,
