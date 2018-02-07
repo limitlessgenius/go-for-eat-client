@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator, Image } from 'react-native';
+import { View, Text, ActivityIndicator, Image, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { getNearbyEvents, setQueryState, setMainEvent, disableReloadEvents } from '../../actions';
 import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
@@ -129,8 +129,9 @@ class Maps extends Component {
   }
 
   render() {
-    return this.props.events && this.props.query.lat &&  this.props.query.lng? (
+    return (this.props.events && this.props.query.lat &&  this.props.query.lng) ? (
       <MapView style={s.map}
+        mapType={Platform.OS == 'android' ? 'none': 'standard'}
         initialRegion={{
           latitude: this.props.query.lat,
           longitude: this.props.query.lng,
@@ -163,9 +164,9 @@ class Maps extends Component {
         </Animatable.Image>
         {this.renderMarkers()}
       </MapView> ) :
-      <View style={{paddingVertical: 20}}>
+      (<View style={{paddingVertical: 20}}>
         <ActivityIndicator size="large" color="#ffffff"/>
-      </View>;
+      </View>);
   }
 }
 

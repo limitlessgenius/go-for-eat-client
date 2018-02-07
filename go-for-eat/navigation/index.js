@@ -10,6 +10,7 @@ import Profile from '../screens/Profile/Profile';
 import { CreateEvent } from '../screens/CreateEvent';
 import { EditEvent } from '../screens/EditEvent';
 import LoadingPage from '../screens/LoadingPage';
+import { Rating } from '../screens/Rating';
 
 const NavigatorWithRootScreen = (routeName, screen) => {
   return StackNavigator({
@@ -25,44 +26,30 @@ const NavigatorWithRootScreen = (routeName, screen) => {
 
 
 const HomeStack = StackNavigator({
-  LoadingPage:{
-    screen: LoadingPage
+  Home: {
+    screen: NavigatorWithRootScreen('Home', Home),
+    navigationOptions:{header:()=>null}
   },
   User: {
     screen: NavigatorWithRootScreen('User', User),
     navigationOptions:{header:()=>null}
   },
-  Home: {
-    screen: NavigatorWithRootScreen('Home', Home),
-    navigationOptions:{header:()=>null}
-  },
-});
-
-export const AppNavigator = StackNavigator({
-  Login: {
-    screen: Login
-  },
-  HomeStack: {
-    screen: HomeStack,
-    navigationOptions: {
-      gesturesEnabled: false,
-    }
-  },
   CreateEvent: {
     screen:NavigatorWithRootScreen('CreateEvent', CreateEvent),
-    navigationOptions:{header:()=>null}
+    navigationOptions:{header:()=>null},
   },
   EditEvent: {
     screen:NavigatorWithRootScreen('EditEvent', EditEvent),
     navigationOptions:{header:()=>null}
   },
-  Loading:{
-    screen:LoadingPage
-  },
   Profile: {
     screen: NavigatorWithRootScreen('Profile', Profile),
     navigationOptions:{header:()=>null}
   },
+  Rating: {
+    screen: NavigatorWithRootScreen('Rating', Rating),
+    navigationOptions:{header:() => null}
+  }
 
 },
 {
@@ -70,6 +57,23 @@ export const AppNavigator = StackNavigator({
   headerMode: 'none'
 }
 );
+
+export const AppNavigator = StackNavigator({
+  Login: {
+    screen: Login,
+    navigationOptions:{header:()=>null}
+  },
+  Loading:{
+    screen:LoadingPage,
+    navigationOptions:{header:()=>null}
+  },
+  HomeStack: {
+    screen: HomeStack,
+    navigationOptions: {
+      gesturesEnabled: false,
+    }
+  }
+});
 
 class AppWithNavigationState extends React.Component {
 
