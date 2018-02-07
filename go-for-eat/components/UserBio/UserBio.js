@@ -185,7 +185,7 @@ class UserBio extends Component {
         </View>
         <View style={s.bio_headline}>
           <Text style={s.bio_name}>{name}{birthday?', ' + this.getAgeFromBirthday(birthday):''}</Text>
-          {this.renderVoteButton(!this.state.renderVote)}
+          {this.renderVoteButton(this.state.renderVote)}
         </View>
         {this.state.error? <Text style={s.bio_error}>{'Fields must only be 140 characters or less.'}</Text>:null}
         {this.renderRatingSection()}
