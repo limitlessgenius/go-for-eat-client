@@ -60,7 +60,7 @@ class NavBar extends Component {
         onPress={button.onPress}
       >
         <Image
-          style={style.navbar_icon}
+          style={[style.navbar_icon, button.style]}
           source={button.icon}
 
         />
@@ -74,23 +74,28 @@ class NavBar extends Component {
     const allButtons = {
       create: {
         onPress:this.handleCreate,
-        icon: navNew
+        icon: navNew,
+        style: style.create,
       },
       profile: {
         onPress:this.handleMyProfile,
-        icon: navProfile
+        icon: navProfile,
+        style: style.profile,
       },
       back: {
         onPress:this.handleNavBack,
-        icon: navBack
+        icon: navBack,
+        style: style.back,
       },
       close: {
         onPress:this.handleNavBack,
-        icon:navClose
+        icon:navClose,
+        style: style.close,
       },
       logout: {
         onPress:this.handleLogout,
-        icon:navLogout
+        icon:navLogout,
+        style: style.logout,
       }
     };
 
@@ -130,7 +135,8 @@ class NavBar extends Component {
           leftComponent={buttons.left}
           centerComponent={buttons.center}
           rightComponent={buttons.right}
-          outerContainerStyles={style.navbar_container}
+          outerContainerStyles={style.navbar_outer_container}
+          innerContainerStyles={style.navbar_inner_container}
         />
       </View>
     );
