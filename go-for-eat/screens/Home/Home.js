@@ -3,7 +3,7 @@ import { View, Text, StatusBar, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import s from './styles';
-import { Map } from '../../components/Map';
+import { Maps } from '../../components/Maps';
 import { DragBar } from '../../components/DragBar';
 import { EventList } from '../../components/EventList';
 import Drawer from 'react-native-draggable-view';
@@ -13,9 +13,7 @@ let SCREEN_HEIGHT = Dimensions.get('window').height;
 class Home extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      open: false,
-    };
+    this.state = {};
   }
 
   drawerDirection = (direction) => {
@@ -30,12 +28,14 @@ class Home extends Component {
         initialDrawerSize={.29}
         finalDrawerHeight={0}
         onRelease={this.drawerDirection}
-        renderContainerView={() => <Map/>}
+        renderContainerView={() => <Maps/>}
         renderDrawerView={() => (<Animatable.View
           duration={500}
           transition={['translateY', 'height']}
-          style={{ height:this.props.open ? SCREEN_HEIGHT -485 : SCREEN_HEIGHT -235, transform: [{ translateY: this.props.open ? 215 : 0}]}}>
-          <EventList/>
+          style={{ height:this.props.open ? SCREEN_HEIGHT -450 : SCREEN_HEIGHT -235, transform: [{ translateY: this.props.open ? 215 : 0}]}}>
+          <EventList
+            up={this.state.up}
+          />
         </Animatable.View>
         )}
         renderInitDrawerView={() => (<Animatable.View

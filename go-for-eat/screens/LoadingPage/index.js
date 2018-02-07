@@ -32,9 +32,7 @@ class LoadingPage extends Component {
       <View style={s.container}>
         <Animated.Image
           style={{
-            width: 227,
-            height: 200,
-            transform: [{rotate: spin}] }}
+            transform: [{rotate: spin}, {scale: 0.2}] }}
           source={require('../../assets/logo/appIcon.png')}
         />
       </View>

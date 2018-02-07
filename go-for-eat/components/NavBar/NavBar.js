@@ -4,7 +4,7 @@ import { Header } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import { logoutUser, navigate, navigateBack } from '../../actions';
-import { logoutStorage } from '../../localStorage'
+import { logoutStorage } from '../../localStorage';
 
 import navNew from '../../assets/icons/nav_new.png';
 import navBack from '../../assets/icons/nav_back.png';
@@ -58,7 +58,6 @@ class NavBar extends Component {
 
 
   render () {
-    // console.log('screen', this.props.screen);
     const allButtons = {
       create: {
         onPress:this.handleCreate,

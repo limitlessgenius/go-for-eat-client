@@ -9,8 +9,22 @@ import { setUser, setPages, setEntities, loginUser, navigate } from '../../actio
 
 
 class Login extends Component {
+  constructor(props){
+    super(props);
+    this.state = {};
+  }
+
 
   componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      }
+    );
+
     Expo.SecureStore.getItemAsync('state')
       .then(userData => {
         if (userData) {
@@ -37,7 +51,8 @@ class Login extends Component {
             id: result.user.id,
             accessToken: result.accessToken,
             idToken: result.idToken,
-            network: 'google'
+            network: 'google',
+            position: this.state,
           };
           this.props.serverAuth(data);
         } else {
@@ -45,7 +60,6 @@ class Login extends Component {
         }
       })
       .catch(err => console.log(err));
-
   }
 
   loginFacebook = async () => {
@@ -58,7 +72,8 @@ class Login extends Component {
         .then(data => {
           data.accessToken = token;
           data.network = 'facebook';
-          const allowed = ['id', 'accessToken', 'network'];
+          data.position = this.state;
+          const allowed = ['id', 'accessToken', 'network', 'position'];
           const filtered = Object.keys(data)
             .filter(key => allowed.includes(key))
             .reduce((obj, key) => {

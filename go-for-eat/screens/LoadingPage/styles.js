@@ -8,7 +8,8 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   image: {
-    width: 227,
-    height: 200,
+    transform: [
+      {'scale': 0.6}
+    ]
   }
 });

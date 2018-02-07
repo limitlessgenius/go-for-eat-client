@@ -37,6 +37,16 @@ export const setUser = (data) => ({
   data,
 });
 
+export const setMainEvent= (id) => ({
+  type: 'SET_MAIN_EVENT',
+  id,
+});
+
+export const setQueryState = (newQuery) => ({
+  type: 'UPDATE_QUERY_STATE',
+  newQuery,
+});
+
 export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
@@ -97,12 +107,13 @@ export const GET_EVENTS_REQUEST = 'GET_EVENTS_REQUEST';
 export const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
 export const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
 
-export const getNearbyEvents = (queryString) => ({
+export const getNearbyEvents = (queryString, distFetch=false) => ({
   [CALL_API]: {
     types: [GET_EVENTS_REQUEST, GET_EVENTS_SUCCESS, GET_EVENTS_FAILURE],
     endpoint: `/events?lat=${queryString.lat}&lng=${queryString.lng}&dist=${queryString.dist}&to=${queryString.to}&from=${queryString.from}`,
     schema: eventSchemaArray,
-  }
+  },
+  distFetch
 });
 
 export const JOIN_EVENTS_REQUEST = 'JOIN_EVENTS_REQUEST';

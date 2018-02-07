@@ -25,5 +25,16 @@ export default StyleSheet.create({
     fontFamily: 'Roboto_Medium',
     fontSize: 15,
     paddingLeft: 5,
-  }
+  },
+  list_footer:{
+    backgroundColor: '#2ECC71',
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  list_footer_text:{
+    color: 'white',
+    fontFamily: 'Roboto_Medium',
+    fontSize: 15,
+  },
 });
