@@ -32,6 +32,11 @@ const entities = (state = defaultState, action) => {
         }
       }
     };
+    return state;
+    break;
+  case 'JOIN_EVENTS_FAILURE':
+    console.log('JOIN_EVENTS_FAILURE', action);
+    return state;
     break;
   case 'RATE_USER_SUCCESS':
     let newAverage;
@@ -53,7 +58,6 @@ const entities = (state = defaultState, action) => {
       }
     };
   case 'GET_EVENTS_FAILURE':
-    console.log(action);
     return state;
   case 'LEAVE_EVENTS_SUCCESS':
     if (state.events[action.eventId].creator === action.userId) {

@@ -12,6 +12,11 @@ class DragBar extends Component {
     super(props);
   }
 
+  componentDidMount () {
+    if (this.props.query) {
+      this.props.getSudggested(this.props.query);
+    }
+  }
 
 
   render() {

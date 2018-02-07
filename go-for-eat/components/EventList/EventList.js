@@ -37,9 +37,9 @@ class EventList extends Component {
         renderItem={({ item }) => <Event key={item} eventID={item}/>}
         ItemSeparatorComponent={this.renderSeparator}
         keyExtractor={item => item}
-        ListFooterComponent={this.renderFooter}
+        // ListFooterComponent={this.renderFooter}
         onEndReached={this.loadMore}
-        onEndReachedThreshold={0.1}
+        onEndReachedThreshold={1}
       />
     ) : <View style={{paddingVertical: 20}}>
       <ActivityIndicator size="large" color="#ffffff"/>

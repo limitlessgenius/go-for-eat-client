@@ -7,6 +7,7 @@ import { EventDetail } from '../EventDetail';
 import moment from 'moment';
 import * as Animatable from 'react-native-animatable';
 import _ from 'lodash';
+import geolib from 'geolib';
 
 class Event extends Component {
   constructor(props){
@@ -23,9 +24,16 @@ class Event extends Component {
     );};
 
   render() {
-
     const eventData = this.props.events[this.props.eventID];
-    if (eventData === undefined) return null;
+
+    if (eventData === undefined){ return (
+      <View style={s.list_footer}>
+        <Text style={s.list_footer_text}>There are no events in nearby</Text>
+      </View>);}
+    eventData.distance = geolib.getDistance(
+      {latitude: eventData.location.coordinates[1], longitude: eventData.location.coordinates[0]},
+      {latitude: this.props.user.position.lat, longitude:this.props.user.position.lng}
+    );
     return (
       <Animatable.View duration={500} transition='height' style={{height: this.state.height}}>
         <TouchableWithoutFeedback

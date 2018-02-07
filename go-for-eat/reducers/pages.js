@@ -128,7 +128,6 @@ const pages = (state = defaultState, action) => {
             ...originalEvents,
             { title, data: eventIds }
           ],
-          mainEvent: eventIds[0],
         },
         Maps: {
           ...state.Maps,
@@ -138,13 +137,26 @@ const pages = (state = defaultState, action) => {
         },
       };
     }
+    else return state;
   case 'SET_MAIN_EVENT':
-    console.log('SET_MAIN_EVENT',action.id);
+    if (action.id) {
+      return {
+        ...state,
+        Home: {
+          ...state.Home,
+          mainEvent: action.id,
+        }
+      };
+    }
+    else return state;
+    break;
+  case 'GET_MAIN_SUCCESS':
     return {
       ...state,
       Home: {
         ...state.Home,
-        mainEvent: action.id,
+        mainEvent: action.response._id,
+        sudggested: action.response._id,
       }
     };
     break;

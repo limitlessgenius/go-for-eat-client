@@ -307,7 +307,7 @@ class GooglePlacesAutocomplete extends Component {
 
   _renderSeparator = (sectionID, rowID) => {
     if (rowID == this.state.dataSource.length - 1) {
-      return null
+      return null;
     }
 
     return (
