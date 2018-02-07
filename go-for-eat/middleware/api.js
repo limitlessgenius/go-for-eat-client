@@ -14,8 +14,8 @@ const callApi = (endpoint, method='GET', body, accessToken, schema) => {
   })
     .then(response => {
       return response._bodyInit ?  response.json() : null;})
-
-    .then(data => data ? schema ? normalize(data, schema) : data : null);
+    .then(data => {
+      return data ? schema ? normalize(data, schema) : data : null;});
 };
 
 export const CALL_API = 'Call API';

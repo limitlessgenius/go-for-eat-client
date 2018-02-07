@@ -36,14 +36,6 @@ const authentication = (state = defaultState, action) => {
       ...state,
       ...action.data
     };
-  case 'JOIN_EVENTS_SUCCESS':
-    return {
-      ...state,
-      events: [
-        ...state.events,
-        action.eventId
-      ],
-    };
   default:
     return state;
   }
