@@ -31,8 +31,8 @@ export default StyleSheet.create({
   navbar_icon: {
     paddingTop: 3,
     paddingBottom: 3,
-    height: 21,
-    width: 21,
+    height: 22,
+    width: 22,
   },
   create: {
   },
@@ -43,14 +43,14 @@ export default StyleSheet.create({
   back: {
   },
   close: {
-    paddingTop: 4,
-    paddingBottom: 4,
+    paddingTop: 5,
+    paddingBottom: 5,
     height: 18,
     width: 18,
   },
   logout: {
-    paddingTop: 2,
-    paddingBottom: 2,
+    paddingTop: 6,
+    paddingBottom: 6,
     height: 22,
     width: 28,
   },
