@@ -131,7 +131,7 @@ class EventDetail extends Component {
           <Text style={s.inner_actions_text}>GET THERE</Text>
         </View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback 
+      <TouchableWithoutFeedback
         onPress={this.goToEditEventAction}>
         <View style={s.inner_actions_btn}>
           <Image source={require('../../assets/icons/event_edit.png')} style={s.inner_actions_icon}></Image>
@@ -139,6 +139,19 @@ class EventDetail extends Component {
         </View>
       </TouchableWithoutFeedback>
     </View>);
+  }
+
+  handleClickUser = (i) => {
+    return () => {
+      console.log(this.props.eventData.attendees[i] );
+      console.log(this.props.user._id );
+      if (this.props.eventData.attendees[i] === this.props.user._id) this.props.navigate('Profile');
+      else {
+        this.props.goToUser(this.props.eventData.attendees[i]);
+        this.props.navigate('User');
+      }
+    };
+
   }
 
   render() {
@@ -151,7 +164,7 @@ class EventDetail extends Component {
             {_.range(4).map(i => {
               return this.props.eventData.attendees[i] ?
                 <View  key={i} style={s.inner_participants_person}>
-                  <TouchableWithoutFeedback onPress={()=> {this.props.goToUser(this.props.eventData.attendees[i]); this.props.navigate('User');}} >
+                  <TouchableWithoutFeedback onPress={this.handleClickUser(i)} >
                     <Image source={{uri: this.props.users[this.props.eventData.attendees[i]].profile_picture}} style={s.inner_participants_picture}></Image>
                   </TouchableWithoutFeedback>
                   <Text style={s.inner_actions_text}>{this.props.users[this.props.eventData.attendees[i]].name}</Text>
