@@ -13,6 +13,7 @@ const defaultState = {
   Profile:{},
   Maps:{
     query:{},
+    events: [],
   },
   User:{
     userId:null,
@@ -125,7 +126,13 @@ const pages = (state = defaultState, action) => {
             { title, data: eventIds }
           ],
           mainEvent: eventIds[0],
-        }
+        },
+        Maps: {
+          ...state.Maps,
+          events: [
+            ...new Set(state.Maps.events.concat(...eventIds))
+          ],
+        },
       };
     }
   case 'SET_MAIN_EVENT':

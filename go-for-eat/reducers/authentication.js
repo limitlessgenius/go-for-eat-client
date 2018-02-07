@@ -26,7 +26,14 @@ const authentication = (state = defaultState, action) => {
       }
     };
   case 'UPDATE_USER_FAILURE':
-
+    return state;
+  case 'RELOAD_USER_SUCCESS':
+    const id = Object.keys(action.response.entities.user)[0];
+    return {
+      ...state,
+      user: action.response.entities.user[id]
+    };
+  case 'RELOAD_USER_FAILURE':
     return state;
   case 'SET_USER':
     return {
