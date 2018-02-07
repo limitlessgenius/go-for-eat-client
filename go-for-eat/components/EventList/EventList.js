@@ -16,7 +16,7 @@ class EventList extends Component {
   loadMore = async () => {
     if (this.props.up) {
       const newQuery =  {
-        to: Math.floor(new Date(moment((this.props.query.to+100)*1000).endOf('day')).getTime()/1000),
+        to: Math.floor(new Date(moment((this.props.query.to+10000)).endOf('day')).getTime()),
         from: this.props.query.to,
       };
       await this.props.setQueryState(newQuery);

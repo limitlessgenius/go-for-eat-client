@@ -4,7 +4,7 @@ import { Header } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import { logoutUser, navigate, navigateBack } from '../../actions';
-import { logoutStorage } from '../../localStorage'
+import { logoutStorage } from '../../localStorage';
 
 import navNew from '../../assets/icons/nav_new.png';
 import navBack from '../../assets/icons/nav_back.png';
@@ -86,11 +86,8 @@ class NavBar extends Component {
       buttons.center = <Image source={logo} style={style.navbar_logo}/>;
     } else if (this.state.screen === 'CreateEvent') {
       buttons.center = <View><Text style={style.navbar_title}>Create Event</Text></View>;
-<<<<<<< HEAD
-=======
     } else if (this.state.screen === 'EditEvent') {
       buttons.center = <View><Text style={style.navbar_title}>Edit Event</Text></View>;
->>>>>>> f7fdc0c512d6464559b73aa909a7ebd4ec9e508e
     } else {
       buttons.center = <View><Text style={style.navbar_title}>{this.state.screen}</Text></View>;
     };

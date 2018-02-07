@@ -30,21 +30,15 @@ class Maps extends Component {
   }
 
   componentDidMount () {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const query = {
-          userLat: position.coords.latitude,
-          userLng: position.coords.longitude,
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-          dist: 2000,
-          to: Math.floor(new Date(moment().endOf('day')).getTime()/1000),
-          from: Math.floor(new Date().getTime()/1000),
-        };
-        this.props.setQueryState(query);
-        this.props.getNearbyEvents(query);
-      }
-    );
+    const query = {
+      lat: this.props.user.position.lat,
+      lng: this.props.user.position.lng,
+      dist: 2000,
+      to: new Date(moment().endOf('day')).getTime(),
+      from: new Date().getTime(),
+    };
+    this.props.setQueryState(query);
+    this.props.getNearbyEvents(query);
   }
 
 
@@ -58,8 +52,8 @@ class Maps extends Component {
       lat: region.latitude,
       lng: region.longitude,
       dist: (111.19*(region.latitudeDelta))*1000,
-      to: Math.floor(new Date(moment().endOf('day')).getTime()/1000),
-      from: Math.floor(new Date().getTime()/1000),
+      to: new Date(moment().endOf('day')).getTime(),
+      from: new Date().getTime(),
     };
     await this.props.setQueryState(newQuery);
     this.props.getNearbyEvents(this.props.query, true);
@@ -107,11 +101,12 @@ class Maps extends Component {
 
   nearMe = () => {
     const query = this.props.query;
+    const userPos = this.props.user.position;
     if (
-      Math.round(query.lat*10000) < (Math.round(query.userLat*10000) + 10)
-      && Math.round(query.lat*10000) > (Math.round(query.userLat*10000) - 10)
-      && Math.round(query.lng*10000) < (Math.round(query.userLng*10000) + 10)
-      && Math.round(query.lng*10000) > (Math.round(query.userLng*10000) - 10)
+      Math.round(query.lat*10000) < (Math.round(userPos.lat*10000) + 10)
+      && Math.round(query.lat*10000) > (Math.round(userPos.lat*10000) - 10)
+      && Math.round(query.lng*10000) < (Math.round(userPos.lng*10000) + 10)
+      && Math.round(query.lng*10000) > (Math.round(userPos.lng*10000) - 10)
     ) {
       return true;
     }
@@ -155,6 +150,7 @@ const mapStateToProps = (state) => ({
   sections: state.pages.Home.events,
   query: state.pages.Maps.query,
   events: state.entities.events,
+  user: state.authentication.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({
