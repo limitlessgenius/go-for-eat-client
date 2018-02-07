@@ -29,25 +29,28 @@ export default StyleSheet.create({
     marginBottom: WINDOW.height == 812 ? 0 : 3,
   },
   navbar_icon: {
-    margin: 3,
+    paddingTop: 3,
+    paddingBottom: 3,
     height: 21,
     width: 21,
   },
   create: {
   },
   profile: {
-    height: 26,
-    width: 26,
+    height: 28,
+    width: 28,
   },
   back: {
   },
   close: {
-    margin: 4,
+    paddingTop: 4,
+    paddingBottom: 4,
     height: 18,
     width: 18,
   },
   logout: {
-    margin: 2,
+    paddingTop: 2,
+    paddingBottom: 2,
     height: 22,
     width: 28,
   },
