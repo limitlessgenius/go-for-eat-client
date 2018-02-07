@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Avatar, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Avatar, TouchableOpacity, ActionSheetIOS } from 'react-native';
 import { Header } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -35,12 +35,24 @@ class NavBar extends Component {
   }
 
   handleLogout = () => {
-    const serializedState = JSON.stringify({});
-    this.props.navigate('Login');
-    Expo.SecureStore.setItemAsync('state', serializedState);
-    this.props.logoutState();
-
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: ['Logout', 'Cancel'],
+      cancelButtonIndex: 1,
+      tintColor: '#2ECC71'
+    },
+    (buttonIndex) => {
+      switch (buttonIndex) {
+      case 0:
+        const serializedState = JSON.stringify({});
+        this.props.navigate('Login');
+        Expo.SecureStore.setItemAsync('state', serializedState);
+        this.props.logoutState();
+        break;
+      }
+    });
   }
+
+
 
   renderButton = (button) => {
     return (
