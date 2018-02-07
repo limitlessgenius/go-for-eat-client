@@ -12,7 +12,11 @@ const authentication = (state = defaultState, action) => {
 
     return state;
   case 'LOGOUT_USER':
-    return {};
+    return {
+      user: {
+        position: state.user.position
+      }
+    };
   case 'UPDATE_USER_SUCCESS':
     return {
       ...state,

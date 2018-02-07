@@ -181,6 +181,10 @@ export const navigateBack = () => ({
   type: 'NAVIGATE_BACK',
 });
 
+export const navigateLogin = () => ({
+  type: 'NAVIGATE_LOGIN',
+});
+
 export const toggleDetails = () => ({
   type: 'TOGGLE_DETAILS',
 });

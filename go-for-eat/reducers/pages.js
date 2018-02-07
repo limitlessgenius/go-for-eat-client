@@ -51,6 +51,12 @@ const pages = (state = defaultState, action) => {
       prevScreen:state.currentScreen,
       currentScreen:state.prevScreen
     };
+  case 'NAVIGATE_LOGIN':
+    return {
+      ...state,
+      prevScreen: null,
+      currentScreen: 'Login'
+    };
   case 'FORM_PROFILE_PAGE':
 
     const { created_events, events } = action.user;
