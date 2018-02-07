@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, ActivityIndicator, Image } from 'react-native';
 import { connect } from 'react-redux';
-import { getNearbyEvents, setQueryState, setMainEvent } from '../../actions';
+import { getNearbyEvents, setQueryState, setMainEvent, disableReloadEvents } from '../../actions';
 import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
 import s from './styles';
 import moment from 'moment';
@@ -41,6 +41,12 @@ class Maps extends Component {
     this.props.getNearbyEvents(query);
   }
 
+  componentDidUpdate() {
+    if (this.props.reloadEvents) {
+      this.props.disableReloadEvents();
+      this.props.getNearbyEvents(this.props.query, true);
+    }
+  }
 
   onRegionChangeComplete = async (region) => {
     if (this.state.moving) {
@@ -151,12 +157,14 @@ const mapStateToProps = (state) => ({
   query: state.pages.Maps.query,
   events: state.entities.events,
   user: state.authentication.user,
+  reloadEvents: state.pages.Home.reloadEvents,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setQueryState: (newQuery) => dispatch(setQueryState(newQuery)),
   setMainEvent: (id) => dispatch(setMainEvent(id)),
   getNearbyEvents: (queryString, distFetch) => dispatch(getNearbyEvents(queryString, distFetch)),
+  disableReloadEvents: () => dispatch(disableReloadEvents()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Maps);
