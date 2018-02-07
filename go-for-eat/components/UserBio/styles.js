@@ -4,15 +4,15 @@ const picDim = 220;
 const appColor = '#2ECC71';
 
 export default StyleSheet.create({
-  profile: {
+  bio: {
     flex:1,
     flexDirection:'column',
 
   },
-  profile_picture: {
+  bio_picture: {
     alignItems:'center'
   },
-  profile_picture_image: {
+  bio_picture_image: {
     margin:20,
     height:picDim,
     width:picDim,
@@ -20,29 +20,35 @@ export default StyleSheet.create({
     borderWidth:8,
     borderColor: appColor
   },
-  profile_name: {
+  bio_headline:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+  },
+  bio_name: {
     marginLeft:20,
     fontSize:30,
-    marginVertical:10
   },
-  profile_error: {
+  bio_button:{
+    backgroundColor:appColor,
+  },
+  bio_error: {
     color:'red',
     marginLeft:20
   },
-  profile_icon: {
+  bio_icon: {
     width:25,
     height:25,
   },
-  profile_icon_edit: {
+  bio_icon_edit: {
     transform:[{scale:0.9}],
 
   },
-  profile_icon_save: {
+  bio_icon_save: {
     transform:[{scale:0.7}],
 
   },
 
-  profile_bio_title: {
+  bio_bio_title: {
     marginLeft:20,
     fontSize:16,
     marginTop:10,
@@ -50,41 +56,41 @@ export default StyleSheet.create({
   },
 
 
-  profile_rating_stars:{
+  bio_rating_stars:{
     marginLeft:20,
     flexDirection:'row',
     marginBottom:10
   },
-  profile_stars: {
+  bio_stars: {
     transform:[{scale:0.8}],
     marginTop:5
   },
 
-  profile_section_outercontainer:{
+  bio_section_outercontainer:{
     flexDirection:'column',
 
   },
-  profile_section_container:{
+  bio_section_container:{
     flexDirection:'row',
     marginHorizontal:20,
     marginVertical:10,
 
   },
-  profile_section_text: {
+  bio_section_text: {
     flex:8,
     fontSize:15,
     color:'black',
     marginRight:10
 
   },
-  profile_section_text_italic: {
+  bio_section_text_italic: {
     flex:8,
     fontSize:15,
     color:'black',
     fontStyle:'italic',
     marginRight:10
   },
-  profile_section_text_edit: {
+  bio_section_text_edit: {
     flex:8,
     fontSize:15,
     color:'black',

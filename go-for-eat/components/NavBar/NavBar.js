@@ -82,7 +82,7 @@ class NavBar extends Component {
     };
 
     const buttons = {};
-    if (this.state.screen==='Home') {
+    if (this.state.screen==='Home' || this.state.screen==='Rating') {
       buttons.center = <Image source={logo} style={style.navbar_logo}/>;
     } else if (this.state.screen === 'CreateEvent') {
       buttons.center = <View><Text style={style.navbar_title}>Create Event</Text></View>;
@@ -99,12 +99,15 @@ class NavBar extends Component {
       buttons.left = this.renderButton(allButtons.close);
       buttons.right = this.renderButton(allButtons.logout);
     } else if (this.state.screen === 'User') {
-      buttons.left = this.renderButton(allButtons.close);
+      buttons.left = this.renderButton(allButtons.back);
       buttons.right = this.renderButton(allButtons.logout);
     } else if (this.state.screen === 'CreateEvent') {
       buttons.left = this.renderButton(allButtons.close);
       buttons.right = null;
     } else if (this.state.screen === 'EditEvent') {
+      buttons.left = this.renderButton(allButtons.close);
+      buttons.right = null;
+    } else if (this.state.screen === 'Rating') {
       buttons.left = this.renderButton(allButtons.close);
       buttons.right = null;
     } else {

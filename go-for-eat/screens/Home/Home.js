@@ -23,6 +23,7 @@ class Home extends Component {
   }
 
   render() {
+
     return  (
       <Drawer
         initialDrawerSize={.29}

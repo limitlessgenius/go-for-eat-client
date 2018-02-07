@@ -142,6 +142,21 @@ export const getUser = (userId) => ({
   },
 });
 
+export const RATE_USER_REQUEST = 'RATE_USER_REQUEST';
+export const RATE_USER_SUCCESS = 'RATE_USER_SUCCESS';
+export const RATE_USER_FAILURE = 'RATE_USER_FAILURE';
+
+export const rateUser = (userId,rating) => ({
+  [CALL_API]: {
+    types: [RATE_USER_REQUEST, RATE_USER_SUCCESS, RATE_USER_FAILURE],
+    endpoint: `/users/${userId}/rating`,
+    method: 'PUT',
+    data:{rating}
+  },
+  userId,
+  rating
+});
+
 export const LEAVE_EVENTS_REQUEST = 'LEAVE_EVENTS_REQUEST';
 export const LEAVE_EVENTS_SUCCESS = 'LEAVE_EVENTS_SUCCESS';
 export const LEAVE_EVENTS_FAILURE = 'LEAVE_EVENTS_FAILURE';
@@ -204,6 +219,13 @@ export const closeEditEventErrorAlert = () => ({
 export const disableReloadEvents = () => ({
   type: 'DISABLE_RELOAD_EVENTS',
 });
+
+export const setRatingUser = (user) => ({
+  type:'SET_RATE_USER',
+  user
+});
+
+
 
 export const formProfilePage = (events, user) => ({
   type:'FORM_PROFILE_PAGE',

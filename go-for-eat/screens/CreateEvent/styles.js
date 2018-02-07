@@ -10,7 +10,7 @@ export default StyleSheet.create({
     paddingTop: 20,
   },
   title: {
-    width: WINDOW.with - 40,
+    width: WINDOW.width - 40,
     marginLeft: 20,
     marginRight: 20,
     fontSize: 24,
@@ -21,7 +21,7 @@ export default StyleSheet.create({
   GooglePlacesAutocompleteContainer: {
     position: 'relative',
     height: 80,
-    width: WINDOW.with,
+    width: WINDOW.width,
     zIndex: 200,
   },
   datePicker: {
