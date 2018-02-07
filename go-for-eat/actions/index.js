@@ -27,7 +27,7 @@ export const loginUser = (data) => ({
 export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const logoutUser = () => ({
-  type:LOGOUT_USER
+  type: LOGOUT_USER
 });
 
 export const SET_USER = 'SET_USER';
@@ -35,6 +35,18 @@ export const SET_USER = 'SET_USER';
 export const setUser = (data) => ({
   type: SET_USER,
   data,
+});
+
+export const RELOAD_USER_REQUEST = 'RELOAD_USER_REQUEST';
+export const RELOAD_USER_SUCCESS = 'RELOAD_USER_SUCCESS';
+export const RELOAD_USER_FAILURE = 'RELOAD_USER_FAILURE';
+
+export const reloadUser = (position) => ({
+  [CALL_API]: {
+    types: [ RELOAD_USER_REQUEST, RELOAD_USER_SUCCESS, RELOAD_USER_FAILURE ],
+    endpoint: `/me?lat=${position.lat}&lng=${position.lng}`,
+    schema:mySchema,
+  },
 });
 
 export const setMainEvent= (id) => ({
@@ -194,6 +206,10 @@ export const navigate = (screen) => ({
 
 export const navigateBack = () => ({
   type: 'NAVIGATE_BACK',
+});
+
+export const navigateLogin = () => ({
+  type: 'NAVIGATE_LOGIN',
 });
 
 export const toggleDetails = () => ({

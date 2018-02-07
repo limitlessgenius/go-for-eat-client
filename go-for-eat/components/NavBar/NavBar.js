@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Avatar, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Avatar, TouchableOpacity, ActionSheetIOS } from 'react-native';
 import { Header } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import { logoutUser, navigate, navigateBack } from '../../actions';
+import { logoutUser, navigate, navigateBack, navigateLogin } from '../../actions';
 import { logoutStorage } from '../../localStorage';
 
 import navNew from '../../assets/icons/nav_new.png';
@@ -35,12 +35,24 @@ class NavBar extends Component {
   }
 
   handleLogout = () => {
-    const serializedState = JSON.stringify({});
-    this.props.navigate('Login');
-    Expo.SecureStore.setItemAsync('state', serializedState);
-    this.props.logoutState();
-
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: ['Logout', 'Cancel'],
+      cancelButtonIndex: 1,
+      tintColor: '#2ECC71'
+    },
+    (buttonIndex) => {
+      switch (buttonIndex) {
+      case 0:
+        const serializedState = JSON.stringify({});
+        this.props.navigateLogin();
+        Expo.SecureStore.setItemAsync('state', serializedState);
+        this.props.logoutState();
+        break;
+      }
+    });
   }
+
+
 
   renderButton = (button) => {
     return (
@@ -48,7 +60,7 @@ class NavBar extends Component {
         onPress={button.onPress}
       >
         <Image
-          style={style.navbar_icon}
+          style={[style.navbar_icon, button.style]}
           source={button.icon}
 
         />
@@ -58,26 +70,32 @@ class NavBar extends Component {
 
 
   render () {
+    // console.log('navigate',this.props.nav);
     const allButtons = {
       create: {
         onPress:this.handleCreate,
-        icon: navNew
+        icon: navNew,
+        style: style.create,
       },
       profile: {
         onPress:this.handleMyProfile,
-        icon: navProfile
+        icon: navProfile,
+        style: style.profile,
       },
       back: {
         onPress:this.handleNavBack,
-        icon: navBack
+        icon: navBack,
+        style: style.back,
       },
       close: {
         onPress:this.handleNavBack,
-        icon:navClose
+        icon:navClose,
+        style: style.close,
       },
       logout: {
         onPress:this.handleLogout,
-        icon:navLogout
+        icon:navLogout,
+        style: style.logout,
       }
     };
 
@@ -120,7 +138,8 @@ class NavBar extends Component {
           leftComponent={buttons.left}
           centerComponent={buttons.center}
           rightComponent={buttons.right}
-          outerContainerStyles={style.navbar_container}
+          outerContainerStyles={style.navbar_outer_container}
+          innerContainerStyles={style.navbar_inner_container}
         />
       </View>
     );
@@ -136,7 +155,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   logoutState:() => dispatch(logoutUser()),
   navigate: (screen) => dispatch(navigate(screen)),
-  navigateBack: () => dispatch(navigateBack())
+  navigateBack: () => dispatch(navigateBack()),
+  navigateLogin: () => dispatch(navigateLogin()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

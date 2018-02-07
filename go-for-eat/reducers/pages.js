@@ -13,6 +13,7 @@ const defaultState = {
   Profile:{},
   Maps:{
     query:{},
+    events: [],
   },
   User:{
     userId:null,
@@ -53,6 +54,12 @@ const pages = (state = defaultState, action) => {
       ...state,
       prevScreen:state.currentScreen,
       currentScreen:state.prevScreen
+    };
+  case 'NAVIGATE_LOGIN':
+    return {
+      ...state,
+      prevScreen: null,
+      currentScreen: 'Login'
     };
   case 'FORM_PROFILE_PAGE':
 
@@ -122,7 +129,13 @@ const pages = (state = defaultState, action) => {
             { title, data: eventIds }
           ],
           mainEvent: eventIds[0],
-        }
+        },
+        Maps: {
+          ...state.Maps,
+          events: [
+            ...new Set(state.Maps.events.concat(...eventIds))
+          ],
+        },
       };
     }
   case 'SET_MAIN_EVENT':

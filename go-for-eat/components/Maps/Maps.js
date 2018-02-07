@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator, Image } from 'react-native';
+import { View, Text, ActivityIndicator, Image, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { getNearbyEvents, setQueryState, setMainEvent, disableReloadEvents } from '../../actions';
 import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
@@ -66,32 +66,23 @@ class Maps extends Component {
   };
 
 
-
   renderMarkers = () => {
-    return this.props.sections.map((day, i) => {
-      return day.data.map(id => {
-        const event = this.props.events[id];
-        return (
-          <Marker
-            coordinate={{
-              latitude: this.props.events[id].location.coordinates[1],
-              longitude: this.props.events[id].location.coordinates[0]
-            }}
-            image={MapPinImage}
-            identifier= {id}
-            onPress={e => this.onMarkerPress(e.nativeEvent.id)}
-            key={id + Math.random()}
-          />
-        );
-      });
-    }).reduce((accum, e) => {
-      return [
-        ...accum,
-        ...e
-      ];
-    }, []);
+    return this.props.mapsEvents.map((id, i) => {
+      const event = this.props.events[id];
+      return (
+        <Marker
+          coordinate={{
+            latitude: event.location.coordinates[1],
+            longitude: event.location.coordinates[0]
+          }}
+          image={MapPinImage}
+          identifier= {id}
+          onPress={e => this.onMarkerPress(e.nativeEvent.id)}
+          key={id}
+        />
+      );
+    });
   }
-
 
   onMarkerPress = (id) => {
     this.props.setMainEvent(id);
@@ -119,11 +110,10 @@ class Maps extends Component {
     return false;
   }
 
-
-
   render() {
-    return this.props.events && this.props.query.lat &&  this.props.query.lng? (
+    return (this.props.events && this.props.query.lat &&  this.props.query.lng) ? (
       <MapView style={s.map}
+        mapType={Platform.OS == 'android' ? 'none': 'standard'}
         initialRegion={{
           latitude: this.props.query.lat,
           longitude: this.props.query.lng,
@@ -146,9 +136,9 @@ class Maps extends Component {
         </Animatable.Image>
         {this.renderMarkers()}
       </MapView> ) :
-      <View style={{paddingVertical: 20}}>
+      (<View style={{paddingVertical: 20}}>
         <ActivityIndicator size="large" color="#ffffff"/>
-      </View>;
+      </View>);
   }
 }
 
@@ -158,6 +148,7 @@ const mapStateToProps = (state) => ({
   events: state.entities.events,
   user: state.authentication.user,
   reloadEvents: state.pages.Home.reloadEvents,
+  mapsEvents: state.pages.Maps.events,
 });
 
 const mapDispatchToProps = (dispatch) => ({

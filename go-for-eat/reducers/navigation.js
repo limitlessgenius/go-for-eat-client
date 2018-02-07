@@ -38,6 +38,16 @@ const nav = (state = initialNavState, action) => {
       state
     );
     break;
+  case 'NAVIGATE_LOGIN':
+    nextState = AppNavigator.router.getStateForAction(
+      NavigationActions.reset({
+        index: 0,
+        key: null,
+        actions: [NavigationActions.navigate({ routeName: 'Login' })]
+      }),
+      state
+    );
+    break;
   case 'CREATE_EVENT_REQUEST':
     nextState = AppNavigator.router.getStateForAction(
       NavigationActions.navigate({ routeName: 'CreateEventConfirmation'}),
