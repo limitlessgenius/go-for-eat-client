@@ -36,7 +36,6 @@ class Login extends Component {
           if (entities) this.props.setEntities(entities);
           if (user.user) {
             this.props.setUser(user);
-            console.log(this.state);
             this.props.reloadUser(this.state);
             this.props.navigate('Home');
           }

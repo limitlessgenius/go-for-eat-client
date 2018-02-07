@@ -128,6 +128,17 @@ export const getNearbyEvents = (queryString, distFetch=false) => ({
   distFetch
 });
 
+export const GET_MAIN_REQUEST = 'GET_MAIN_REQUEST';
+export const GET_MAIN_SUCCESS = 'GET_MAIN_SUCCESS';
+export const GET_MAIN_FAILURE = 'GET_MAIN_FAILURE';
+
+export const getSudggested = (queryString) => ({
+  [CALL_API]: {
+    types: [GET_MAIN_REQUEST, GET_MAIN_SUCCESS, GET_MAIN_FAILURE],
+    endpoint: `/events?lat=${queryString.lat}&lng=${queryString.lng}&dist=${queryString.dist}&to=${queryString.to}&from=${queryString.from}&sort=${true}`,
+  },
+});
+
 export const JOIN_EVENTS_REQUEST = 'JOIN_EVENTS_REQUEST';
 export const JOIN_EVENTS_SUCCESS = 'JOIN_EVENTS_SUCCESS';
 export const JOIN_EVENTS_FAILURE = 'JOIN_EVENTS_FAILURE';

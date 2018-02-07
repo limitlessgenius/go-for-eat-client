@@ -12,10 +12,14 @@ class DragBar extends Component {
     super(props);
   }
 
+  componentDidMount () {
+    if (this.props.query) {
+      this.props.getSudggested(this.props.query);
+    }
+  }
 
 
   render() {
-    console.log(this.props.mainEvent);
     return  (
       <View>
         <Animatable.View duration={500}

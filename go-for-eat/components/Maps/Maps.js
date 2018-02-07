@@ -10,13 +10,14 @@ import MapPinImage from '../../assets/icons/map_pin.png';
 import MapCenter from '../../assets/icons/map_center.png';
 import * as Animatable from 'react-native-animatable';
 
-
+//const _mapView =  MapView;
 
 class Maps extends Component {
   constructor (props) {
     super(props);
     this.state = {
       moving: false,
+      firstCall: false,
     };
   }
 
@@ -29,7 +30,7 @@ class Maps extends Component {
     };
   }
 
-  componentDidMount () {
+  componentWillMount () {
     const query = {
       lat: this.props.user.position.lat,
       lng: this.props.user.position.lng,
@@ -63,8 +64,14 @@ class Maps extends Component {
     };
     await this.props.setQueryState(newQuery);
     this.props.getNearbyEvents(this.props.query, true);
+    this.checkSudggested();
   };
 
+  checkSudggested = () => {
+    if(this.nearMe()){
+      this.props.setMainEvent(this.props.sudggested);
+    }
+  }
 
   renderMarkers = () => {
     return this.props.mapsEvents.map((id, i) => {
@@ -75,17 +82,28 @@ class Maps extends Component {
             latitude: event.location.coordinates[1],
             longitude: event.location.coordinates[0]
           }}
+          style={s.marker}
           image={MapPinImage}
           identifier= {id}
-          onPress={e => this.onMarkerPress(e.nativeEvent.id)}
+          onPress={e => this.onMarkerPress(e.nativeEvent)}
           key={id}
         />
       );
     });
   }
 
-  onMarkerPress = (id) => {
-    this.props.setMainEvent(id);
+
+  onMarkerPress = (marker) => {
+    console.log(marker);
+    if (marker.id !== undefined) {
+      this.props.setMainEvent(marker.id);
+      this._mapView.animateToRegion({
+        latitude: marker.coordinate.latitude,
+        longitude: marker.coordinate.longitude,
+        latitudeDelta: 0.02,
+        longitudeDelta: 0.01
+      },500);
+    }
   };
 
   onRegionChange = () => {
@@ -119,18 +137,28 @@ class Maps extends Component {
           latitudeDelta: 0.02,
           longitudeDelta: 0.01
         }}
+        ref = {(el) => { this._mapView = el; }}
         showsPointsOfInterest = {false}
         showsUserLocation = {true}
         showsCompass = {false}
         showsMyLocationButton = {false}
         onRegionChangeComplete={this.onRegionChangeComplete}
         onRegionChange={this.onRegionChange}
+        animateToRegion= {{
+          region:{
+            latitude: this.state.lat,
+            longitude: this.state.lng,
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.01
+          },
+          duration: 404,
+        }}
       >
         <Animatable.Image
           easing='ease-in-out'
           duration={300}
           transition={['scale','opacity']}
-          style={this.nearMe() ? s.center__hide : this.state.moving ? s.center__onMove : s.center}
+          style={[ s.translateY ,this.nearMe() ? s.center__hide : this.state.moving ? s.center__onMove : s.center]}
           source={MapCenter}>
         </Animatable.Image>
         {this.renderMarkers()}
@@ -148,6 +176,7 @@ const mapStateToProps = (state) => ({
   user: state.authentication.user,
   reloadEvents: state.pages.Home.reloadEvents,
   mapsEvents: state.pages.Maps.events,
+  sudggested: state.pages.Home.sudggested,
 });
 
 const mapDispatchToProps = (dispatch) => ({

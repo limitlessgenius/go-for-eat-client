@@ -26,4 +26,11 @@ export default StyleSheet.create({
   center__hide:{
     opacity:0,
   },
+  translateY: {
+    marginBottom: 45,
+    zIndex: 999,
+  },
+  marker: {
+    zIndex: 1,
+  },
 });
