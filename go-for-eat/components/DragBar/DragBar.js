@@ -14,7 +14,6 @@ class DragBar extends Component {
 
 
   render() {
-    console.log(this.props.mainEvent);
     return  (
       <View>
         <Animatable.View duration={500}
