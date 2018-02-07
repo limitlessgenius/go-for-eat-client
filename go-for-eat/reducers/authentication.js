@@ -13,8 +13,11 @@ const authentication = (state = defaultState, action) => {
     return state;
   case 'LOGOUT_USER':
     return {
+      ...state,
       user: {
-        position: state.user.position
+        position: state.user.position,
+        created_events: [],
+        events: [],
       }
     };
   case 'UPDATE_USER_SUCCESS':
