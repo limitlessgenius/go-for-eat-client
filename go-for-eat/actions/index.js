@@ -27,7 +27,7 @@ export const loginUser = (data) => ({
 export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const logoutUser = () => ({
-  type:LOGOUT_USER
+  type: LOGOUT_USER
 });
 
 export const SET_USER = 'SET_USER';
@@ -179,6 +179,10 @@ export const navigate = (screen) => ({
 
 export const navigateBack = () => ({
   type: 'NAVIGATE_BACK',
+});
+
+export const navigateLogin = () => ({
+  type: 'NAVIGATE_LOGIN',
 });
 
 export const toggleDetails = () => ({
