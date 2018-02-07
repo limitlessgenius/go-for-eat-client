@@ -34,9 +34,8 @@ class Login extends Component {
           let user = JSON.parse(userData).authentication;
           let entities = JSON.parse(userData).entities;
           if (entities) this.props.setEntities(entities);
-          if (user.user) {
+          if (user.user._id) {
             this.props.setUser(user);
-            console.log(this.state);
             this.props.reloadUser(this.state);
             this.props.navigate('Home');
           }
