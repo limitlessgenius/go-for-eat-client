@@ -33,6 +33,25 @@ const entities = (state = defaultState, action) => {
       }
     };
     break;
+  case 'RATE_USER_SUCCESS':
+    let newAverage;
+    let newNumber = state.users[userId].ratings_number + 1;
+    if (newNumber === 1) newAverage = action.rating;
+    else newAverage = (state.users[userId].ratings_number*((newNumber-1)/(newNumber))+ action.rating/newNumber);
+    return {
+      ...state,
+      users: {
+        ...state.users,
+        [userId]: {
+          ...state.users[userId],
+          ratings_average:newAverage,
+          rating_number:newNumber,
+          myRating: {
+            rating:action.rating,
+          }
+        }
+      }
+    };
   case 'GET_EVENTS_FAILURE':
     console.log(action);
     return state;

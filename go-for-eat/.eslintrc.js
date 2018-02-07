@@ -22,6 +22,7 @@ module.exports = {
         "react-native"
     ],
     "rules": {
+        "react/prop-types": 0,
         "indent": [
             "error",
             2

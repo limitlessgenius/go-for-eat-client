@@ -30,7 +30,7 @@ class Profile extends Component {
           style={s.list}
           renderSectionHeader={({section}) => {return (
             <View style={s.section_header}>
-              <Text style={s.section_header_text}> {section.title }</Text>
+              <Text style={s.section_header_text}> {section.title}</Text>
             </View>);
           }}
           sections={this.props.events}

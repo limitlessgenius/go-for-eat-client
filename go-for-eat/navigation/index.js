@@ -10,6 +10,7 @@ import Profile from '../screens/Profile/Profile';
 import { CreateEvent } from '../screens/CreateEvent';
 import { EditEvent } from '../screens/EditEvent';
 import LoadingPage from '../screens/LoadingPage';
+import { Rating } from '../screens/Rating';
 
 const NavigatorWithRootScreen = (routeName, screen) => {
   return StackNavigator({
@@ -45,6 +46,11 @@ const HomeStack = StackNavigator({
     screen: NavigatorWithRootScreen('Profile', Profile),
     navigationOptions:{header:()=>null}
   },
+  Rating: {
+    screen: NavigatorWithRootScreen('Rating', Rating),
+    navigationOptions:{header:() => null}
+  }
+
 },
 {
   mode: 'modal',

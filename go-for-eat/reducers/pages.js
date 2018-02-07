@@ -29,6 +29,9 @@ const defaultState = {
   CreateScreen:{
     edit:false,
     event:'',
+  },
+  Rating:{
+    user:null
   }
 };
 
@@ -264,6 +267,15 @@ const pages = (state = defaultState, action) => {
       Home: {
         ...state.Home,
         reloadEvents: false,
+      }
+    };
+  case 'SET_RATE_USER':
+    console.log('REDUCER', action);
+    return {
+      ...state,
+      Rating:{
+        ...state.Rating,
+        user:action.user
       }
     };
   default:
