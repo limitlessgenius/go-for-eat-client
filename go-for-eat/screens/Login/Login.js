@@ -5,7 +5,7 @@ import { FacebookButton, GoogleButton } from '../../components/Buttons';
 import serverHost from '../../config/serverHost.js';
 import logo from '../../assets/logo/logo2x.png';
 import styles from './styles';
-import { setUser, setPages, setEntities, loginUser, navigate } from '../../actions';
+import { setUser, setPages, setEntities, loginUser, navigate, reloadUser } from '../../actions';
 
 
 class Login extends Component {
@@ -15,16 +15,19 @@ class Login extends Component {
   }
 
 
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.setState({
+  componentDidMount = async () => {
+    await navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        await this.setState({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         });
+        await this.loginExpo();
       }
     );
+  }
 
+  loginExpo = () => {
     Expo.SecureStore.getItemAsync('state')
       .then(userData => {
         if (userData) {
@@ -33,6 +36,8 @@ class Login extends Component {
           if (entities) this.props.setEntities(entities);
           if (user.user) {
             this.props.setUser(user);
+            console.log(this.state);
+            this.props.reloadUser(this.state);
             this.props.navigate('Home');
           }
         }
@@ -114,7 +119,8 @@ const mapDispatchToProps = (dispatch) => ({
   serverAuth: (data) => dispatch(loginUser(data)),
   navigate: (screen) => dispatch(navigate(screen)),
   setPages: (data) => dispatch(setPages(data)),
-  setEntities: (data) => dispatch(setEntities(data))
+  setEntities: (data) => dispatch(setEntities(data)),
+  reloadUser: (data) => dispatch(reloadUser(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

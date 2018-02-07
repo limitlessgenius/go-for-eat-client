@@ -66,32 +66,23 @@ class Maps extends Component {
   };
 
 
-
   renderMarkers = () => {
-    return this.props.sections.map((day, i) => {
-      return day.data.map(id => {
-        const event = this.props.events[id];
-        return (
-          <Marker
-            coordinate={{
-              latitude: this.props.events[id].location.coordinates[1],
-              longitude: this.props.events[id].location.coordinates[0]
-            }}
-            image={MapPinImage}
-            identifier= {id}
-            onPress={e => this.onMarkerPress(e.nativeEvent.id)}
-            key={id + Math.random()}
-          />
-        );
-      });
-    }).reduce((accum, e) => {
-      return [
-        ...accum,
-        ...e
-      ];
-    }, []);
+    return this.props.mapsEvents.map((id, i) => {
+      const event = this.props.events[id];
+      return (
+        <Marker
+          coordinate={{
+            latitude: event.location.coordinates[1],
+            longitude: event.location.coordinates[0]
+          }}
+          image={MapPinImage}
+          identifier= {id}
+          onPress={e => this.onMarkerPress(e.nativeEvent.id)}
+          key={id}
+        />
+      );
+    });
   }
-
 
   onMarkerPress = (id) => {
     this.props.setMainEvent(id);
@@ -118,8 +109,6 @@ class Maps extends Component {
     }
     return false;
   }
-
-
 
   render() {
     return this.props.events && this.props.query.lat &&  this.props.query.lng? (
@@ -158,6 +147,7 @@ const mapStateToProps = (state) => ({
   events: state.entities.events,
   user: state.authentication.user,
   reloadEvents: state.pages.Home.reloadEvents,
+  mapsEvents: state.pages.Maps.events,
 });
 
 const mapDispatchToProps = (dispatch) => ({

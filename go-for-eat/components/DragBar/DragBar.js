@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, ActivityIndicator } from 'react-native';
 import s from './styles';
-import { getNearbyEvents } from '../../actions';
+import { getSudggested } from '../../actions';
 import { Event } from '../Event';
 import _ from 'lodash';
 import * as Animatable from 'react-native-animatable';
@@ -11,6 +11,7 @@ class DragBar extends Component {
   constructor (props) {
     super(props);
   }
+
 
 
   render() {
@@ -38,12 +39,12 @@ class DragBar extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  events: state.pages.Home.events,
   mainEvent: state.pages.Home.mainEvent,
+  query: state.pages.Maps.query,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getNearbyEvents: (queryString) => dispatch(getNearbyEvents(queryString)),
+  getSudggested: (queryString) => dispatch(getSudggested(queryString)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DragBar);

@@ -14,6 +14,7 @@ const callApi = (endpoint, method='GET', body, accessToken, schema) => {
   })
     .then(response => {
       return response._bodyInit ?  response.json() : null;})
+
     .then(data => data ? schema ? normalize(data, schema) : data : null);
 };
 
