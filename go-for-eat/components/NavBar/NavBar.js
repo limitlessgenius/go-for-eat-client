@@ -14,12 +14,20 @@ import navClose from '../../assets/icons/nav_close.png';
 import logo from '../../assets/logo/logo2x.png';
 import style from './styles.js';
 import PropTypes from 'prop-types';
+import debounce from 'lodash.debounce';
 
 class NavBar extends Component {
 
   constructor(props) {
     super(props);
     this.state = {screen: this.props.screen};
+  }
+
+  componentWillMount() {
+    this.handleNavBack = debounce(this.handleNavBack, 1000);
+    this.handleMyProfile = debounce(this.handleMyProfile, 1000);
+    this.handleCreate = debounce(this.handleCreate, 1000);
+    this.handleLogout = debounce(this.handleLogout, 1000);
   }
 
   handleNavBack = () => {
