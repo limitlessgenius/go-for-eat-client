@@ -64,6 +64,10 @@ class EventDetail extends Component {
     this.props.navigate('EditEvent');
   }
 
+  handleJoinEvent = () => {
+    this.props.joinEvent(this.props.eventData._id, this.props.user._id);
+  }
+
   renderOthers = () => {
     return (<View style={s.inner_actions}>
       {this.props.eventData.attendees.indexOf(this.props.user._id) !== -1 ?
@@ -75,8 +79,7 @@ class EventDetail extends Component {
             <Text style={s.inner_actions_text}>LEAVE EVENT</Text>
           </View>
         </TouchableWithoutFeedback> :
-        <TouchableWithoutFeedback onPress={()=>{
-          this.props.joinEvent(this.props.eventData._id, this.props.user._id);}}>
+        <TouchableWithoutFeedback onPress={_.debounce(this.handleJoinEvent, 1000)}>
           <View style={[s.inner_actions_btn, s.inner_actions_btn_separator]}>
             <Image source={require('../../assets/icons/event_join.png')} style={s.inner_actions_icon}></Image>
             <Text style={s.inner_actions_text}>JOIN THEM</Text>
@@ -132,7 +135,7 @@ class EventDetail extends Component {
         </View>
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback
-        onPress={this.goToEditEventAction}>
+        onPress={_.debounce(this.goToEditEventAction, 1000)}>
         <View style={s.inner_actions_btn}>
           <Image source={require('../../assets/icons/event_edit.png')} style={s.inner_actions_icon}></Image>
           <Text style={s.inner_actions_text}>EDIT EVENT</Text>
@@ -162,7 +165,7 @@ class EventDetail extends Component {
             {_.range(4).map(i => {
               return this.props.eventData.attendees[i] ?
                 <View  key={i} style={s.inner_participants_person}>
-                  <TouchableWithoutFeedback onPress={this.handleClickUser(i)} >
+                  <TouchableWithoutFeedback onPress={_.debounce(this.handleClickUser(i), 1000)} >
                     <Image source={{uri: this.props.users[this.props.eventData.attendees[i]].profile_picture}} style={s.inner_participants_picture}></Image>
                   </TouchableWithoutFeedback>
                   <Text style={s.inner_actions_text}>{this.props.users[this.props.eventData.attendees[i]].name}</Text>
