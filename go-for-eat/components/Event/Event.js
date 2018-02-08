@@ -27,8 +27,8 @@ class Event extends Component {
     const eventData = this.props.events[this.props.eventID];
 
     if (eventData === undefined){ return (
-      <View style={s.list_footer}>
-        <Text style={s.list_footer_text}>There are no events in nearby</Text>
+      <View style={s.noEvents}>
+        <Text style={s.noEvents_text}>There are no events in nearby</Text>
       </View>);}
     eventData.distance = geolib.getDistance(
       {latitude: eventData.location.coordinates[1], longitude: eventData.location.coordinates[0]},

@@ -86,14 +86,14 @@ export default StyleSheet.create({
     ],
     opacity: 0.3,
   },
-  list_footer:{
+  noEvents:{
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: '80%',
     marginHorizontal:'10%',
     marginVertical: 20,
   },
-  list_footer_text: {
+  noEvents_text: {
     textAlign: 'center',
     color: '#bbb',
     fontSize: 14,
