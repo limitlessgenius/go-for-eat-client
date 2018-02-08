@@ -48,6 +48,7 @@ class CreateEvent extends Component {
       ],
       { cancelable: false }
     );
+    this.setState({showActivityIndicator: false});
   }
 
   errorAlert = () =>{
@@ -59,6 +60,10 @@ class CreateEvent extends Component {
       ],
       { cancelable: false }
     );
+    this.setState({
+      showActivityIndicator: false,
+      okButtonDisabled: false,
+    });
   }
 
   onConfirmationAlertOk = () => {
