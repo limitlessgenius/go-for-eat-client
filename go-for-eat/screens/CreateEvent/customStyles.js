@@ -4,7 +4,7 @@ export default {
   datePicker: {
     dateInput:{
       borderWidth: 0,
-      borderBottomWidth: 3 / PixelRatio.get(),
+      borderBottomWidth: 5 / PixelRatio.get(),
       borderBottomColor: '#2ECC71',
     },
     dateIcon:{
@@ -12,17 +12,17 @@ export default {
     },
     placeholderText:{
       color: '#000',
-      fontSize: 20,
+      fontSize: 18,
     },
     dateText:{
       color: '#000',
-      fontSize: 20,
+      fontSize: 18,
     }
   },
   timePicker: {
     dateInput:{
       borderWidth: 0,
-      borderBottomWidth: 3 / PixelRatio.get(),
+      borderBottomWidth: 5 / PixelRatio.get(),
       borderBottomColor: '#2ECC71',
     },
     dateIcon:{

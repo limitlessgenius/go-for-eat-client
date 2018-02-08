@@ -127,6 +127,9 @@ class CreateEvent extends Component {
   render() {
     return  (
       <View style={s.container}>
+        <View style={s.warn_container}>
+          <Text style={s.warn}>Have you checked for existing events \n at your chosen restaurant?</Text>
+        </View>
         <Text style={s.title}>Restaurant:</Text>
         <View style={s.GooglePlacesAutocompleteContainer}>
           <GooglePlacesAutocomplete

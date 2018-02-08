@@ -43,23 +43,24 @@ class Rating extends Component {
     return (
       <View style={s.rating_container}>
         <Image style={s.rating_picture} source={{uri:this.props.user.profile_picture}}/>
-        <Text style={s.rating_text_question}>How would you rate</Text>
-        <Text style={s.rating_text_question}>{this.props.user.name}?</Text>
-        {this.props.user.ratings_number>0
-          ?<View style={s.rating_container_current}>
-            <Text style={s.rating_text_current}>
-              CURRENT RATING:
+        <View style={s.rating_question}>
+          <Text style={s.rating_question_text}>How would you rate:</Text>
+          <Text style={s.rating_question_name}>{this.props.user.name}</Text>
+        </View>
+        {this.props.user.ratings_number>0 ?
+          <View style={s.rating_current_container}>
+            <Text style={s.rating_curren_textt}>
+              current rating:
             </Text>
-            <Text style={s.rating_number_current}>
+            <Text style={s.rating_current_number}>
               {this.props.user.ratings_average}
             </Text>
           </View>
           :null}
-        <View style={s.rating_container_star}>
+        <View style={s.rating_star_container}>
           {stars}
         </View>
         <Button
-          raised
           title='VOTE'
           onPress={this.handleVote}
           textStyle={{color:'white', fontWeight:'bold'}}

@@ -7,7 +7,7 @@ export default StyleSheet.create({
   bio: {
     flex:1,
     flexDirection:'column',
-
+    backgroundColor: 'white'
   },
   bio_picture: {
     alignItems:'center'
@@ -22,6 +22,7 @@ export default StyleSheet.create({
   },
   bio_headline:{
     flexDirection:'row',
+    alignItems:'center',
     justifyContent:'space-between',
   },
   bio_name: {
@@ -29,7 +30,12 @@ export default StyleSheet.create({
     fontSize:30,
   },
   bio_button:{
+    borderRadius: 2,
     backgroundColor:appColor,
+    shadowColor: '#444',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   bio_error: {
     color:'red',

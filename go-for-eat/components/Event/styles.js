@@ -80,9 +80,9 @@ export default StyleSheet.create({
     width: '100%',
     height: 10,
     marginLeft: 10,
-    bottom: 20,
-    paddingLeft: 140,
-    paddingRight: 140,
+    bottom: 30,
+    paddingLeft: 135,
+    paddingRight: 135,
   },
   event_spots_full:{
     transform: [
@@ -94,5 +94,17 @@ export default StyleSheet.create({
       { scale: 0.8},
     ],
     opacity: 0.3,
+  },
+  noEvents:{
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '80%',
+    marginHorizontal:'10%',
+    marginVertical: 20,
+  },
+  noEvents_text: {
+    textAlign: 'center',
+    color: '#bbb',
+    fontSize: 14,
   },
 });
