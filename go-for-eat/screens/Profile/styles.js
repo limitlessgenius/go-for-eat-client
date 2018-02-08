@@ -7,7 +7,9 @@ export default StyleSheet.create({
   profile: {
     flex:1,
     flexDirection:'column',
-
+  },
+  list:{
+    backgroundColor: appColor,
   },
   profile_picture: {
     alignItems:'center'
