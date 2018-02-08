@@ -34,6 +34,15 @@ export default StyleSheet.create({
     padding: 5,
     marginLeft: 5,
   },
+  event_detail_time_extend:{
+    backgroundColor: '#2ECC71',
+    borderRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 70,
+    padding: 5,
+    marginLeft: 5,
+  },
   event_detail_time_text:{
     fontSize: 16,
     color: 'white',

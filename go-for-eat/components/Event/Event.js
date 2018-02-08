@@ -50,8 +50,8 @@ class Event extends Component {
             <View style={s.event_detail}>
               <Text numberOfLines={1} style={s.event_detail_eventName}> {this.props.users[eventData.creator].name}, {eventData.place_name} </Text>
               <Text numberOfLines={1} style={s.event_detail_address}> {eventData.place_address}  </Text>
-              <View style={s.event_detail_time}>
-                <Text style={s.event_detail_time_text}> {moment(eventData.when).format('HH:mm')} </Text>
+              <View style={this.props.screen==='Profile'?s.event_detail_time_extend:s.event_detail_time}>
+                <Text style={s.event_detail_time_text}> {moment(eventData.when).format(this.props.screen==='Profile' ? 'DD/MM-HH:mm' : 'HH:mm')} </Text>
               </View>
             </View>
             <View style={s.event_distance}>
