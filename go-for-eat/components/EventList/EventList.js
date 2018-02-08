@@ -39,7 +39,7 @@ class EventList extends Component {
         keyExtractor={item => item}
         // ListFooterComponent={this.renderFooter}
         onEndReached={this.loadMore}
-        onEndReachedThreshold={1}
+        onEndReachedThreshold={0.1}
       />
     ) : <View style={{paddingVertical: 20}}>
       <ActivityIndicator size="large" color="#ffffff"/>

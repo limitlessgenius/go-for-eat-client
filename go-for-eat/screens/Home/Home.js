@@ -26,7 +26,7 @@ class Home extends Component {
 
     return  (
       <Drawer
-        initialDrawerSize={.29}
+        initialDrawerSize={-(3/7250)*SCREEN_HEIGHT+.626}
         finalDrawerHeight={0}
         onRelease={this.drawerDirection}
         renderContainerView={() => <Maps/>}

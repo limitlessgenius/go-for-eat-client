@@ -282,7 +282,6 @@ const pages = (state = defaultState, action) => {
       }
     };
   case 'SET_RATE_USER':
-    console.log('REDUCER', action);
     return {
       ...state,
       Rating:{

@@ -143,8 +143,6 @@ class EventDetail extends Component {
 
   handleClickUser = (i) => {
     return () => {
-      console.log(this.props.eventData.attendees[i] );
-      console.log(this.props.user._id );
       if (this.props.eventData.attendees[i] === this.props.user._id) this.props.navigate('Profile');
       else {
         this.props.goToUser(this.props.eventData.attendees[i]);
