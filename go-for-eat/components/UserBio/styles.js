@@ -54,16 +54,23 @@ export default StyleSheet.create({
     marginTop:10,
     fontFamily:'Roboto_Medium'
   },
-
-
   bio_rating_stars:{
+    position: 'relative',
+    height: 25,
+    marginTop: 10,
     marginLeft:20,
-    flexDirection:'row',
-    marginBottom:10
+    marginBottom:15,
   },
-  bio_stars: {
-    transform:[{scale:0.8}],
-    marginTop:5
+  bio_stars_container: {
+    position: 'absolute',
+    flexDirection:'row',
+    width: 164,
+    overflow: 'hidden',
+  },
+  bio_star: {
+    height: 25,
+    width: 28,
+    marginRight: 6,
   },
 
   bio_section_outercontainer:{

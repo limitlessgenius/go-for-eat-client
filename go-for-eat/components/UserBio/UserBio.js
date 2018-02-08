@@ -87,13 +87,38 @@ class UserBio extends Component {
 
 
   renderRating = () => {
+    // const { ratings_average } = this.props.user;
+    // const stars = [];
+    // for (var i = 1; i <= 5; i++) {
+    //   if (i<=Math.ceil(ratings_average)) stars.push(<Image style={s.bio_stars}  key={i} source={profileStar}/>);
+    //   else stars.push(<Image key={i} style={s.bio_stars} source={profileStarEmpty}/>);
+    // }
+    // return stars;
     const { ratings_average } = this.props.user;
-    const stars = [];
-    for (var i = 1; i <= 5; i++) {
-      if (i<=Math.ceil(ratings_average)) stars.push(<Image style={s.bio_stars}  key={i} source={profileStar}/>);
-      else stars.push(<Image key={i} style={s.bio_stars} source={profileStarEmpty}/>);
+    const emptyStars = [];
+    const fullStars = [];
+    for (let i = 1; i <= 5; i++) {
+      emptyStars.push(<Image key={i} style={s.bio_star} source={profileStarEmpty}/>);
+      fullStars.push(<Image key={i} style={s.bio_star} source={profileStar}/>);
     }
-    return stars;
+    return (
+      <View style={s.bio_rating_stars}>
+        <View style={s.bio_stars_container}>
+          {emptyStars}
+        </View>
+        <View style={[s.bio_stars_container, {width: ratings_average / 5 * 164}]}>
+          {fullStars}
+        </View>
+      </View>
+    );
+  }
+
+  renderNoRating = () => {
+    return (
+      <View style={s.bio_rating_stars}>
+        <Text>No ratings to show.</Text>
+      </View>
+    );
   }
 
   renderRatingSection =() => {
@@ -101,12 +126,7 @@ class UserBio extends Component {
     return (
       <View>
         <Text style ={s.bio_bio_title}>Rating:</Text>
-        <View style={s.bio_rating_stars}>
-          {ratings_number>0
-            ? this.renderRating()
-            : <Text>No ratings to show.</Text>
-          }
-        </View>
+        {ratings_number > 0 ? this.renderRating() : this.renderNoRating()}
       </View>
     );
   }
