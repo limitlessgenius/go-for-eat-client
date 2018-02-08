@@ -29,6 +29,7 @@ class Home extends Component {
         initialDrawerSize={-(3/7250)*SCREEN_HEIGHT+.626}
         finalDrawerHeight={0}
         onRelease={this.drawerDirection}
+        drawerBg='#2ECC71'
         renderContainerView={() => <Maps/>}
         renderDrawerView={() => (<Animatable.View
           duration={500}

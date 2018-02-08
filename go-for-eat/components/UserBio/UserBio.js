@@ -45,6 +45,7 @@ class UserBio extends Component {
         .filter(elem => moment(elem.when) < moment())
         .map(elem => elem.attendees);
       prevAttendees = [].concat.apply([], prevAttendees);
+      // console.log(prevAttendees);
       if (prevAttendees.indexOf(this.props.user._id)!==-1 & !this.props.user.myRating) {
         this.setState({renderVote:true});
       }
@@ -159,11 +160,9 @@ class UserBio extends Component {
     this.props.navigate('Rating');
   }
 
-  renderVoteButton = (flag) => {
-    if (!flag) return null;
+  renderVoteButton = () => {
     return (
       <Button
-        raised
         textStyle={{color:'white', fontWeight:'bold'}}
         buttonStyle={s.bio_button}
         onPress={this.handleVote}
@@ -185,7 +184,7 @@ class UserBio extends Component {
         </View>
         <View style={s.bio_headline}>
           <Text style={s.bio_name}>{name}{birthday?', ' + this.getAgeFromBirthday(birthday):''}</Text>
-          {this.renderVoteButton(this.state.renderVote)}
+          {this.state.renderVote ? this.renderVoteButton() : null}
         </View>
         {this.state.error? <Text style={s.bio_error}>{'Fields must only be 140 characters or less.'}</Text>:null}
         {this.renderRatingSection()}

@@ -67,6 +67,7 @@ const pages = (state = defaultState, action) => {
 
     created_events = created_events
       .map(elem => action.events[elem])
+      .filter(elem => moment(elem.when) > moment())
       .sort((a,b) => a.distance -b.distance)
       .map(elem => elem._id);
 
@@ -75,11 +76,11 @@ const pages = (state = defaultState, action) => {
       .sort((a,b) => a.distance - b.distance);
 
     const myComingEvents = events
-      .filter(elem => moment(elem.when*1000) > moment())
+      .filter(elem => moment(elem.when) > moment())
       .map(elem => elem._id);
 
     const myPastEvents = events
-      .filter(elem => moment(elem.when*1000) < moment())
+      .filter(elem => moment(elem.when) < moment())
       .map(elem => elem._id);
 
     return {

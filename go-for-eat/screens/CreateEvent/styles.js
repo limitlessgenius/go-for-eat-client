@@ -13,10 +13,10 @@ export default StyleSheet.create({
     width: WINDOW.width - 40,
     marginLeft: 20,
     marginRight: 20,
-    fontSize: 24,
+    fontSize: 22,
     fontFamily: 'Roboto',
     justifyContent: 'flex-start',
-    marginBottom: 10,
+    marginBottom: 6,
   },
   GooglePlacesAutocompleteContainer: {
     position: 'relative',
@@ -46,12 +46,12 @@ export default StyleSheet.create({
   },
   goButton: {
     backgroundColor: '#2ECC71',
-    paddingLeft: 25,
-    paddingRight: 25,
+    borderRadius: 2,
+    paddingHorizontal: 30,
     shadowColor: '#444',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   goButtonText: {
     color: '#FFF',
@@ -61,6 +61,17 @@ export default StyleSheet.create({
     opacity: .5,
   },
   disabledTextStyle: {
-
+  },
+  warn_container:{
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '80%',
+    marginHorizontal:'10%',
+    marginVertical: 20,
+  },
+  warn: {
+    textAlign: 'center',
+    color: '#bbb',
+    fontSize: 14,
   },
 });
