@@ -39,7 +39,7 @@ class Event extends Component {
         <TouchableWithoutFeedback
           onPress={()=>{
             this.setState({
-              height: !this.state.openDetails ? 370 : 120,
+              height: !this.state.openDetails ? eventData.when > Date.now() ? 370 : 270 : 120,
               openDetails: !this.state.openDetails,
             });
             if (this.props.suggested) {
