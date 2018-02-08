@@ -87,13 +87,6 @@ class UserBio extends Component {
 
 
   renderRating = () => {
-    // const { ratings_average } = this.props.user;
-    // const stars = [];
-    // for (var i = 1; i <= 5; i++) {
-    //   if (i<=Math.ceil(ratings_average)) stars.push(<Image style={s.bio_stars}  key={i} source={profileStar}/>);
-    //   else stars.push(<Image key={i} style={s.bio_stars} source={profileStarEmpty}/>);
-    // }
-    // return stars;
     const { ratings_average } = this.props.user;
     const emptyStars = [];
     const fullStars = [];
