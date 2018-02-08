@@ -94,7 +94,6 @@ class Maps extends Component {
 
 
   onMarkerPress = (marker) => {
-    console.log(marker);
     if (marker.id !== undefined) {
       this.props.setMainEvent(marker.id);
       this._mapView.animateToRegion({

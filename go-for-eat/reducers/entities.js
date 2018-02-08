@@ -35,7 +35,7 @@ const entities = (state = defaultState, action) => {
     return state;
     break;
   case 'JOIN_EVENTS_FAILURE':
-    console.log('JOIN_EVENTS_FAILURE', action);
+    console.log('JOIN_EVENTS_FAILURE');
     return state;
     break;
   case 'RATE_USER_SUCCESS':

@@ -70,7 +70,6 @@ class NavBar extends Component {
 
 
   render () {
-    // console.log('navigate',this.props.nav);
     const allButtons = {
       create: {
         onPress:this.handleCreate,
