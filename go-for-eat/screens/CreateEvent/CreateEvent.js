@@ -54,7 +54,7 @@ class CreateEvent extends Component {
   errorAlert = () =>{
     Alert.alert(
       'Oops',
-      'Something went wrong, try to creat it again',
+      'Something went wrong, try to create it again',
       [
         {text: 'OK', onPress: () => this.onErrorAlertOk()},
       ],
@@ -128,7 +128,7 @@ class CreateEvent extends Component {
     return  (
       <View style={s.container}>
         <View style={s.warn_container}>
-          <Text style={s.warn}>Have you checked for existing events \n at your chosen restaurant?</Text>
+          <Text style={s.warn}>Have you checked for existing events at your chosen restaurant?</Text>
         </View>
         <Text style={s.title}>Restaurant:</Text>
         <View style={s.GooglePlacesAutocompleteContainer}>
