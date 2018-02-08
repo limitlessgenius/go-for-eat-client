@@ -158,7 +158,7 @@ class EventDetail extends Component {
   render() {
     return  (
       <View style={s.event_inner_detail}>
-        {this.props.user._id === this.props.eventData.creator ? this.renderYour() : this.renderOthers()}
+        {this.props.eventData.when < Date.now() ? null : this.props.user._id === this.props.eventData.creator ? this.renderYour() : this.renderOthers()}
         <View style={s.event_inner_participants}>
           <Text style={s.inner_actions_text}>Participants:</Text>
           <View style={s.inner_participants_people}>

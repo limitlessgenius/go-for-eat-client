@@ -31,7 +31,7 @@ class CreateEvent extends Component {
   }
 
   componentWillMount() {
-    this.handleGo = debounce(this.handleGo, 10);
+    this.handleGo = debounce(this.handleGo, 100);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -72,7 +72,6 @@ class CreateEvent extends Component {
   }
 
   onErrorAlertOk = () => {
-    this.alertOpen = false;
     this.props.closeErrorAlertOpen();
   }
 

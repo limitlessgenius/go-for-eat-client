@@ -38,7 +38,12 @@ class EditEvent extends Component {
   }
 
   componentWillMount() {
-    this.handleEdit = debounce(this.handleEdit, 10);
+    this.handleEdit = debounce(this.handleEdit, 100);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.confirmationAlertOpen && !this.props.confirmationAlertOpen) this.confirmationAlert();
+    else if(nextProps.errorAlertOpen && !this.props.errorAlertOpen) this.errorAlert();
   }
 
   confirmationAlert = () => {
@@ -136,7 +141,6 @@ class EditEvent extends Component {
   }
 
   render() {
-    if (this.props.confirmationAlertOpen) this.confirmationAlert();
     return  (
       <View style={s.container}>
         <Text style={s.title}>Restaurant:</Text>
