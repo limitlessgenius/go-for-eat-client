@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, FlatList, SectionList, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import serverHost from '../../config/serverHost.js';
 import { getNearbyEvents, setQueryState } from '../../actions';
 import { Event } from '../Event';
 import moment from 'moment';
