@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { FacebookButton, GoogleButton } from '../../components/Buttons';
-import serverHost from '../../config/serverHost.js';
 import logo from '../../assets/logo/logo2x.png';
 import styles from './styles';
 import { setUser, setPages, setEntities, loginUser, navigate, reloadUser } from '../../actions';
-
+import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, FACEBOOK_APP_ID } from 'react-native-dotenv';
 
 class Login extends Component {
   constructor(props){
@@ -45,8 +44,8 @@ class Login extends Component {
 
   loginGoogle = async () => {
     Expo.Google.logInAsync({
-      androidClientId: '795597563248-66qbkcj7j3jek2btdrnv66t4gdkoa639.apps.googleusercontent.com',
-      iosClientId: '795597563248-aph6ms1e1f53i6ela2281hpcu09itjer.apps.googleusercontent.com',
+      androidClientId: GOOGLE_ANDROID_CLIENT_ID,
+      iosClientId: GOOGLE_IOS_CLIENT_ID,
       scopes: ['profile', 'email', 'https://www.googleapis.com/auth/user.birthday.read'],
     })
       .then(result => {
@@ -67,7 +66,7 @@ class Login extends Component {
   }
 
   loginFacebook = async () => {
-    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('442248476177832', {
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(FACEBOOK_APP_ID, {
       permissions: ['public_profile', 'email', 'user_birthday'],
     });
     if (type === 'success') {

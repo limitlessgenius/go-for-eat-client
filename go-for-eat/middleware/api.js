@@ -1,9 +1,8 @@
 import { normalize } from 'normalizr';
-import baseUrl from '../config/serverHost.js';
-
+import { API_URL } from 'react-native-dotenv';
 
 const callApi = (endpoint, method='GET', body, accessToken, schema) => {
-  const fullUrl = baseUrl + endpoint;
+  const fullUrl = API_URL + endpoint;
   const headers = {};
   if (accessToken) headers.authorization = `Bearer ${accessToken}`;
   if (method === 'POST' || method === 'PUT') headers['Content-Type'] = 'application/json';
