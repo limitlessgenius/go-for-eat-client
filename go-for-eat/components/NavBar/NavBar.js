@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Avatar, TouchableOpacity, ActionSheetIOS } from 'react-native';
+import { View, Text, Image, Avatar, TouchableOpacity, ActionSheetIOS, Platform } from 'react-native';
+import { ActionSheetCustom as ActionSheet } from 'react-native-custom-actionsheet'
 import { Header } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -43,21 +44,36 @@ class NavBar extends Component {
   }
 
   handleLogout = () => {
-    ActionSheetIOS.showActionSheetWithOptions({
-      options: ['Logout', 'Cancel'],
-      cancelButtonIndex: 1,
-      tintColor: '#2ECC71'
-    },
-    (buttonIndex) => {
-      switch (buttonIndex) {
-      case 0:
-        const serializedState = JSON.stringify({});
-        this.props.navigateLogin();
-        Expo.SecureStore.setItemAsync('state', serializedState);
-        this.props.logoutState();
-        break;
-      }
-    });
+    if (Platform.OS === 'ios') {
+      ActionSheetIOS.showActionSheetWithOptions({
+        options: ['Logout', 'Cancel'],
+        cancelButtonIndex: 1,
+        tintColor: '#2ECC71'
+      },
+      (buttonIndex) => {
+        switch (buttonIndex) {
+        case 0:
+          const serializedState = JSON.stringify({});
+          this.props.navigateLogin();
+          Expo.SecureStore.setItemAsync('state', serializedState);
+          this.props.logoutState();
+          break;
+        }
+      });
+    } else {this.actionSheet.show()} 
+  }
+
+  getActionSheetRef = ref => (this.actionSheet = ref)
+
+  handleLogoutActionSheetPress = (buttonIndex) => {
+    switch (buttonIndex) {
+    case 0:
+      const serializedState = JSON.stringify({});
+      this.props.navigateLogin();
+      Expo.SecureStore.setItemAsync('state', serializedState);
+      this.props.logoutState();
+      break;
+    }
   }
 
 
@@ -147,6 +163,14 @@ class NavBar extends Component {
           rightComponent={buttons.right}
           outerContainerStyles={style.navbar_outer_container}
           innerContainerStyles={style.navbar_inner_container}
+        />
+        <ActionSheet
+          ref={this.getActionSheetRef}
+          options={[{component: <Text style={{ color: '#2ECC71', fontSize: 22}}>Logout</Text>,height: 60}, 'Cancel']}
+          cancelButtonIndex={1}
+          destructiveButtonIndex={0}
+          onPress={this.handleLogoutActionSheetPress}
+          tintColor={'#2ECC71'}
         />
       </View>
     );
