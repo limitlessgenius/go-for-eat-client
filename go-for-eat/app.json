@@ -1,5 +1,14 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
-  }
+    "name":"Go4Eat",
+    "sdkVersion": "25.0.0",
+    "description": "Share a meal with others",
+    "orientation": "portrait",
+    "ios": {
+      "bundleIdentifier":"com.go4eat",
+      "supportsTablet":false,
+    },
+
+  },
+
 }
