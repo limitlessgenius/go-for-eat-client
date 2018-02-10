@@ -130,7 +130,6 @@ class Maps extends Component {
   render() {
     return (this.props.events && this.props.query.lat &&  this.props.query.lng) ? (
       <MapView style={s.map}
-        mapType={Platform.OS == 'android' ? 'none': 'standard'}
         initialRegion={{
           latitude: this.props.query.lat,
           longitude: this.props.query.lng,
@@ -154,6 +153,7 @@ class Maps extends Component {
           duration: 404,
         }}
       >
+        {this.renderMarkers()}
         <Animatable.Image
           easing='ease-in-out'
           duration={300}
@@ -161,7 +161,6 @@ class Maps extends Component {
           style={[ s.translateY ,this.nearMe() ? s.center__hide : this.state.moving ? s.center__onMove : s.center]}
           source={MapCenter}>
         </Animatable.Image>
-        {this.renderMarkers()}
       </MapView> ) :
       (<View style={{paddingVertical: 20}}>
         <ActivityIndicator size="large" color="#ffffff"/>

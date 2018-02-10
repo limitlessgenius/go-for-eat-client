@@ -60,7 +60,7 @@ class NavBar extends Component {
           break;
         }
       });
-    } else {this.actionSheet.show()} 
+    } else {this.actionSheet.show()}
   }
 
   getActionSheetRef = ref => (this.actionSheet = ref)

@@ -1,63 +1,95 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, ScrollView,TouchableWithoutFeedback, TouchableOpacity, Image, Text, ActionSheetIOS, StyleSheet, Linking } from 'react-native';
+import { View, ScrollView,TouchableWithoutFeedback, TouchableOpacity, Image, Text, ActionSheetIOS, StyleSheet, Linking, Platform } from 'react-native';
+import { ActionSheetCustom as ActionSheet } from 'react-native-custom-actionsheet';
 import s from './styles';
 import _ from 'lodash';
 import { navigate, goToUser, joinEvent, leaveEvent, deleteEvent, goToEditEvent } from '../../actions';
 
-
 class EventDetail extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      actionSheetOption: '',
+      actionSheetCb: '',
+      actionSheetEventId: '',
+      actionSheetUserId: '',
+    };
   }
 
   leaveEventAction(option, cb, eventId, userId) {
-    var BUTTONS = [
-      option,
-      'Cancel',
-    ];
-    ActionSheetIOS.showActionSheetWithOptions({
-      options: BUTTONS,
-      cancelButtonIndex: 1,
-      tintColor: '#2ECC71'
-    },
-    (buttonIndex) => {
-      switch (buttonIndex) {
-      case 0:
-        cb(eventId, userId);
-        break;
-      }
-    });
+    if (Platform.OS === 'ios') {
+      var BUTTONS = [
+        option,
+        'Cancel',
+      ];
+      ActionSheetIOS.showActionSheetWithOptions({
+        options: BUTTONS,
+        cancelButtonIndex: 1,
+        tintColor: '#2ECC71'
+      },
+      (buttonIndex) => {
+        switch (buttonIndex) {
+        case 0:
+          cb(eventId, userId);
+          break;
+        }
+      });
+    } else {
+      this.setState({ 
+        actionSheetOption: option,
+        actionSheetCb: cb,
+        actionSheetEventId: eventId,
+        actionSheetUserId: userId,
+      });
+      this.actionSheet.show();
+    }
+  }
+
+  handleActionSheetPress = (buttonIndex) => {
+    switch (buttonIndex) {
+    case 0:
+      this.state.actionSheetCb(this.state.actionSheetEventId, this.state.actionSheetUserId);
+      break;
+    }
   }
 
   goToRestaurantAction(dest) {
-    var BUTTONS = [
-      'Open Google Maps',
-      'Open Maps',
-      'Cancel',
-    ];
-    dest = dest.split(' ').join('+');
-    ActionSheetIOS.showActionSheetWithOptions({
-      options: BUTTONS,
-      cancelButtonIndex: 2,
-      tintColor: '#2ECC71'
-    },
-    (buttonIndex) => {
-      switch (buttonIndex) {
-      case 0:
-        Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${dest}`).catch(err =>
-          console.error('An error occurred', err)
-        );
-        break;
-      case 1:
-        Linking.openURL(`http://maps.apple.com/?daddr=${dest}&dirflg=w&t=r`).catch(err =>
-          console.error('An error occurred', err)
-        );
-        break;
+    if (Platform.OS === 'ios') {
+      var BUTTONS = [
+        'Open Google Maps',
+        'Open Maps',
+        'Cancel',
+      ];
+      dest = dest.split(' ').join('+');
+      ActionSheetIOS.showActionSheetWithOptions({
+        options: BUTTONS,
+        cancelButtonIndex: 2,
+        tintColor: '#2ECC71'
+      },
+      (buttonIndex) => {
+        switch (buttonIndex) {
+        case 0:
+          Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${dest}`).catch(err =>
+            console.error('An error occurred', err)
+          );
+          break;
+        case 1:
+          Linking.openURL(`http://maps.apple.com/?daddr=${dest}&dirflg=w&t=r`).catch(err =>
+            console.error('An error occurred', err)
+          );
+          break;
 
-      }
-    });
+        }
+      });
+    } else {
+      Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${dest}`).catch(err =>
+        console.error('An error occurred', err)
+      );
+    }
   }
+
+  getActionSheetRef = ref => (this.actionSheet = ref)
 
   goToEditEventAction = () => {
     this.props.goToEditEvent(this.props.eventData._id);
@@ -178,6 +210,14 @@ class EventDetail extends Component {
             })}
           </View>
         </View>
+        <ActionSheet
+          ref={this.getActionSheetRef}
+          options={[{component: <Text style={{ color: '#2ECC71', fontSize: 22}}>{this.state.actionSheetOption}</Text>,height: 60}, 'Cancel']}
+          cancelButtonIndex={1}
+          destructiveButtonIndex={0}
+          onPress={this.handleActionSheetPress}
+          tintColor={'#2ECC71'}
+        />
       </View>
     );
   }
