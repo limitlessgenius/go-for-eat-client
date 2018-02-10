@@ -1,14 +1,17 @@
 {
   "expo": {
     "name":"Go4Eat",
+    "icon": "./assets/logo/appIcon.png",
+    "version": "1.0.0",
     "sdkVersion": "25.0.0",
     "description": "Share a meal with others",
     "orientation": "portrait",
     "ios": {
-      "bundleIdentifier":"com.go4eat",
-      "supportsTablet":false,
+      "bundleIdentifier": "com.go4eat",
+      "supportsTablet": false
     },
-
-  },
-
+    "android": {
+      "package": "com.go4eat"
+    }
+  }
 }

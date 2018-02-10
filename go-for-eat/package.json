@@ -33,6 +33,7 @@
     "react": "16.2.0",
     "react-native": "0.52.0",
     "react-native-animatable": "^1.2.4",
+    "react-native-custom-actionsheet": "0.0.4",
     "react-native-datepicker": "^1.6.0",
     "react-native-draggable-view": "git+https://github.com/Leon31/react-native-draggable-view.git",
     "react-native-elements": "^0.19.0",
@@ -47,6 +48,6 @@
     "watchman": "^1.0.0"
   },
   "description": "This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).",
-  "author": "",
+  "author": "Hannah Redler, Leonardo Di Vittorio, Sergi Palau, Andrea Ceccarelli",
   "license": "ISC"
 }
