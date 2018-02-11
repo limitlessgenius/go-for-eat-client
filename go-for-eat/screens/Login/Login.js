@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FacebookButton, GoogleButton } from '../../components/Buttons';
 import logo from '../../assets/logo/logo2x.png';
 import styles from './styles';
-import { setUser, setPages, setEntities, loginUser, navigate, reloadUser } from '../../actions';
+import { loginUser, navigate } from '../../actions';
 import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, FACEBOOK_APP_ID } from 'react-native-dotenv';
 
 class Login extends Component {
@@ -24,22 +24,6 @@ class Login extends Component {
         await this.loginExpo();
       }
     );
-  }
-
-  loginExpo = () => {
-    Expo.SecureStore.getItemAsync('state')
-      .then(userData => {
-        if (userData) {
-          let user = JSON.parse(userData).authentication;
-          let entities = JSON.parse(userData).entities;
-          if (entities) this.props.setEntities(entities);
-          if (user.user._id) {
-            this.props.setUser(user);
-            this.props.reloadUser(this.state);
-            this.props.navigate('Home');
-          }
-        }
-      });
   }
 
   loginGoogle = async () => {
@@ -108,17 +92,9 @@ class Login extends Component {
 }
 
 
-const mapStateToProps = (state) => ({
-  user:state.authentication
-});
-
 const mapDispatchToProps = (dispatch) => ({
-  setUser: user => dispatch(setUser(user)),
   serverAuth: (data) => dispatch(loginUser(data)),
   navigate: (screen) => dispatch(navigate(screen)),
-  setPages: (data) => dispatch(setPages(data)),
-  setEntities: (data) => dispatch(setEntities(data)),
-  reloadUser: (data) => dispatch(reloadUser(data)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapDispatchToProps)(Login);
