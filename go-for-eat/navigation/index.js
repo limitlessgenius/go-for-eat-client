@@ -59,12 +59,12 @@ const HomeStack = StackNavigator({
 );
 
 export const AppNavigator = StackNavigator({
-  Login: {
-    screen: Login,
-    navigationOptions:{header:()=>null}
-  },
   Loading:{
     screen:LoadingPage,
+    navigationOptions:{header:()=>null}
+  },
+  Login: {
+    screen: Login,
     navigationOptions:{header:()=>null}
   },
   HomeStack: {
