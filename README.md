@@ -1,5 +1,5 @@
 <div align="center">
- <img style="width: 20%" src="go-for-eat/assets/logo_green@2x.png"></img>
+ <img width= "200px" src="go-for-eat/assets/logo_green@2x.png"></img>
 </div>
 
 Go4eat is a cross paltform app that allows people to connect each others to share a meal, and so make new contacts and expand thier networks.
@@ -31,13 +31,12 @@ Go4eat is a cross paltform app that allows people to connect each others to shar
     
 * ### Create
     If there's no events you are interested in you can create a new one selecting the restaurant the day and the hours. 
-    ![](go-for-eat/assets/create.png)
+    <img width= "250px" src="go-for-eat/assets/create.png"></img>
 * ### Profile
     Then the second step is the calendar where you can select the date that you prefer. As you click its update in realtime. Built from scratch
 
-     ![1](go-for-eat/assets/profile.PNG)
-     ![2](go-for-eat/assets/rating.PNG)
-
+   <img width= "250px" src="go-for-eat/assets/profile.PNG">
+   </img><img width= "250px" src="go-for-eat/assets/rating.PNG"></img>
 
 ## Contact Us
 
