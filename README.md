@@ -21,7 +21,9 @@ Go4eat is a cross paltform app that allows people to connect each others to shar
 * ### Home page
     The home page shows your positio in the map and the markers indicates the event around you.
     Below the map it's possible to see the sudgested event and draggin you can access to the rest of the event in the list.
-     <div align="center">
+    
+    
+    <div align="center">
      <img width= "200px" src="go-for-eat/assets/emptymap.png"></img>
      <img width= "200px" src="go-for-eat/assets/listopen.PNG"></img>
      <img width= "200px" src="go-for-eat/assets/map.PNG"></img>
@@ -31,7 +33,10 @@ Go4eat is a cross paltform app that allows people to connect each others to shar
     
 * ### Create
     If there's no events you are interested in you can create a new one selecting the restaurant the day and the hours. 
-    <img width= "250px" src="go-for-eat/assets/create.png"></img>
+    
+    
+    <img width= "250px" src="go-for-eat/assets/create.PNG"></img>
+    
 * ### Profile
     Then the second step is the calendar where you can select the date that you prefer. As you click its update in realtime. Built from scratch
 
