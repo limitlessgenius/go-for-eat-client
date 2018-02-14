@@ -1,6 +1,6 @@
 # go4eat
 
-![](go-for-eat/assets/logo_green@2x.png)
+<img src="go-for-eat/assets/logo_green@2x.png"></img>
 
 
 Go4eat is a cross paltform app that allows people to connect each others to share a meal, and so make new contacts and expand thier networks.
