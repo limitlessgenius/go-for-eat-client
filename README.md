@@ -22,10 +22,11 @@ Go4eat is a cross paltform app that allows people to connect each others to shar
     The home page shows your positio in the map and the markers indicates the event around you.
     Below the map it's possible to see the sudgested event and draggin you can access to the rest of the event in the list.
      <div align="center">
-     <img style="width: 60px" src="go-for-eat/assets/emptymap.PNG"></img>
-     <img style="width: 60px" src="go-for-eat/assets/listopen.PNG"></img>
-     <img style="width: 60px" src="go-for-eat/assets/map.PNG"></img>
+     <img width= "60px" src="go-for-eat/assets/emptymap.PNG"></img>
+     <img width= "60px" src="go-for-eat/assets/listopen.PNG"></img>
+     <img width= "60px" src="go-for-eat/assets/map.PNG"></img>
     </div>
+    
     Opening the event you can see the details of the specific event and if you like join to the group.
     
 * ### Create
