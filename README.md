@@ -1,6 +1,6 @@
 # go4eat
 
-![](go-for-eat/assets/logo_green@2x.gif)
+![](go-for-eat/assets/logo_green@2x.png)
 
 Go4eat is a cross paltform app that allows people to connect each others to share a meal, and so make new contacts and expand thier networks.
 
@@ -22,9 +22,9 @@ Go4eat is a cross paltform app that allows people to connect each others to shar
     The home page shows your positio in the map and the markers indicates the event around you.
     Below the map it's possible to see the sudgested event and draggin you can access to the rest of the event in the list.
      
-     ![1](go-for-eat/assets/emptymap.gif)
-     ![2](go-for-eat/assets/listopen.gif)
-     ![3](go-for-eat/assets/map.gif)
+     ![1](go-for-eat/assets/emptymap.PNG)
+     ![2](go-for-eat/assets/listopen.PNG)
+     ![3](go-for-eat/assets/map.PNG)
     
     Opening the event you can see the details of the specific event and if you like join to the group.
     
@@ -34,8 +34,8 @@ Go4eat is a cross paltform app that allows people to connect each others to shar
 * ### Profile
     Then the second step is the calendar where you can select the date that you prefer. As you click its update in realtime. Built from scratch
 
-     ![1](go-for-eat/assets/profile.png)
-     ![2](go-for-eat/assets/rating.png)
+     ![1](go-for-eat/assets/profile.PNG)
+     ![2](go-for-eat/assets/rating.PNG)
 
 
 ## Contact Us
