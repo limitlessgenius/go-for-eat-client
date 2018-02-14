@@ -41,7 +41,7 @@ Go4eat is a cross paltform app that allows people to connect each others to shar
 
 ## Contact Us
 
-Andrea Ceccarelli – [Linkedin](https://www.linkedin.com/in/leonardo-di-vittorio-092679a6/)- [GitHub](https://github.com/Leon31) – gltch2003@gmail.com
-Sergi Palau – [Linkedin](https://www.linkedin.com/in/leonardo-di-vittorio-092679a6/) – [GitHub](https://github.com/Leon31) - sergipt@gmail.com
-Hannah Redler – [Linkedin](https://www.linkedin.com/in/leonardo-di-vittorio-092679a6/) – [GitHub](https://github.com/Leon31) - hannahjredler@gmail.com
+Andrea Ceccarelli – [Linkedin](https://www.linkedin.com/in/leonardo-di-vittorio-092679a6/)- [GitHub](https://github.com/Glitches) – gltch2003@gmail.com
+Sergi Palau – [Linkedin](https://www.linkedin.com/in/leonardo-di-vittorio-092679a6/) – [GitHub](https://github.com/sergipt) - sergipt@gmail.com
+Hannah Redler – [Linkedin](https://www.linkedin.com/in/leonardo-di-vittorio-092679a6/) – [GitHub](https://github.com/redspanner) - hannahjredler@gmail.com
 Leonardo Di Vittorio – [Linkedin](https://www.linkedin.com/in/leonardo-di-vittorio-092679a6/) – [GitHub](https://github.com/Leon31)-leodivittorio@gmail.com
