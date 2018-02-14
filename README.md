@@ -34,15 +34,17 @@ Go4eat is a cross paltform app that allows people to connect each others to shar
 * ### Create
     If there's no events you are interested in you can create a new one selecting the restaurant the day and the hours. 
     
-    
+    <div align="center">
     <img width= "250px" src="go-for-eat/assets/create.PNG"></img>
-    
+    </div>
 * ### Profile
     Then the second step is the calendar where you can select the date that you prefer. As you click its update in realtime. Built from scratch
 
+ <div align="center">
    <img width= "250px" src="go-for-eat/assets/profile.PNG">
    </img><img width= "250px" src="go-for-eat/assets/rating.PNG"></img>
-
+ </div>
+ 
 ## Contact Us
 
 Andrea Ceccarelli – [Linkedin](https://www.linkedin.com/in/leonardo-di-vittorio-092679a6/)- [GitHub](https://github.com/Glitches) – gltch2003@gmail.com
