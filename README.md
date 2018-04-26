@@ -46,6 +46,16 @@ Go4eat is a cross paltform app that allows people to connect each others to shar
    </img><img width= "250px" src="go-for-eat/assets/rating.PNG"></img>
  </div>
  
+## Possible Addition
+
+* Linkedin login (developed server side, to implement in the front), get the profession.
+* Search query backend: now - searches for free space, distance, rating of the people. To add for interest and profession.
+* Notifications.
+
+or
+
+* Restaurants platform that can add his restaurants and events. 
+ 
 ## Contact Us
 
 Andrea Ceccarelli – [Linkedin](https://www.linkedin.com/in/leonardo-di-vittorio-092679a6/)- [GitHub](https://github.com/Glitches) – gltch2003@gmail.com
