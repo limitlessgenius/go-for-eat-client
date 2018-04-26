@@ -48,6 +48,7 @@ Go4eat is a cross paltform app that allows people to connect each others to shar
  
 ## Possible Addition
 
+* Bug fixing. ask Leo!
 * Linkedin login (developed server side, to implement in the front), get the profession.
 * Search query backend: now - searches for free space, distance, rating of the people. To add for interest and profession.
 * Notifications.
