@@ -46,7 +46,7 @@ Go4eat is a cross paltform app that allows people to connect each others to shar
    </img><img width= "250px" src="go-for-eat/assets/rating.PNG"></img>
  </div>
  
-## Possible Addition
+## Possible Additions
 
 * Bug fixing. ask Leo!
 * Linkedin login (developed server side, to implement in the front), get the profession.
@@ -55,7 +55,7 @@ Go4eat is a cross paltform app that allows people to connect each others to shar
 
 or
 
-* Restaurants platform that can add his restaurants and events. 
+* Restaurants manager platform that can add his restaurants and events - add an event section to have separate events(users) and meeting(restaurants).
  
 ## Contact Us
 
