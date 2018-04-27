@@ -4,7 +4,8 @@ import React from 'react'
 const EventDetail = (props) => {
 
 	const onClick = () => {
-		console.log('EVENT DETAILS', props)
+		console.log('****')
+		console.log(props)
 	}
 
 	return (
@@ -14,7 +15,7 @@ const EventDetail = (props) => {
 			<h5>NUM SEATS</h5>
 			<hr />
 			<div className="edit-event-button">
-				<button onClick={onClick()}>EDIT</button>
+				<button onClick={() => { onClick() }}>EDIT</button>
 			</div>
 		</li>
 	)
