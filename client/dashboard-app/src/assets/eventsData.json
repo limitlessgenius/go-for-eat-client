@@ -39,6 +39,14 @@
 		"seats": "NUMBER OF SEATS 5", 
 		"location": "RESTAURANT 5", 
 		"event_id": "EW"
+	}, 
+	{
+		"name": "EVENT 5", 
+		"date": "DATE 5" , 
+		"time": "TIME DATE 5", 
+		"seats": "NUMBER OF SEATS 5", 
+		"location": "RESTAURANT 5", 
+		"event_id": "EW"
 	}
 ]
 

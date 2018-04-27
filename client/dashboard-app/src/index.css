@@ -1,0 +1,31 @@
+
+
+body {
+	box-sizing: border-box;
+}
+
+.events-dashboard {
+    display: flex;
+    justify-content: center;
+}
+
+ul.events-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 750px;
+	justify-content: space-around;
+}
+
+li.event-card {
+    list-style: none;
+    padding: 10px;
+    margin: 10px;
+    min-width: 150px;
+}
+
+.edit-event-button {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
