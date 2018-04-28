@@ -16,12 +16,17 @@ ul.options-list {
 
 }
 
+.options-dashboard > .row {
+    margin-bottom: 0
+}
+
 ul.events-list {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	width: 750px;
 	justify-content: space-around;
+    margin-top: 0
 }
 
 li.event-card {
