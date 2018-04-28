@@ -13,15 +13,29 @@ ul.options-list {
     display: flex;
     justify-content: space-around;
     max-width: 750px
-
 }
 
 .options-dashboard > .row {
     margin-bottom: 0
 }
 
-.tab .tab a {
-    color: #4caf50;
+.tabs .tab a {
+    color: white !important;
+}
+
+.tabs .indicator {
+    background-color: white !important;
+    height: 7px !important;
+}
+
+.options-dashboard {
+    background-color: #4caf50;
+    height: 48px;
+    margin-bottom: 1px;
+}
+
+ul.tabs.options-list.tabs {
+    background-color: #4caf50;
 }
 
 ul.events-list {

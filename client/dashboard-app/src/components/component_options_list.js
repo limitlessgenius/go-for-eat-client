@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 import { Tabs, Tab } from 'react-materialize'
 
 class OptionsList extends Component {
+
 	render() {
 		return (
 			<div className="options-dashboard">
