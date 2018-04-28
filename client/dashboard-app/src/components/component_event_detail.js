@@ -14,7 +14,7 @@ const EventDetail = (props) => {
 
 	return (
 		<li className="card event-card">
-			<div clasName="edit-event-content-section">
+			<div className="edit-event-content-section">
 				<div className="text-date-day">DAY DATE</div>
 			    <div className="text-date-hour">HOUR DATE</div>
 			    <div className="text-number-seats">NUM SEATS</div>
