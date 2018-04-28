@@ -5,8 +5,6 @@ import { connect } from 'react-redux'
 
 import { editingEvent } from '../actions'
 
-
-
 const EventDetail = (props) => {
 
 	const onClick = () => {
@@ -14,20 +12,18 @@ const EventDetail = (props) => {
 		props.editingEvent()
 	}
 
-	console.log('INNER STATE', props)
-
 	return (
-		<li className="event-card card white">
-			<div clasName="card-content">
-				<span className="card-title">DAY DATE</span>
-			    <div>HOUR DATE</div>
-			    <div>NUM SEATS</div>
+		<li className="card event-card">
+			<div clasName="edit-event-content-section">
+				<div className="text-date-day">DAY DATE</div>
+			    <div className="text-date-hour">HOUR DATE</div>
+			    <div className="text-number-seats">NUM SEATS</div>
 			</div>
-			<div className="card-action edit-event-button">
-				<button 
-					className="edit-event-button" 
-					onClick={onClick}
-				>EDIT</button>
+			<div className="edit-event-button-section">
+				<a className="btn-flat disabled waves-effect waves-light"
+				   onClick={onClick}
+				   className="edit-event-button"
+				>EDIT</a>
 			</div>
 		</li>
 	)
@@ -38,7 +34,9 @@ const mapStateToProps = (state) => {
 	return { editEvent }
 }
 
+const mapDispatchTopProps = () => {
 
+}
 
 export default connect(mapStateToProps, { editingEvent })(EventDetail)
 

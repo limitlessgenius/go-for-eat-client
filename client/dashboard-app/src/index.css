@@ -29,15 +29,34 @@ li.event-card {
 
 .edit-event-button-section {
     display: flex;
-    flex-direction: column;
+    flex-direction: row-reverse;
+    margin-top: 14px;
+    border-top: 1px solid rgba(160,160,160,0.2);
+}
+
+.text-date-day {
+    font-size: 24px;
+    font-weight: 400;
+    padding-top: 5px;
+}
+
+.text-date-hour {
+    color: #ddd;
+}
+
+
+
+.text-number-seats {
+    text-align: center;
+    padding-top: 10px;
 }
 
 .edit-event-button {
-    align-self: flex-end;
-    margin-top: 25px
+    color: #4caf50;
+    margin-top: 6px; 
 }
 
-
+    
 
 
 

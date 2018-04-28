@@ -2,11 +2,14 @@
 
 export default (state = null, action) => {
 
-	console.log('SELECTED ACTION', action)
-
-	return state
-
+	switch(action.type){
+		case 'EDIT_EVENT': 
+			return 'EVENT EDITED'
+		default: 
+			return state
+	}
 }
+
 
 
 
