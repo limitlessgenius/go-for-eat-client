@@ -14,7 +14,7 @@ class EventsList extends Component {
 			)
 		})
 	}
-
+	
 	render() {
 		return (
 			<div className="events-dashboard">

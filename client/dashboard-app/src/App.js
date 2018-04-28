@@ -6,15 +6,27 @@ import './index.css'
 // import 'materialize-css'; 
 import 'materialize-css/dist/css/materialize.min.css';
 
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+
+import reducers from './reducers/'
+
+
+const store = createStore(reducers)
+
+
 export default class App extends Component {
 	render() {
 		return (
-			<div className="APP">
 
-				<OptionsList />
-				<EventsList />
+			<Provider store={store}>
+				<div className="APP">
 
-			</div>
+					<OptionsList />
+					<EventsList />
+
+				</div>
+			</Provider>
 		)
 	}
 }

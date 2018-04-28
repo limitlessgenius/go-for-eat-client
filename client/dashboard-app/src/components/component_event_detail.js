@@ -1,12 +1,20 @@
 
 import React from 'react'
-	
+
+import { connect } from 'react-redux'
+
+import { editingEvent } from '../actions'
+
+
+
 const EventDetail = (props) => {
 
 	const onClick = () => {
-		console.log('****')
-		console.log(props)
+
+		props.editingEvent()
 	}
+
+	console.log('INNER STATE', props)
 
 	return (
 		<li className="event-card card white">
@@ -16,12 +24,22 @@ const EventDetail = (props) => {
 			    <div>NUM SEATS</div>
 			</div>
 			<div className="card-action edit-event-button">
-				<button className="edit-event-button" onClick={() => { onClick() }}>EDIT</button>
+				<button 
+					className="edit-event-button" 
+					onClick={onClick}
+				>EDIT</button>
 			</div>
 		</li>
 	)
 }
 
-export default EventDetail
+const mapStateToProps = (state) => {
+	const { editEvent } = state
+	return { editEvent }
+}
+
+
+
+export default connect(mapStateToProps, { editingEvent })(EventDetail)
 
 
