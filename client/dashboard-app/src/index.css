@@ -20,6 +20,10 @@ ul.options-list {
     margin-bottom: 0
 }
 
+.tab .tab a {
+    color: #4caf50;
+}
+
 ul.events-list {
 	display: flex;
 	flex-direction: row;
@@ -67,6 +71,8 @@ li.event-card {
     color: #4caf50;
     margin-top: 6px; 
 }
+
+
 
     
 
