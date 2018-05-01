@@ -1,20 +1,13 @@
 
 import React, { Component } from 'react'
 // import EditForm from './component_edit_form'
+import { Modal, Button } from 'react-materialize'
 
 class EventDetail extends Component {
-
-	// const { event, customStyle } = props // date, location, name, seats, time
 
 	onClick () {
 		console.log('EDIT EVENT')
 	}
-
-	// renderEditForm () {
-	// 	return (
-	// 		<EditForm />
-	// 	)
-	// }
 
 	render() {
 		return (
@@ -25,15 +18,19 @@ class EventDetail extends Component {
 				    <div className="text-number-seats">{this.props.event.seats}</div>
 				</div>
 				<div className="edit-event-button-section">
-					<a className="btn-flat disabled waves-effect waves-light"
-					   onClick={this.onClick}
-					   className="edit-event-button"
-					>EDIT</a>
+					<Modal
+					  header='Edit Event'
+					  trigger={
+					  	<a className="btn-flat disabled waves-effect waves-light"
+						   onClick={this.onClick}
+						   className="edit-event-button"
+						>EDIT</a>
+					  }>
+					</Modal>
 				</div>
 			</li>
 		)
 	}
-	
 }
 
 export default EventDetail
