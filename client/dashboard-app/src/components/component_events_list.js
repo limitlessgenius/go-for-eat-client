@@ -10,6 +10,7 @@ class EventsList extends Component {
 				<EventDetail
 					key={event.event_id} 
 					event={event}
+					customStyle=""
 				/>
 			)
 		})
