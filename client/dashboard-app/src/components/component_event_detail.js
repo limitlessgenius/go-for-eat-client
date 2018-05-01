@@ -1,40 +1,41 @@
 
-import React from 'react'
-import { connect } from 'react-redux'
-import { editingEvent } from '../actions'
+import React, { Component } from 'react'
+// import EditForm from './component_edit_form'
 
-const EventDetail = (props) => {
+class EventDetail extends Component {
 
-	const { event, customStyle } = props // date, location, name, seats, time
+	// const { event, customStyle } = props // date, location, name, seats, time
 
-	console.log('EVENT', event)
-
-	const onClick = () => {
-		props.editingEvent()
+	onClick () {
+		console.log('EDIT EVENT')
 	}
 
-	return (
-		<li className={`card event-card ${props.customStyle}`}>
-			<div className="edit-event-content-section">
-				<div className="text-date-day">{event.date}</div>
-			    <div className="text-date-hour">{event.time}</div>
-			    <div className="text-number-seats">{event.seats}</div>
-			</div>
-			<div className="edit-event-button-section">
-				<a className="btn-flat disabled waves-effect waves-light"
-				   onClick={onClick}
-				   className="edit-event-button"
-				>EDIT</a>
-			</div>
-		</li>
-	)
+	// renderEditForm () {
+	// 	return (
+	// 		<EditForm />
+	// 	)
+	// }
+
+	render() {
+		return (
+			<li className={`card event-card ${this.props.customStyle}`}>
+				<div className="edit-event-content-section">
+					<div className="text-date-day">{this.props.event.date}</div>
+				    <div className="text-date-hour">{this.props.event.time}</div>
+				    <div className="text-number-seats">{this.props.event.seats}</div>
+				</div>
+				<div className="edit-event-button-section">
+					<a className="btn-flat disabled waves-effect waves-light"
+					   onClick={this.onClick}
+					   className="edit-event-button"
+					>EDIT</a>
+				</div>
+			</li>
+		)
+	}
+	
 }
 
-const mapStateToProps = (state) => {
-	const { editEvent } = state
-	return { editEvent }
-}
-
-export default connect(mapStateToProps, { editingEvent })(EventDetail)
+export default EventDetail
 
 
