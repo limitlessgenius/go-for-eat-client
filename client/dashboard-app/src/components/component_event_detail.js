@@ -1,14 +1,11 @@
 
 import React from 'react'
-
 import { connect } from 'react-redux'
-
 import { editingEvent } from '../actions'
 
 const EventDetail = (props) => {
 
 	const onClick = () => {
-
 		props.editingEvent()
 	}
 
@@ -32,10 +29,6 @@ const EventDetail = (props) => {
 const mapStateToProps = (state) => {
 	const { editEvent } = state
 	return { editEvent }
-}
-
-const mapDispatchTopProps = () => {
-
 }
 
 export default connect(mapStateToProps, { editingEvent })(EventDetail)

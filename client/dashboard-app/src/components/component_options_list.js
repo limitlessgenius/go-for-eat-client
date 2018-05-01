@@ -1,11 +1,12 @@
 
-
-
 import React, { Component } from 'react'
-
 import { Tabs, Tab } from 'react-materialize'
 
 class OptionsList extends Component {
+
+	onTabClick () {
+		console.log('TAB NAME')
+	}
 
 	render() {
 		return (
